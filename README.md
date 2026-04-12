@@ -61,7 +61,7 @@ The frontend runs at `http://localhost:3000`.
 ```text
 Show sales by region
 Compare revenue by year
-Which category has the highest profit?
+Compare the rating for comedy movies in recent years?
 ```
 
 5. If the system finds ambiguous terms, choose the recommended options.
