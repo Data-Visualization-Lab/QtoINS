@@ -24,7 +24,7 @@ export function useFuzzyStringLogic(params: UseFuzzyStringLogicParams) {
     onTranslationReady,
   } = params;
 
-  /** 用户在多选时切换选项 */
+  
   const handleFuzzyStringToggle = useCallback(
     (msgId: number, index: number) => {
       setMessages((prev) =>
@@ -50,7 +50,7 @@ export function useFuzzyStringLogic(params: UseFuzzyStringLogicParams) {
     [setMessages]
   );
 
-  /** 用户提交 fuzzy_string 消息，调用后端接口 /api/fuzzystring */
+  
   const handleFuzzyStringSubmit = useCallback(
     async (msgId: number) => {
       const fuzzyMsg = messages.find(
@@ -73,7 +73,7 @@ export function useFuzzyStringLogic(params: UseFuzzyStringLogicParams) {
         return;
       }
 
-      // 开始提交：设置 submitting 为 true，显示 spinner，同时禁用按钮
+
       setMessages((prev) =>
         prev.map((m) =>
           m.id === msgId ? { ...m, submitting: true } : m
@@ -112,7 +112,7 @@ export function useFuzzyStringLogic(params: UseFuzzyStringLogicParams) {
 
         if (result.vis !== null && result.vis !== undefined) {
           setVisData((prevData: any) => [...prevData, result.vis]);
-          // 如果返回了 vis 数据，可以在这里结束全局加载状态
+
           setIsLoading(false);
           appendMessage({
             id: Date.now() + Math.random(),
@@ -121,7 +121,7 @@ export function useFuzzyStringLogic(params: UseFuzzyStringLogicParams) {
           });
         }
 
-        // 更新消息状态为已提交，并结束提交状态
+
         setMessages((prev) =>
           prev.map((m) =>
             m.id === msgId ? { ...m, submitted: true, submitting: false } : m
@@ -129,7 +129,7 @@ export function useFuzzyStringLogic(params: UseFuzzyStringLogicParams) {
         );
       } catch (err) {
         console.error("Error in handleFuzzyStringSubmit:", err);
-        // 请求失败时，将 submitting 状态重置为 false
+
         setMessages((prev) =>
           prev.map((m) =>
             m.id === msgId ? { ...m, submitting: false } : m

@@ -15,7 +15,7 @@ import { FuzzyTextMessage } from "../data/messageTypes";
 interface FuzzyTextFormProps {
   message: FuzzyTextMessage;
   handleFuzzyTextChange: (msgId: number, newValue: string) => void;
-  // sliderValue 参数已添加到提交处理函数中
+
   handleFuzzyTextSubmit: (msgId: number, sliderValue?: number[]) => void;
   handleFuzzyTextToggle: (msgId: number, index: number) => void;
 }
@@ -37,7 +37,7 @@ const FuzzyTextForm: React.FC<FuzzyTextFormProps> = ({
     summary,
   } = message;
 
-  // 只在组件挂载时记录 userInput 的初始值
+
   const [initialUserInput] = React.useState(userInput);
 
   let options: string[] = [];
@@ -56,10 +56,10 @@ const FuzzyTextForm: React.FC<FuzzyTextFormProps> = ({
     }
   }
 
-  // 当已提交但 fuzzyResult 还未返回时，显示加载状态
+
   const isLoading = submitted && !fuzzyResult;
 
-  // sliderValue 状态：初始值从 initialUserInput 中解析得到
+
   const [sliderValue, setSliderValue] = React.useState<number[]>(() => {
     if (initialUserInput) {
       const parts = initialUserInput.split(/(\d+(?:\.\d+)?)/);
@@ -172,7 +172,7 @@ const FuzzyTextForm: React.FC<FuzzyTextFormProps> = ({
       )}
 
       {initialUserInput ? (
-        // 当 initialUserInput 不为空时，显示 slider bar 模式，并在下方添加提交按钮
+
         (() => {
       const parts = initialUserInput.split(/(\d+(?:\.\d+)?)/);
       
@@ -192,14 +192,14 @@ const FuzzyTextForm: React.FC<FuzzyTextFormProps> = ({
                 <Box
                   sx={{ display: "flex", alignItems: "center", mt: 1, mb: 1 }}
                 >
-                  {/* 显示最小值 */}
+                  
                   <Typography
                     variant="body1"
                     sx={{ mr: 1, color: submitted ? "white" : "#3B77BC" }}
                   >
                     {min}
                   </Typography>
-                  {/* 使用 onChange 实时捕获 slider 的变化 */}
+                  
                   <Slider
                     value={sliderValue}
                     onChange={(e, newValue) => {
@@ -219,7 +219,7 @@ const FuzzyTextForm: React.FC<FuzzyTextFormProps> = ({
                       color: submitted ? "white" : "#3B77BC",
                     }}
                   />
-                  {/* 显示最大值 */}
+                  
                   <Typography
                     variant="body1"
                     sx={{ ml: 1, color: submitted ? "white" : "#3B77BC" }}
@@ -236,7 +236,7 @@ const FuzzyTextForm: React.FC<FuzzyTextFormProps> = ({
                   variant="contained"
                   size="small"
                   onClick={() =>
-                    // 传递最新的 sliderValue
+
                     handleFuzzyTextSubmit(message.id, sliderValue)
                   }
                   disabled={submitted}

@@ -73,7 +73,7 @@ class DataAnalyzer:
             if col_type == "category":
                 # Collect all unique categories
                 unique_values = df[col].dropna().unique()
-                category_str = ", ".join(map(str, unique_values[:50]))  # 只展示最多50个
+                category_str = ", ".join(map(str, unique_values[:50]))  
                 description += (
                     f" - Column '{col}' is represents categorical data. "
                     f"The distinct categories include: {category_str}.\n"

@@ -36,9 +36,9 @@ from function.visualrecommendation import VisualRecommend
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 app = Flask(__name__)
 
-# 全局变量
-goal = ""  # 用户问题
-df = None  # 数据集 DataFrame
+
+goal = ""  
+df = None  
 file_name = None
 sql = None
 string_encoding = {}
@@ -46,21 +46,21 @@ string_embeddings_dict = {}
 column_names = None
 unit = {}
 allvisresult = {}
-# 用于文本模糊处理
+
 check_fuzzy_text = {}
 textsolution = {}
 textrecommend = {}
 description = {}
-# 用于字符串模糊处理
+
 check_fuzzy_string = {}
 stringsolution = {}
 stringrecommend = {}
-tree= None  # 用于存储 SQL 的 AST
-# 用于等待后台嵌入处理完成
+tree= None  
+
 embedding_event = threading.Event()
 toolkit=None
 parse_result=None
-# ---------------------- 辅助函数 -------------------------
+
 
 
 def drop_limit1(sql: str, *, dialect: str | None = None) -> str:
@@ -120,24 +120,22 @@ def column_summary(df, column_name):
 def reset_globals():
     global goal, sql, string_encoding, string_embeddings_dict, column_names, unit, tree,parse_result
     global check_fuzzy_text, textsolution, textrecommend, check_fuzzy_string, stringsolution, stringrecommend
-    goal = ""  # 用户问题
+    goal = ""  
     sql = None
     tree= None 
     parse_result = None
-    # 用于文本模糊处理
+    
     check_fuzzy_text = {}
     textsolution = {}
     textrecommend = {}
-    # 用于字符串模糊处理
+    
     check_fuzzy_string = {}
     stringsolution = {}
     stringrecommend = {}
 
 
 def build_translation_sentence(original_question: str, sql_query: str, tree=None) -> dict:
-    """
-    生成最终给前端展示的翻译句子，并附带初始模糊概念建议方案。
-    """
+    
     translate_instance = Translate(df, file_name)
     translated_question = translate_instance.Final(
         orginalquestion=original_question,
@@ -158,11 +156,9 @@ def build_translation_sentence(original_question: str, sql_query: str, tree=None
 
 
 def process_embeddings(df):
-    """
-    后台线程中处理文本嵌入的逻辑。
-    """
+    
     global string_embeddings_dict
-    # 找出所有纯字符串的列
+    
     is_string = df.apply(lambda col: col.apply(lambda x: isinstance(x, str)).all())
     columns_that_are_strings = is_string.index[is_string].tolist()
     print("String columns found:", columns_that_are_strings)
@@ -180,9 +176,7 @@ def process_embeddings(df):
 
 
 def generate_visual_recommendations(question, sql_query):
-    """
-    通过 Divide 和 VisualRecommend 生成可视化推荐。
-    """
+    
     divide_instance = Divide(df, file_name)
     divide_result = divide_instance.Generate(
         question=question, sql=sql_query, unit=unit
@@ -270,33 +264,28 @@ def generate_sql(tree, textsolution):
     return tree
 
 def build_uuid_match_map(parse_result: dict) -> dict[str, str]:
-    """
-    返回 {uuid: 'Fuzzy Matching' / 'Exact Matching'}
-    """
+    
     uuid2match = {}
 
-    # 只看 condition_ 开头的键
+    
     for key, triple in parse_result.items():
         if key.startswith("type"):
             continue
 
 
 
-        match_types = triple[1][0]          # 第 1 份：匹配方式
-        value_uuid_pairs = triple[2]        # 第 2 份：[['value', uuid], ...]
+        match_types = triple[1][0]          
+        value_uuid_pairs = triple[2]        
 
-        # 同一位置的元素一一对应
+        
         for m_type, pair in zip(match_types, value_uuid_pairs):
-            uuid = pair[0][-1]               # pair 形如 ['值', uuid]
+            uuid = pair[0][-1]               
             uuid2match[uuid] = m_type
     print(uuid2match)
     return uuid2match
 
 def handle_fully_resolvable_text():
-    """
-    当文本问题完全可以解决时，进行 SQL 合成和校验，
-    并返回最终问题、合成 SQL 和解析结果。
-    """
+    
     global toolkit ,tree, check_fuzzy_string ,parse_result
 
     print(textsolution)
@@ -312,11 +301,8 @@ def handle_fully_resolvable_text():
 
 
 def process_fuzzy_string(parse_result):
-    """
-    根据 parse_result 中有关字符串匹配的信息，对模糊字符串问题进行处理。
-    注意：该函数会更新全局变量 check_fuzzy_string、stringsolution 和 stringrecommend。
-    """
-    # 遍历除 type 外的每一项
+    
+    
     
     print("parse_result", parse_result)
     i = 0
@@ -332,7 +318,7 @@ def process_fuzzy_string(parse_result):
     for k, value in parse_result.items():
         if k == "type":
             continue
-        # 根据数据结构（列表中嵌套列表）提取列名、匹配方式和值列表
+        
         headers = value[0][0]
         match_types = value[1][0]
         values_list = value[2]
@@ -346,13 +332,13 @@ def process_fuzzy_string(parse_result):
           
             k=original_k+'+'+val[0][-1]
 
-            # 以or条件为切割，对每一个小概念，对一个列只能是精确匹配或者模糊匹配，否则则不符合逻辑
+            
             if match == "Exact Matching":
                 print(f"Exact Matching for column: {header}")
                 if(pd.api.types.is_numeric_dtype(df[header])):
                     continue
-                # 要去检查column_value到底是一个还是多个值就是是列表（大于两个还是）只有一个值
-                # column_value如果大于两个值，也不能循环，因为很多时候用户的column_value两个字符串是很类似的，如果用循环了，会对用户进行重复操作
+                
+                
                 searcher = DocumentSearcher(
                     model_name="all-mpnet-base-v2", device="mps"
                 )
@@ -383,7 +369,7 @@ def process_fuzzy_string(parse_result):
                         }
                         stringsolution[k][header]["final"] = check_result["Fuzzy_List"]
                     else:
-                        # 若找到了相似的词语，则记录模糊匹配结果
+                        
                         stringsolution.setdefault(k, {})[header] = {
                             "original": f"{val}"
                         }
@@ -455,9 +441,7 @@ def process_fuzzy_string(parse_result):
 
 
 def handle_fully_resolvable_string():
-    """
-    处理字符串模糊问题完全解决的情况，完成 SQL 合成并返回最终 SQL。
-    """
+    
     global sql
 
     print(stringsolution)
@@ -465,13 +449,13 @@ def handle_fully_resolvable_string():
     uuid_map = build_uuid_match_map(parse_result)
     print("uuid_map", uuid_map)
 
-    # 假设 strings_solution 是你拿到的字典
+    
     for top_key, second_level in stringsolution.items():
-        # 1️⃣ 拿到 UUID（“+” 后的部分）
+        
         uuid = top_key.split("+", 1)[1] if "+" in top_key else None
         match = uuid_map.get(uuid, "未知 UUID")
 
-        # 2️⃣ 在第二层字典中找到包含 "final" 的那一项
+        
         final_value = None
         for item in second_level.values():
             if isinstance(item, dict) and "final" in item:
@@ -521,30 +505,24 @@ def parse_sql_to_json(sql):
 
 
 def add_basic_interactive_features(spec):
-    """
-    在保留原有功能的基础上：
-    - 非饼图：继续提供缩放(pan/zoom)与 hover 能力。
-    - 饼图（mark: 'arc'）：增加 hover 高亮和“图例点选”交互（多选），并自动生成/合并 tooltip。
-    - 柱状图（mark: 'bar'）：提供基于 x 轴的 interval 选择（brushX），并在 transform 中用 filter 实现“假缩放/放大”；
-      同时保留 hover 高亮与 tooltip。
-    """
+    
     import copy
     new_spec = copy.deepcopy(spec)
 
     enc = new_spec.get("encoding") or {}
     new_spec["encoding"] = enc
 
-    # 识别 mark 类型
+    
     mark = new_spec.get("mark")
     mark_type = (mark.get("type") if isinstance(mark, dict) else mark)
 
-    # 确保 selection 容器
+    
     sel = new_spec.get("selection")
     if not isinstance(sel, dict):
         sel = {}
     new_spec["selection"] = sel
 
-    # ---------- 工具函数 ----------
+    
     def is_obj(d):
         return isinstance(d, dict)
 
@@ -555,7 +533,7 @@ def add_basic_interactive_features(spec):
     def ensure_list(val):
         return val if isinstance(val, list) else [val]
 
-    # ---------- 统一：自动补充 tooltip（不覆盖已有） ----------
+    
     def build_tooltips_for_channels(channels):
         tips = []
         for ch in channels:
@@ -573,7 +551,7 @@ def add_basic_interactive_features(spec):
                 tips.append(e)
         return tips
 
-    # ---------- 针对饼图（mark: 'arc'） ----------
+    
     if mark_type == "arc":
         cat_field = get_field_from("color") or get_field_from("detail") or get_field_from("theta")
 
@@ -621,11 +599,11 @@ def add_basic_interactive_features(spec):
         if "zoom" in sel:
             sel.pop("zoom", None)
 
-    # ---------- 柱状图（mark: 'bar'）：x 维 interval 选择 + filter 实现“放大” ----------
+    
     elif mark_type == "bar":
-        x_field = get_field_from("x")  # 用于 hover fields
+        x_field = get_field_from("x")  
 
-        # 1) 替换默认 zoom，为仅作用于 x 的 interval 选择（支持拖拽、滚轮缩放/平移）
+        
         if "zoom" in sel:
             sel.pop("zoom", None)
         sel.setdefault("brushX", {
@@ -635,7 +613,7 @@ def add_basic_interactive_features(spec):
             "zoom": True
         })
 
-        # 2) hover：按 x 维字段高亮（若拿不到字段，退化为普通 hover）
+        
         if "hover" not in sel:
             if x_field:
                 sel["hover"] = {
@@ -647,22 +625,22 @@ def add_basic_interactive_features(spec):
             else:
                 sel["hover"] = {"type": "single", "on": "pointerover", "clear": "pointerout", "empty": "none"}
 
-        # 3) 将选择“接”到视觉：默认用 opacity 做高亮（用户未显式设置时）
+        
         if "opacity" not in enc:
             enc["opacity"] = {
                 "condition": {"param": "hover", "value": 1},
                 "value": 0.5
             }
 
-        # 4) tooltip：若未定义，根据 x/y 自动补全
+        
         if "tooltip" not in enc:
             enc["tooltip"] = build_tooltips_for_channels(["x", "y"])
 
-        # 5) 在 transform 中接入 filter：只显示 brushX 选中范围的数据
+        
         transforms = new_spec.get("transform")
         if not isinstance(transforms, list):
             transforms = []
-        # 避免重复插入同一条 filter
+        
         has_brush_filter = any(
             isinstance(t, dict) and isinstance(t.get("filter"), dict) and t["filter"].get("selection") == "brushX"
             for t in transforms
@@ -671,14 +649,14 @@ def add_basic_interactive_features(spec):
             transforms.append({"filter": {"selection": "brushX"}})
         new_spec["transform"] = transforms
 
-        # 6) mark 细节：确保是对象并设置 cursor
+        
         if not is_obj(mark):
             new_spec["mark"] = {"type": "bar", "cursor": "pointer"}
         else:
             mark.setdefault("cursor", "pointer")
             new_spec["mark"] = mark
 
-        # 7) x 为 nominal 时，默认不倾斜（更利于框选）；你可按需改回 -45
+        
         x_enc = enc.get("x")
         if is_obj(x_enc) and x_enc.get("type") == "nominal":
             axis = x_enc.get("axis") or {}
@@ -686,7 +664,7 @@ def add_basic_interactive_features(spec):
             x_enc["axis"] = axis
             enc["x"] = x_enc
 
-    # ---------- 其他非饼图、非柱图：保持原缩放/hover ----------
+    
     else:
         sel.setdefault("zoom", {"type": "interval", "bind": "scales"})
         sel.setdefault("hover", {"type": "single", "on": "mouseover", "empty": "none"})
@@ -704,7 +682,7 @@ def add_basic_interactive_features(spec):
     new_spec["selection"] = sel
     return new_spec
 
-# ---------------------- 路由 -------------------------
+
 
 
 @app.route("/upload", methods=["POST"])
@@ -728,12 +706,12 @@ def upload_file():
     description = analyzer.analyze_dataframe_in_english(df)
     print("Data description:", description)
 
-    # 立即返回响应
+    
     response = jsonify(
         {"message": "File uploaded successfully", "description": description}
     )
 
-    # 后台线程处理嵌入
+    
     threading.Thread(target=process_embeddings, args=(df,)).start()
 
     return response
@@ -741,9 +719,7 @@ def upload_file():
 
 @app.route("/gettext", methods=["POST"])
 def submit():
-    """
-    /gettext 路由用于初步处理文本问题，生成 SQL 后对 AST 中检测到的模糊概念进行判断。
-    """
+    
     global df, file_name, goal, sql, description,tree,toolkit,parse_result
 
     data = request.get_json()
@@ -958,10 +934,7 @@ def submit():
     
 @app.route("/api/fuzzytext", methods=["POST"])
 def fuzzytext():
-    """
-    /api/fuzzytext 路由处理用户针对文本模糊问题的反馈，
-    根据用户输入更新 textsolution，并调用辅助函数完成 SQL 合成、解析和可视化推荐。
-    """
+    
     global sql, goal
     data = request.get_json()
     category = data.get("category")
@@ -970,7 +943,7 @@ def fuzzytext():
     print("Received fuzzytext submission:")
     print("Category:", category, "Key:", key, "Solution:", solution)
 
-    # 如果用户的答案为列表形式（例如：'["A", "B"]'）
+    
     if re.match(r"^\[\s*.*\s*\]$", solution) or category=='no_scientific_basis':
         check_fuzzy_text[key] = True
         if re.match(r"^\[\s*.*\s*\]$", solution):
@@ -1094,7 +1067,7 @@ def fuzzytext():
         expr =solution
 
 
-        # 判断是否已包含 AS（忽略大小写）
+        
         if " as " in expr.strip().lower():
             result22 = expr.strip()
         else:
@@ -1217,10 +1190,7 @@ def fuzzytext():
 
 @app.route("/api/fuzzystring", methods=["POST"])
 def fuzzystring():
-    """
-    /api/fuzzystring 路由处理用户针对字符串模糊问题的反馈，
-    当所有字符串问题解决后先返回翻译句子，等待前端按钮触发后续步骤。
-    """
+    
     global sql, goal,tree
     data = request.get_json()
     columnname = data.get("columnname")
@@ -1230,7 +1200,7 @@ def fuzzystring():
     print(check_fuzzy_string)
     check_fuzzy_string[key][columnname] = True
 
-    # 保存最终用户针对某一列的解决方案
+    
     if key in stringsolution and columnname in stringsolution[key]:
         stringsolution[key][columnname]["final"] = solution
     print("Fuzzystring received:", data)
@@ -1270,9 +1240,7 @@ def fuzzystring():
 
 @app.route("/api/runfollowups", methods=["POST"])
 def run_followups():
-    """
-    在翻译句子返回后，由前端按钮触发本接口，继续执行可视化与 insight 生成。
-    """
+    
     global goal, sql
     final_uuid_result = request.get_json(silent=True) or []
     final_tree=apply_final_uuid_result(
@@ -1310,7 +1278,7 @@ def changechart():
 
     new_config["data"]["values"] = new_config["data"]["values"][:3]
 
-    # 调用 Generate 方法获取修改后的 Vega-Lite 规范
+    
     changechart = Changechart()
     modified_spec = changechart.Generate(request=chartquery, vegalite=new_config)
     print(modified_spec)
@@ -1336,7 +1304,7 @@ def changeinsight():
 
     all_but_last = steps[:-1]
     last_step = steps[-1]
-    # 如果你只想提取最后一个字典中的 key：
+    
     last_key = last_step.get("key")
     data_values = allvisresult[key]["result_df"]
 
@@ -1401,6 +1369,6 @@ def changeinsight():
         )
 
 
-# ---------------------- 启动 Flask -------------------------
+
 if __name__ == "__main__":
     app.run(debug=True, host="127.0.0.1", port=5000)

@@ -62,12 +62,12 @@ Remember, the user does not have specific knowledge of the table's contents. The
 """
 
 def clean_string(input_string):
-    # 移除开头和结尾的反引号
+    
     input_string = input_string.strip('`')
-    # 如果移除反引号后，字符串开头是 json，移除它
+    
     if input_string.lower().startswith("json"):
-        input_string = input_string[4:].strip()  # 移除开头的 json 并去掉多余的空格
-    return input_string.strip()  # 再次清理两边空格
+        input_string = input_string[4:].strip()  
+    return input_string.strip()  
 class StringCheckMeaning:
     def __init__(self, df, file_name):
         self._df = df 

@@ -21,7 +21,7 @@ const PlotPreview: React.FC = () => {
   >([]);
   const [loading, setLoading] = useState(false);
 
-  // 根据 selectedSpec.insight 初始化 insightList
+
   useEffect(() => {
     if (selectedSpec && selectedSpec.insight) {
       const insightData = selectedSpec.insight;
@@ -41,7 +41,7 @@ const PlotPreview: React.FC = () => {
     }
   }, [selectedSpec]);
 
-  // 当前大图的 Vega-Lite 配置
+
   const spec = selectedSpec?.VisualRecommend_instance_result;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +64,7 @@ const PlotPreview: React.FC = () => {
     });
   };
 
-  // 处理 insight 更新（逻辑不变，保持更新对应 spec 的 insight）
+
   const handleStepClick = async (index: number) => {
     if (loading) return;
     setLoading(true);
@@ -97,10 +97,10 @@ const PlotPreview: React.FC = () => {
         updatedSpec.VisualRecommend_instance_result = result.vegalite;
       }
 
-      // 更新全局 selectedSpec
+
       setSelectedSpec(updatedSpec);
 
-      // 更新 visData 中对应的 spec，其他图保持不变
+
       setVisData((prevVisData: any[]) => {
         return prevVisData.map((item) => {
           const currentKey = Object.keys(item)[0];
@@ -117,7 +117,7 @@ const PlotPreview: React.FC = () => {
     }
   };
 
-  // 仅更新对应 uuid 的图，同时保留其他图表
+
   const handleSubmit = async () => {
     if (!selectedSpec?.uuid) {
       console.error("selectedSpec 或 uuid 不存在");
@@ -143,7 +143,7 @@ const PlotPreview: React.FC = () => {
         return;
       }
 
-      // 后端返回新的 key，若有则用其替换，否则保留原 uuid
+
       const updatedKey = result.key || selectedSpec.uuid;
       const updatedSpec = {
         ...selectedSpec,
@@ -153,20 +153,20 @@ const PlotPreview: React.FC = () => {
 
       setSelectedSpec(updatedSpec);
 
-      // 更新 visData 中对应的 spec 对象（只更新匹配的那个，其他不动）
+
       setVisData((prevVisData: any[]) => {
-        // 先遍历，找到是否已经存在相同的 key
+
         let found = false;
         const updatedArray = prevVisData.map((item) => {
           const currentKey = Object.keys(item)[0];
-          // 注意确保 currentKey 与 updatedKey 是同一类型并且没有多余空格等问题
+
           if (currentKey === updatedKey) {
             found = true;
             return { [updatedKey]: updatedSpec };
           }
           return item;
         });
-        // 如果找不到，则追加
+
         if (!found) {
           updatedArray.push({ [updatedKey]: updatedSpec });
         }
@@ -210,7 +210,7 @@ const PlotPreview: React.FC = () => {
         </Box>
       )}
 
-      {/* 上半部分：大图 */}
+      
       <Box
         sx={{
           position: "relative",
@@ -278,7 +278,7 @@ const PlotPreview: React.FC = () => {
           </Typography>
         )}
 
-        {/* 固定在底部的参数输入区域 */}
+        
         <Box
           component="form"
           sx={{
@@ -316,7 +316,7 @@ const PlotPreview: React.FC = () => {
         </Box>
       </Box>
 
-      {/* 下半部分：Insight 及修改参数 */}
+      
       <Box
         sx={{
           border: `2px solid ${global.borderColor}`,

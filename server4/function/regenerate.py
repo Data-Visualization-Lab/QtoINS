@@ -97,7 +97,7 @@ class ReGeneratsql:
         p2 = "The columns in my table are: "+column_names_str+" .\n"
         p4 = "My first five rows of data are:\n"
         p4 += " | ".join(self._df.columns) + "\n"  
-        p4 += "\n".join(self._df.head(5).astype(str).apply(lambda row: " | ".join(row), axis=1))  # 添加行数据
+        p4 += "\n".join(self._df.head(5).astype(str).apply(lambda row: " | ".join(row), axis=1))  
         p5="\n"+"My question is: "+text
         p6 = "\n" + "The syntax error message is: " + "\n".join(syntax_error)
         promptt = p1 +p2+p4+p5+p6

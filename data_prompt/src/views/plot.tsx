@@ -118,7 +118,7 @@ const Plot: React.FC = () => {
       const { width, height, ...restSpec } = originalSpec;
       return (
         <Paper
-          key={key} // 使用唯一的 key
+          key={key}
           onClick={() => setSelectedSpec({ ...record, uuid: key })}
           sx={{
             cursor: "pointer",
@@ -166,7 +166,7 @@ const Plot: React.FC = () => {
               }}
             >
 <VegaLite
-  key={key}  // 仅使用 uuid 作为 key
+  key={key}
   spec={{
     ...restSpec,
     width: "container" as any,

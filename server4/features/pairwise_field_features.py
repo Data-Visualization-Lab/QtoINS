@@ -41,7 +41,7 @@ qq_pairwise_features_list = [
 cc_pairwise_features_list = [
     {'name': 'chi_sq_statistic', 'type': 'numeric'},
     {'name': 'chi_sq_p', 'type': 'numeric'},
-    # 修正为 boolean，而非 numeric
+    
     {'name': 'chi_sq_significant_005', 'type': 'boolean'}, 
     {'name': 'is_nested', 'type': 'boolean'}, 
     {'name': 'nestedness', 'type': 'numeric'}, 
@@ -125,7 +125,7 @@ def get_statistical_pairwise_features(a, b, MAX_GROUPS=50):
         r['percent_range_overlap'] = overlap_percent
 
     if (a['general_type'] == 'c' and b['general_type'] == 'c'):
-        # 修正了重复判断
+        
         if len(get_unique(a_data)) > MAX_GROUPS or len(get_unique(b_data)) > MAX_GROUPS:
             return r
         df = pd.DataFrame({ a_name: a_data, b_name: b_data })
@@ -147,9 +147,9 @@ def get_statistical_pairwise_features(a, b, MAX_GROUPS=50):
         r['chi_sq_p'] = chi2_p
         r['chi_sq_significant_005'] = (chi2_p < 0.05)
 
-        # 这里使用 max(nestedness_values) 来判定 nestedness_95
+        
         r['nestedness'] = max(nestedness_values)
-        r['nestedness_95'] =(max(nestedness_values) > 0.95)  # 修改了 == 为 =
+        r['nestedness_95'] =(max(nestedness_values) > 0.95)  
 
     if (a['general_type'] == 'q' and b['general_type'] == 'c') or (a['general_type'] == 'c' and b['general_type'] == 'q'):
         c_field = a
@@ -212,7 +212,7 @@ def extract_pairwise_field_features(field_data, single_field_features, fid, time
             all_pairwise_field_features[field_1_index][field_2_index]['pair_exists'] = True
             all_pairwise_field_features[field_1_index][field_2_index]['fid'] = fid
 
-            # ① 修正重复赋值 field_a_id -> field_b_id
+            
             all_pairwise_field_features[field_1_index][field_2_index]['field_a_id'] = field_1_index
             all_pairwise_field_features[field_1_index][field_2_index]['field_b_id'] = absolute_field_2_index
 
@@ -222,7 +222,7 @@ def extract_pairwise_field_features(field_data, single_field_features, fid, time
 
             try:
                 start_time = time()
-                # 注意：下面的 while 循环因为 break 会在第一次后退出
+                
                 while time() < (start_time + timeout):
                     name_pairwise_features = get_name_pairwise_features(a['name'], b['name'])
                     statistical_pairwise_features = get_statistical_pairwise_features(a, b)

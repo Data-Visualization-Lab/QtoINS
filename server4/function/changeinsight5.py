@@ -19,10 +19,7 @@ def extract_json(text):
     return None
 
 def clean_string(input_string):
-    """
-    清理字符串：移除开头和结尾的反引号，
-    并去除字符串前缀中的 "json"（不区分大小写）。
-    """
+    
     cleaned = input_string.strip('`').strip()
     if cleaned.lower().startswith("json"):
         cleaned = cleaned[4:].strip()
@@ -30,9 +27,7 @@ def clean_string(input_string):
 
 class ChangeInsight5:
     def __init__(self, df, file_name):
-        """
-        初始化时传入 DataFrame 和文件名
-        """
+        
         self._df = df 
         self.file_name = file_name
 

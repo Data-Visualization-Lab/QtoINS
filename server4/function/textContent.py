@@ -62,12 +62,12 @@ Expected JSON response:
 """
 
 def clean_string(input_string):
-    # 移除开头和结尾的反引号
+    
     input_string = input_string.strip('`')
-    # 如果移除反引号后，字符串开头是 json，移除它
+    
     if input_string.lower().startswith("json"):
-        input_string = input_string[4:].strip()  # 移除开头的 json 并去掉多余的空格
-    return input_string.strip()  # 再次清理两边空格
+        input_string = input_string[4:].strip()  
+    return input_string.strip()  
 
 class TextContent:
     def __init__(self, df, file_name):
@@ -87,8 +87,8 @@ class TextContent:
         p5="My sql is: "+sql+" \n"
         p6="In this task, The fuzzy concept you need to solve is "+key+"\n The solution is: "+ solution+" \n"
         p7 = "My first three rows of data are:\n"
-        p7 += " | ".join(self._df.columns) + "\n"  # 添加列名
-        p7 += "\n".join(self._df.head(5).astype(str).apply(lambda row: " | ".join(row), axis=1))  # 添加行数据
+        p7 += " | ".join(self._df.columns) + "\n"  
+        p7 += "\n".join(self._df.head(5).astype(str).apply(lambda row: " | ".join(row), axis=1))  
 
 
         

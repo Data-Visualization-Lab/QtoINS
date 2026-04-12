@@ -37,18 +37,14 @@ You must focus on the user's intent and the feature information of the selected 
 
 
 def extract_features_from_fields(fields, compute_features_config, fid=None):
-    """
-    你的特征提取函数实现，与之前相同。
-    fields: 形如 [ (col_name, {'uid': ..., 'order': ..., 'data': ...}), (...), ... ]
-    fid: 一个字符串，用来标识这个数据集或表格。
-    """
+    
     results = {}
     MAX_FIELDS = len(fields)
 
     df_feature_tuples = OrderedDict({'fid': fid})
     df_feature_tuples_if_exists = OrderedDict({'fid': fid})
 
-    # 1. 单字段特征 & 解析
+    
     single_field_features, parsed_fields = ([], [])
     if compute_features_config['single_field'] or compute_features_config['field_level_features']:
         single_field_features, parsed_fields = extract_single_field_features(
@@ -67,7 +63,7 @@ def extract_features_from_fields(fields, compute_features_config, fid=None):
         
         results['single_field_features'] = single_field_features
 
-    # 2. 聚合单字段特征
+    
     if compute_features_config['aggregate_single_field']:
         aggregate_single_field_features = extract_aggregate_single_field_features(
             single_field_features
@@ -77,7 +73,7 @@ def extract_features_from_fields(fields, compute_features_config, fid=None):
             df_feature_tuples_if_exists[k] = v
         results['aggregate_single_field_features'] = aggregate_single_field_features
 
-    # 3. 两两字段特征
+    
     pairwise_field_features_result = []
     if compute_features_config['pairwise_field'] or compute_features_config['aggregate_pairwise_field']:
         pairwise_field_features_result = extract_pairwise_field_features(
@@ -88,7 +84,7 @@ def extract_features_from_fields(fields, compute_features_config, fid=None):
         )
         results['pairwise_field_features'] = pairwise_field_features_result
 
-    # 4. 聚合两两字段特征
+    
     if compute_features_config['aggregate_pairwise_field']:
         aggregate_pairwise_field_features = extract_aggregate_pairwise_field_features(
             pairwise_field_features_result
@@ -104,12 +100,9 @@ def extract_features_from_fields(fields, compute_features_config, fid=None):
 
 def run_feature_extraction_for_one_df(df, fid="my_data"):
 
-    """
-    输入单个 DataFrame，进行特征提取并返回提取的各类特征。
-    fid: 一个字符串，用来标识这个数据集或表格（可自定义）。
-    """
     
-    # 1. 将 df 的每一列组装成 fields
+    
+    
     compute_features_config = {
             'single_field': True,
             'aggregate_single_field': True,
@@ -130,20 +123,20 @@ def run_feature_extraction_for_one_df(df, fid="my_data"):
         }
         fields.append((col_name, field_info))
 
-    # 2. 调用特征提取函数（extract_features_from_fields）
+    
     extraction_results = extract_features_from_fields(
         fields=fields,
         compute_features_config=compute_features_config,
         fid=fid
     )
     
-    # 3. 取出各类特征
+    
     single_field_features = extraction_results.get('single_field_features', [])
     pairwise_field_features = extraction_results.get('pairwise_field_features', [])
     aggregated_single_field_features = extraction_results.get('aggregate_single_field_features', {})
     aggregated_pairwise_field_features = extraction_results.get('aggregate_pairwise_field_features', {})
 
-    # 4. 将它们组织成 final_features 返回
+    
     final_features = {
         "single_field_features": single_field_features,
         "pairwise_field_features": pairwise_field_features,
@@ -154,22 +147,18 @@ def run_feature_extraction_for_one_df(df, fid="my_data"):
     return final_features
 
 def df_to_text(df):
-    """
-    将任何 DataFrame 转换成多行文本。
-    每一行形如：
-      col1: value1, col2: value2, col3: value3 ...
-    """
+    
     lines = []
     for _, row in df.iterrows():
-        # 收集本行所有 "列名: 值"
+        
         line_parts = []
         for col in df.columns:
             line_parts.append(f"{col}: {row[col]}")
-        # 将这些部件用 ", " 拼接在一起
+        
         line_str = ", ".join(line_parts)
         lines.append(line_str)
     
-    # 多行字符串，用换行符拼接
+    
     return "\n".join(lines)
 
 class VisualRecommend:
@@ -180,7 +169,7 @@ class VisualRecommend:
     def Recommend(self, question):
         df_first_three = self._df[:3]
 
-# 调用函数得到字符串
+
         result_str = df_to_text(df_first_three)
 
         p1 = "User question is: " + question+"\n"
@@ -193,11 +182,11 @@ class VisualRecommend:
         combined.update(pairwise_agg)
         lines = []
         for sub_k, sub_v in combined.items():
-            # 将键、值组合成字符串
+            
             line = f"{sub_k}: {sub_v}"
             lines.append(line)
         
-        # 把所有字段拼成多行文本
+        
         multiline_str = "\n".join(lines)
         print(len(lines))
         p3="Feature information =>"+ " \n"+multiline_str+" \n"
@@ -239,10 +228,10 @@ class VisualRecommend:
       
         vr = json.loads(vr)
 
-        # 将 DataFrame 转换成列表+字典 格式
+        
         df_records = self._df.to_dict(orient='records')
 
-        # 替换 vr["data"]["values"] 的值
+        
         vr["data"]["values"] = df_records
 
 

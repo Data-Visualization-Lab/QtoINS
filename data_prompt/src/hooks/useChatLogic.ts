@@ -43,7 +43,7 @@ export function useChatLogic(initialDescription?: string) {
   const [isLoading, setIsLoading] = useState(false);
   const { setVisData } = useMyContext();
 
-  // 用于在消息列表中追加消息
+
   const appendMessage = useCallback(
     (msg: Message) => {
       setMessages((prev) => [...prev, msg]);
@@ -70,7 +70,7 @@ export function useChatLogic(initialDescription?: string) {
     [appendMessage]
   );
 
-  // 将 setIsLoading 传递给 fuzzy hook 以便在提交后检查返回的 vis 数据
+
   const fuzzyTextLogic = useFuzzyTextLogic({
     messages,
     setMessages,
@@ -88,7 +88,7 @@ export function useChatLogic(initialDescription?: string) {
     onTranslationReady,
   });
 
-  // 如果提供了初始描述，则添加第一条 system 消息
+
   useEffect(() => {
     if (initialDescription?.trim()) {
       setMessages((prev) => {
@@ -107,17 +107,17 @@ export function useChatLogic(initialDescription?: string) {
     }
   }, [initialDescription]);
 
-  /** 处理用户发送普通消息 */
+  
   const handleSend = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
       const trimText = inputText.trim();
       if (!trimText) return;
 
-      // 开始加载
+
       setIsLoading(true);
 
-      // 添加用户消息
+
       appendMessage({
         id: Date.now(),
         role: "user",
@@ -133,7 +133,7 @@ export function useChatLogic(initialDescription?: string) {
         });
         const data = await response.json();
 
-        // 如果后端返回的内容没有模糊概念
+
         if (data.textfuzzy === false && data.stringfuzzy === false) {
           if (data.awaitingFollowup === true && data.finalquestion) {
             onTranslationReady(
@@ -143,7 +143,7 @@ export function useChatLogic(initialDescription?: string) {
             return;
           }
 
-          // 当返回真实数据时关闭加载状态
+
           if (data.vis !== null && data.vis !== undefined) {
             setVisData((prevData: any) => [...prevData, data.vis]);
             appendMessage({
@@ -156,7 +156,7 @@ export function useChatLogic(initialDescription?: string) {
             setIsLoading(false);
           }
         } else if (data.textfuzzy === true && data.stringfuzzy === false) {
-          // 处理 fuzzy_text 的情况
+
           const textrecommend = data.textrecommend;
           appendMessage({
             id: Date.now() + 2,
@@ -197,7 +197,7 @@ export function useChatLogic(initialDescription?: string) {
             } as FuzzyTextMessage;
           });
           setMessages((prev) => [...prev, ...fuzzyMsgs]);
-          // 此时保持加载状态，等待用户处理 fuzzy_text 消息
+
         } else if (data.textfuzzy === false && data.stringfuzzy === true) {
           appendMessage({
             id: Date.now() + 3,
@@ -233,7 +233,7 @@ export function useChatLogic(initialDescription?: string) {
               text: data.message || "Detected fuzzy string processing.",
             });
           }
-          // 同样保持加载状态，等待用户处理 fuzzy_string 消息
+
         }
       } catch (err) {
         console.error("Error fetching /gettext:", err);
@@ -346,7 +346,7 @@ export function useChatLogic(initialDescription?: string) {
     handleSend,
     isLoading,
     handleRunFollowups,
-    // 传出 fuzzy_text 与 fuzzy_string 的相关函数
+
     handleFuzzyTextChange: fuzzyTextLogic.handleFuzzyTextChange,
     handleFuzzyTextSubmit: fuzzyTextLogic.handleFuzzyTextSubmit,
     handleFuzzyTextToggle: fuzzyTextLogic.handleFuzzyTextToggle,

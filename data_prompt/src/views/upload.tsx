@@ -106,14 +106,14 @@ const Upload = () => {
         onChange={handleFileUpload}
       />
 
-      {/* 修改后的 Table View 部分，采用了与 ChatBox (plot) 类似的样式 */}
+      
       <Box
         sx={{
           height: "30%",
           display: "flex",
           flexDirection: "column",
-          border: `2px solid ${global.borderColor}`, // 修改：边框加粗为2px
-          borderRadius: 2, // 修改：圆角由1调整为2
+          border: `2px solid ${global.borderColor}`,
+          borderRadius: 2,
           p: 1,
           backgroundColor: global.backgroundColor,
           boxShadow: 3,
@@ -162,7 +162,7 @@ const Upload = () => {
             <TableContainer
               sx={{
                 borderRadius: 2,
-                // 如果不需要任何阴影或边框，可以直接去掉或改为 0
+
                 boxShadow: 0,
                 border: "none",
                 maxHeight: "100%",
@@ -172,17 +172,17 @@ const Upload = () => {
                 overflowY: "auto",
                 backgroundColor: global.backgroundColor,
 
-                // 让内层 Table 直接无边框渲染
+
                 "& table": {
                   borderCollapse: "collapse",
                 },
 
-                // 让所有单元格都不再显示边框
+
                 "& th, & td": {
                   border: "none !important",
                 },
 
-                // 如果 sticky header 仍出现边线，可针对它进行强制覆盖
+
                 "& .MuiTableCell-stickyHeader": {
                   borderBottom: "none !important",
                 },
@@ -197,11 +197,11 @@ const Upload = () => {
                   "& .MuiTableCell-head": {
                     borderBottom: "none",
                   },
-                  // 如果 stickyHeader 带来了阴影或边线，也可以覆盖
+
                   "& .MuiTableCell-stickyHeader": {
                     borderBottom: "none",
                     boxShadow: "none",
-                    // 如果有其他竖向分割线，也可以试着设置 borderRight: "none" 等
+
                   },
                 }}
               >
@@ -215,9 +215,9 @@ const Upload = () => {
                           fontWeight: "bold",
                           backgroundColor: global.buttonColor,
                           color: global.backgroundColor,
-                          border: "none", // 移除所有边框
-                          padding: "8px 16px", // 增加内边距
-                          fontSize: "1.2rem",  // 增大字体大小
+                          border: "none",
+                          padding: "8px 16px",
+                          fontSize: "1.2rem",
           
                         }}
                       >
@@ -232,7 +232,7 @@ const Upload = () => {
                     .map((row, rowIndex) => (
                       <TableRow key={rowIndex} hover>
                         {Object.values(row).map((val, colIndex) => {
-                          // 判断是否为数字：当值非空且转换为数字不是 NaN 时，认为是数字
+
                           const isNumeric =
                             typeof val === "string" &&
                             val.trim() !== "" &&
@@ -259,12 +259,12 @@ const Upload = () => {
                 rowsPerPage={rowsPerPage}
                 rowsPerPageOptions={[rowsPerPage]}
                 sx={{
-                  mt: -1.9,      // 外层 margin-top 设为 0
-                  pt: 0,      // 外层 padding-top 设为 0
+                  mt: -1.9,
+                  pt: 0,
                   "& .MuiTablePagination-toolbar": {
                     justifyContent: "flex-end",
-                    py: 0,            // 内部工具条的上下 padding 设为 0
-                    minHeight: "1px" // 默认工具条高度通常较高，可根据需求设置为较低高度，如 32px
+                    py: 0,
+                    minHeight: "1px"
                   },
                 }}
               />
@@ -280,7 +280,7 @@ const Upload = () => {
         </Box>
       </Box>
 
-      {/* ChatBox 部分保持不变 */}
+      
       <Box
         sx={{
           border: `2px solid ${global.borderColor}`,

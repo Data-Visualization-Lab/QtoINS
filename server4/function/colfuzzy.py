@@ -21,12 +21,12 @@ You must return:
 
 """
 def clean_string(input_string):
-    # 移除开头和结尾的反引号
+    
     input_string = input_string.strip('`')
-    # 如果移除反引号后，字符串开头是 json，移除它
+    
     if input_string.lower().startswith("json"):
-        input_string = input_string[4:].strip()  # 移除开头的 json 并去掉多余的空格
-    return input_string.strip()  # 再次清理两边空格
+        input_string = input_string[4:].strip()  
+    return input_string.strip()  
 class Colfuzzy:
     def __init__(self, df, file_name):
         self._df = df 
@@ -47,8 +47,8 @@ class Colfuzzy:
         p6="In my case, some parts of my SQL are different. The fuzzy concepts in my SQL are enclosed in {}\n"
         p7="In this task, you only need to address only one vague concept: "+fuzzy+" \n"
         p8 = "My first three rows of data are:\n"
-        p8 += " | ".join(self._df.columns) + "\n"  # 添加列名
-        p8 += "\n".join(self._df.head(3).astype(str).apply(lambda row: " | ".join(row), axis=1))  # 添加行数据
+        p8 += " | ".join(self._df.columns) + "\n"  
+        p8 += "\n".join(self._df.head(3).astype(str).apply(lambda row: " | ".join(row), axis=1))  
        
        
         promptt = p1+p2+p4+p5+p6+p7+p8

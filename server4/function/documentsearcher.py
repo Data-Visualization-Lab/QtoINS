@@ -35,7 +35,7 @@ class DocumentSearcher:
         sorted_values, sorted_indices = torch.sort(similarities, dim=1, descending=True)
         sorted_indices = sorted_indices.squeeze(0)
 
-        # 使用集合确保文档唯一性
+        
         seen_docs = set()
         unique_sorted_documents = []
 
