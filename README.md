@@ -1,6 +1,7 @@
-# qtoINS
+# QtoINS
 
-qtoINS is a small full-stack project for turning CSV data into charts and insights through natural language questions.
+This repository is the code for the QtoINS project.
+
 
 It includes:
 
@@ -68,14 +69,7 @@ Compare the rating for comedy movies in recent years?
 6. Click **Run Next Two Steps** to generate the chart and insights.
 7. Use the chart or insight editing actions if you want to refine the result.
 
-## Main API Endpoints
 
-- `POST /upload`
-- `POST /gettext`
-- `POST /api/fuzzytext`
-- `POST /api/fuzzystring`
-- `POST /api/runfollowups`
-- `POST /api/changechart`
 - `POST /api/changeinsight`
 
 ## Notes
