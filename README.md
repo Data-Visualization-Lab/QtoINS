@@ -70,10 +70,4 @@ Compare the rating for comedy movies in recent years?
 7. Use the chart or insight editing actions if you want to refine the result.
 
 
-- `POST /api/changeinsight`
 
-## Notes
-
-- Upload CSV files only.
-- The frontend is configured to send requests to the local Flask server.
-- The backend entry file is `server4/app.py`.
