@@ -5,7 +5,7 @@
 All files related to Section 6 System Evaluation are stored in the `systemevaluate` folder:
 
 - **evaluate1**: Contains CSV files of experimental dataset and results (evaluate1_result.csv) for "Human Query to Target Data" component.
-- **evaluate2**: Contains a CSV file of results (evaluation2_result.csv) for "Human Query and Target Data to Charts" component. Used NLV dataset (https://nlvcorpus.github.io.). Contains a CSV file of results (result.csv) for Ablation Test.
+- **evaluate2**: Contains CSV files of results for the "Human Query and Target Data to Charts" component. `evaluation2_result.csv` includes results based on the NLV dataset (https://nlvcorpus.github.io.) as well as Task 1 from our comparative usability study. `result.csv` contains the ablation test results.
 - **evaluate3**: Contains CSV files of results (ratings_summary.csv) for "Charts to Insights" component. The chartID in ratings_summary.csv corresponds to the charts located in the `charts` folder under the same directory, and index.html together with server.py contains the code we used to conduct Prolific online study.
 
 ## Fine-tuning Dataset
