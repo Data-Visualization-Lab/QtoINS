@@ -1,4 +1,4 @@
-## Appendices
+This repository contains the supplementary materials and code for the QtoINS project.
 
 ## System Evaluation
 
