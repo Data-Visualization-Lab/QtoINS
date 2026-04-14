@@ -385,7 +385,7 @@ def process_fuzzy_string(parse_result):
 
                         print("sbvv", stringrecommend)
                 else:
-                    print("完全没有和用户相近的词语")
+                    print("")
 
             else:
                 print(f"Fuzzy Matching for column: {header}")
@@ -745,12 +745,12 @@ def submit():
     while True:
         try:
             tree, placeholder_infos = validate_sql_strict(sql)
-            print("占位符信息 =", placeholder_infos)
+            
             if len(placeholder_infos) == 0:
-                print("SQL 中没有占位符，说明没有模糊概念")
+           
                 parse_result = parse_sql_to_json(sql=sql)
                 if parse_result.get("type") == False:
-                    print("既没有文本概念也没有字符串模糊概念")
+                 
                     Translate_instance_result = build_translation_sentence(
                         original_question=goal,
                         sql_query=sql,
@@ -851,7 +851,7 @@ def submit():
                         check_fuzzy_text[info['inner_sql']+'+'+'where1'+'+'+info['uuid']] = False
             break
         except (ParseError, DisallowedNodeError) as e:
-            print("SQL 语法/校验错误：", e)
+           
             ReGeneratsql_instance = ReGeneratsql(df, file_name)
             sql = ReGeneratsql_instance.Generate(
                 text=goal, syntax_error=e
@@ -870,10 +870,10 @@ def submit():
         )
     else:
     
-                print("SQL 中没有占位符，说明没有模糊概念")
+               
                 parse_result = parse_sql_to_json(sql=sql)
                 if parse_result.get("type") == False:
-                    print("既没有文本概念也没有字符串模糊概念")
+                  
                     Translate_instance_result = build_translation_sentence(
                         original_question=goal,
                         sql_query=sql,
