@@ -1,31 +1,32 @@
 # QtoINS
 
-This repository is the code for the QtoINS project.
+QtoINS is a data exploration project that lets users interact with CSV files through natural language.
 
-
-It includes:
+This repository includes:
 
 - a React frontend in `data_prompt`
 - a Flask backend in `server4`
 
-## What It Does
+## Overview
 
-1. Upload a CSV file
-2. Ask a question about the data in plain English
-3. Review ambiguity suggestions if the system asks for clarification
-4. Generate charts and insights
-5. Optionally refine the chart or insight
+With QtoINS, you can:
+
+1. Upload a CSV file.
+2. Ask questions about the data in plain English.
+3. Review ambiguity suggestions when the system needs clarification.
+4. Generate charts and insights.
+5. Refine the chart or insight if needed.
 
 ## Project Structure
 
 ```text
-qtoINS/
+QtoINS/
 ├── README.md
 ├── data_prompt/   # frontend
 └── server4/       # backend
 ```
 
-## How to Run
+## Getting Started
 
 ### 1. Start the backend
 
@@ -42,7 +43,7 @@ The backend runs at `http://127.0.0.1:5000`.
 
 ### 2. Start the frontend
 
-Open a new terminal:
+Open a new terminal and run:
 
 ```bash
 cd data_prompt
@@ -52,12 +53,12 @@ npm start
 
 The frontend runs at `http://localhost:3000`.
 
-## How to Use
+## Usage
 
 1. Open the frontend in your browser.
-2. Click **Upload** and choose a CSV file.
+2. Click **Upload** and select a CSV file.
 3. Wait for the file summary to appear in the chat area.
-4. Type a question about your data, for example:
+4. Enter a question about your data, for example:
 
 ```text
 Show sales by region
@@ -65,9 +66,8 @@ Compare revenue by year
 Compare the rating for comedy movies in recent years?
 ```
 
-5. If the system finds ambiguous terms, choose the recommended options.
-6. Click **Run Next Two Steps** to generate the chart and insights.
-7. Use the chart or insight editing actions if you want to refine the result.
-
+5. If the system detects ambiguous terms, choose the recommended options.
+6. Click **Run Next Two Steps** to generate charts and insights.
+7. Use the chart or insight editing actions to refine the result if needed.
 
 
