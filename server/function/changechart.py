@@ -78,7 +78,7 @@ class Changechart:
         promptt =p1+p2
         print(promptt)
 
-        api_key="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"
+        api_key=""
         client = OpenAI(api_key=api_key)
         response = client.chat.completions.create(
         model="gpt-4o",

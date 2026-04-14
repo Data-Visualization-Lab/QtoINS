@@ -1,0 +1,51 @@
+Dataset,Human Query,ours,gpt4.5,NL4dv-LLM
+Cars,Show me average Miles Per Gallaon by cylinders,1,1,1
+Cars,Show model count by origin,1,1,1
+Cars,Show the plot between horse power and acceleration,1,1,1
+Cars,Visualize distribution of models by number of cyclinders grouped by origin,1,1,1
+Cars,Trend for average horsepower over time across different origin,1,1,1
+Cars,"For each origin, acceleration by weight scatterplot",1,1,1
+Cars,Show me average weight over year,1,1,1
+Cars,For each country show the relationship between average acceleration and number of cylinders,1,1,0
+Cars,Show distribution of weight,1,1,1
+Cars,What is the relationship between horsepower and MPG?,1,1,1
+Cars,How did the MPG of cars evolve from 1970 to 1980?,1,1,1
+Cars,"Faceting on Origin, plot Weight by Acceleration",1,1,0
+Cars,plot the average horsepower vs year for all volswagens,1,0,0
+Sandshiches,Show me the relationship between calories and total fat in beef sandwiches.,1,0,0
+Insurance,Does gender influence insurance charges?,1,1,1
+Insurance,How does the combination of bmi and smoking status influence the charges?,1,1,1
+Insurance,Show me the relationship between the children number with the insurance charges.,0,1,1
+Movies,Show the relationship between IMDB Rating and Rotten Tomatoes Rating,1,1,0
+Movies,Compare the IMDB Rating and Rotten Tomatoes Rating for comedy movies,1,0,0
+Movies,give me line charts of worldwide gross over year by major genres,1,1,1
+Movies,show me average budget split by content rating colored by creative type,1,1,1
+Movies,Movie gross and budge relationship based on genre,1,1,1
+Movies,"Compare Rotten Tomatoes and IMDb ratings for movies categorized under the ""Fiction"" creative type.",1,0,0
+Movies,show me movies by creative types,1,1,1
+Movies,give me the number of movies by running time,1,1,1
+Movies,give me scatterplots of worldwide gross versus production budget by different content ratings,1,1,1
+Movies,plot average worldwide growth over major genre,1,1,1
+Movies,"Show the total worldwide gross by category of film, broken down by movie rating.",1,1,1
+Movies,Average Production Budget by Year,1,1,1
+Movies,show me the overall rating in action movies,1,1,1
+Movies,Show me rating for action movies,1,1,1
+Medals,Show me medal for  ice hocking by country,1,1,1
+Medals,Show me total medals for  skating by country,1,0,0
+Medals,How have the total number of medals won by the top 5 countries,1,1,1
+Medals,How many total swimming medals did each of the top 5 countries win?,1,0,0
+Medals,Show me the top 10 country have the highest total medal counts?,1,1,1
+Medals,What is the distribution of total medals among the 10 sports with the highest medal counts?,1,1,1
+Medals,Show me the top 7 athletes in terms of total medals won and their medals numbers.,1,1,1
+Medals,Show me total medals for   hockey by country,1,0,0
+Medals,Show me total medals for  water sports by country,1,0,0
+Superstore,Show me a bar chart of the total profitability of each region with a breakdown based on shipping time.,1,1,0
+Superstore,Show me a bar chart showing the average profitability for orders by shipping mode and segment.,1,1,0
+Superstore,Show me a scatterplot of profitability by sales for each region,1,1,1
+Superstore,Line Graph of SUM (Sales Forecast) vs Order Date,1,1,0
+Superstore,Column Chart of AVG (Profit) vs alphabetical order State,1,1,1
+Superstore,Descending Column Chart of Count vs Sub-category,1,1,0
+Superstore,Scatter Plot for each region of Profit vs Sales,1,1,1
+Superstore,Scatter Plot of Sales vs Profit,1,1,1
+Superstore,Columns of Count vs Order Quantity,1,1,0
+Superstore,"Line chart, Sum of sales by order date, on category",1,1,0

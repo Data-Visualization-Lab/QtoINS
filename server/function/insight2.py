@@ -36,8 +36,7 @@ class Insight2:
         self.file_name = file_name
 
     def story(self, question, vegalite_spec, all_file):
-        api_key = "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"
-
+        api_key = ""  # Replace with your actual API key
         client = OpenAI(api_key=api_key)
         instructions = """
         You will be given a chart image and its corresponding CSV data.  

@@ -1,0 +1,26 @@
+Dataset,Human Query,QtoINS,NL4DV-LLM,ChartGPT
+Cars,Show me average Miles Per Gallaon by cylinders,1,1,1
+Cars,Show model count by origin,1,1,1
+Cars,Show the plot between horse power and acceleration,1,1,1
+Cars,Visualize distribution of models by number of cyclinders grouped by origin,1,1,1
+Cars,Trend for average horsepower over time across different origin,1,1,1
+Cars,"For each origin, acceleration by weight scatterplot",1,1,1
+Cars,Show me average weight over year,1,1,1
+Cars,Show distribution of weight,1,1,0
+Movies,Show the relationship between IMDB Rating and Rotten Tomatoes Rating,1,1,1
+Movies,give me line charts of worldwide gross over year by major genres,1,1,1
+Movies,Movie gross and budge relationship based on genre,1,1,1
+Movies,show me movies by creative types,1,1,1
+Movies, Give me the number of movies by running time,1,1,1
+Movies,plot average worldwide growth over major genre,1,1,0
+Movies,"Show the total worldwide gross by category of film, broken down by movie rating.",1,1,1
+Movies,Average Production Budget by Year,1,1,1
+Superstore,Show me a bar chart of the total profitability of each region with a breakdown based on shipping time.,1,1,0
+Superstore,Show me a scatterplot of profitability by sales for each region,1,1,1
+Superstore,Line Graph of SUM (Sales Forecast) vs Order Date,1,0,1
+Superstore,Column Chart of AVG (Profit) vs alphabetical order State,1,1,1
+Superstore,Descending Column Chart of Count vs Sub-category,1,0,1
+Superstore,Scatter Plot of Sales vs Profit,1,1,1
+Superstore,Columns of Count vs Order Quantity,1,0,0
+Superstore,"Line chart, Sum of sales by order date, on category",0,0,1
+,,23/24,20/24,20/24

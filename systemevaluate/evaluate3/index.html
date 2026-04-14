@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Chart Insights Rating (Per-Item Submit) — Sticky Chart Top (UI Order Logging)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- React & ReactDOM (UMD) -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+
+    <!-- Emotion (for MUI v5) -->
+    <script src="https://unpkg.com/@emotion/react@11.11.4/dist/emotion-react.umd.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@emotion/styled@11.11.5/dist/emotion-styled.umd.min.js" crossorigin></script>
+
+    <!-- MUI v5 (UMD) -->
+    <script src="https://unpkg.com/@mui/material@5.15.14/umd/material-ui.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@mui/icons-material@5.15.14/umd/material-ui-icons.development.js" crossorigin></script>
+
+    <!-- Papa Parse for CSV -->
+    <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js" crossorigin></script>
+
+    <style>
+      html, body, #root { height: 100%; margin: 0; }
+      img.chart { max-width: 100%; max-height: 45vh; height: auto; display: block; margin: 0 auto; }
+      .sticky-top { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.95); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); border-bottom: 1px solid rgba(0,0,0,.06); padding: 8px 8px 12px; }
+      .sticky-footer { position: sticky; bottom: 0; z-index: 10; background: rgba(255,255,255,.9); backdrop-filter: blur(6px); }
+      #root strong { font-weight: 700; }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script>
+      (() => {
+        const { createElement: h, useEffect, useMemo, useState } = React;
+        const { ThemeProvider, createTheme, CssBaseline, Box, Typography, Grid, Card, CardContent, CardActions, Button, Rating, LinearProgress, Stack, Divider, Chip, Snackbar, Alert, Tooltip, TextField } = MaterialUI;
+
+        // ========= CONFIG =========
+        const COMPLETION_URL = ""; 
+        const qp = new URLSearchParams(location.search);
+
+        const PROLIFIC_PID = qp.get("PROLIFIC_PID") || localStorage.getItem("prolific_pid") || (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()));
+        const STUDY_ID = qp.get("STUDY_ID") || localStorage.getItem("study_id") || "";
+        const SESSION_ID = qp.get("SESSION_ID") || localStorage.getItem("session_id") || "";
+        if (PROLIFIC_PID) localStorage.setItem("prolific_pid", PROLIFIC_PID);
+        if (STUDY_ID) localStorage.setItem("study_id", STUDY_ID);
+        if (SESSION_ID) localStorage.setItem("session_id", SESSION_ID);
+
+        const REQUIRE_REASON = true;
+        const TOTAL_CHARTS = 50;
+        const PICK_COUNT = 10;
+        const CHART_DIR = "./charts"; // charts/1.svg ... charts/50.svg
+        const INSIGHTS_CSV_PATH = CHART_DIR + "/insights.csv"; // columns: id,insightA,insightB
+
+        // !!! Replace with your public collector endpoint (e.g., ngrok) !!!
+        const SUBMIT_URL = "";
+
+        // === New: optional URL param to jump to a specific chart id ===
+        
+        const REQUESTED_CHART_ID = parseInt(qp.get("chart") || qp.get("goto") || qp.get("id") || "", 10);
+        // ==========================
+
+        // Randomly sample k from [1..n] (fix: originally 0-based)
+        function randSample(n, k) {
+          const arr = Array.from({ length: n }, (_, i) => i ); // 1..n
+          for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+          }
+          return arr.slice(0, Math.min(k, n));
+        }
+
+        // Remove specific section labels from the ORIGINAL insightA text only
+        function escapeRegExp(s) { return String(s).replace(/[.*+?^${}()|[\\]\\]/g, "\\$&"); }
+        function cleanInsightA(text) {
+          if (!text) return "";
+          let out = String(text).replace(/\r\n?/g, "\n");
+          const LABELS = [
+            "Observation of the Chart",
+            "Visual Trend Analysis",
+            "Statistical Analysis Summary",
+            "Integrated Findings",
+            "Overall Insight Summary",
+          ];
+          const NEED_LEADING_NL = new Set([
+            "Visual Trend Analysis",
+            "Statistical Analysis Summary",
+            "Integrated Findings",
+            "Overall Insight Summary",
+          ]);
+          for (const label of LABELS) {
+            const before = NEED_LEADING_NL.has(label) ? "\n" : "";
+            const re = new RegExp(`\\s*"?${escapeRegExp(label)}"?\\s*:\\s*`, "gi");
+            out = out.replace(re, `${before}${label}:\n`);
+          }
+          for (const label of LABELS) {
+            const keep = NEED_LEADING_NL.has(label) ? "\n" : "";
+            const re = new RegExp(`(^|\\n)\\s*${escapeRegExp(label)}\\s*:\\s*\\n`, "g");
+            out = out.replace(re, `$1${keep}`);
+          }
+          out = out
+            .split("\n")
+            .map((line) => {
+              let t = line.trimEnd();
+              t = t.replace(/,\s*$/, "");
+              t = t.replace(/^[“"]+/, "").replace(/[”"]+$/, "");
+              t = t
+                .trim()
+                .replace(/^"(.+)"$/, "$1")
+                .replace(/^“(.+)”$/, "$1");
+              return t;
+            })
+            .join("\n");
+          out = out.replace(/\n{3,}/g, "\n\n").replace(/^\n+|\n+$/g, "");
+          return out;
+        }
+        function escapeHtml(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;"); }
+        function mdBoldToHtml(s) { if (!s) return ""; const escaped = escapeHtml(String(s)); return escaped.replace(/(^|\n)\s*#+\s*/g, "$1").replace(/\*\*/g, "").replace(/^\n+/, "").replace(/\n/g, "<br/>"); }
+
+
+        const nowIso = () => new Date().toISOString();
+
+        // Stable child component to avoid remounting (prevents input jumping)
+        function CurrentCard({ items, currentIndex, handleRate, handleReason, handleSubmitCurrent, submitting }) {
+          const it = items[currentIndex];
+          if (!it) return null;
+          const displayNumber = currentIndex + 1;
+          return h(
+            Grid,
+            { container: true, spacing: 3, justifyContent: "center" },
+            h(
+              Grid,
+              { item: true, xs: 12, md: 10 },
+              h(
+                Card,
+                { sx: { overflow: "visible" } },
+                h(
+                  CardContent,
+                  null,
+                  h(
+                    Box,
+                    { className: "sticky-top" },
+                    h("img", { className: "chart", src: it.imgUrl, alt: `Chart ${displayNumber}`, loading: "lazy", onError: (e) => { e.currentTarget.style.opacity = 0.2; } })
+                  ),
+                  h(
+                    Grid,
+                    { container: true, spacing: 0, alignItems: "stretch", sx: { mt: 1 } },
+                    h(
+                      Grid,
+                      { item: true, xs: 12, md: 5 },
+                      h(
+                        Stack,
+                        { spacing: 0 },
+                        h(Typography, { variant: "h6", fontWeight: "bold", sx: { mb: 0 } }, "Insight A"),
+                        h(Typography, { variant: "body2", sx: { wordBreak: "break-word" }, color: "text.primary", dangerouslySetInnerHTML: { __html: mdBoldToHtml(it.displayA) } }),
+                        h(Rating, { name: `ratingA-${displayNumber}`, value: it.ratingA || 0, onChange: (_, v) => handleRate("ratingA", v || 0), disabled: it.submitted })
+                      )
+                    ),
+                    h(
+                      Grid,
+                      { item: true, xs: 12, md: 2, sx: { display: { xs: "none", md: "flex" }, alignItems: "center", justifyContent: "center" } },
+                      h(Chip, { label: "VS" })
+                    ),
+                    h(
+                      Grid,
+                      { item: true, xs: 12, md: 5 },
+                      h(
+                        Stack,
+                        { spacing: 0 },
+                        h(Typography, { variant: "h6", fontWeight: "bold", sx: { mb: 0 } }, "Insight B"),
+                        h(Typography, { variant: "body2", sx: { wordBreak: "break-word" }, color: "text.primary", dangerouslySetInnerHTML: { __html: mdBoldToHtml(it.displayB) } }),
+                        h(Rating, { name: `ratingB-${displayNumber}`, value: it.ratingB || 0, onChange: (_, v) => handleRate("ratingB", v || 0), disabled: it.submitted })
+                      )
+                    )
+                  ),
+                  h(Box, { sx: { display: { xs: "block", md: "none" }, my: 1 } }, h(Divider, null, h(Chip, { label: "VS" }))),
+                  h(
+                    Box,
+                    { sx: { mt: 2 } },
+                    h(TextField, {
+                      label: "Please explain the reasons behind your rating (1-5) for Insight A and Insight B, which are machine-generated data insights based on the given chart.",
+                      placeholder: "Write your reasoning (e.g., which insight is clearer, better supported, more persuasive, etc.)",
+                      value: it.reason || "",
+                      onChange: (e) => handleReason(e.target.value),
+                      multiline: true,
+                      minRows: 2,
+                      fullWidth: true,
+                      disabled: it.submitted,
+                      InputLabelProps: { style: { whiteSpace: "pre-line" } },
+                      required: REQUIRE_REASON,
+                      helperText: String(it.reason || "").trim() ? "" : "Please provide a brief reason (required to submit).",
+                      FormHelperTextProps: { sx: { color: "text.secondary" } },
+                    })
+                  )
+                ),
+                h(
+                  CardActions,
+                  { sx: { justifyContent: "space-between" } },
+                  h(Typography, { variant: "caption", color: "text.secondary" }, it.submitted ? `Submitted: A=${it.ratingA} · B=${it.ratingB}` : it.ratingA && it.ratingB ? `Ready to submit: A=${it.ratingA} · B=${it.ratingB}` : "Please rate both A and B"),
+                  h(
+                    Stack,
+                    { direction: "row", spacing: 1 },
+                    h(Button, { variant: "outlined", onClick: () => history.back(), sx: { display: "none" } }, "Back (hidden)"),
+                    h(
+                      Tooltip,
+                      { title: !it.ratingA || !it.ratingB ? "Rate both A and B to submit" : it.submitted ? "Already submitted" : "" },
+                      h(
+                        Box,
+                        null,
+                        h(Button, { variant: "contained", onClick: () => handleSubmitCurrent(), disabled: !it.ratingA || !it.ratingB || it.submitted || (REQUIRE_REASON && !String(it.reason || "").trim()) }, 'Submit')
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          );
+        }
+
+        function useInsights() {
+          const [loading, setLoading] = useState(true);
+          const [error, setError] = useState(null);
+          const [rows, setRows] = useState([]);
+
+          useEffect(() => {
+            Papa.parse(INSIGHTS_CSV_PATH, {
+              download: true,
+              header: true,
+              skipEmptyLines: true,
+              complete: (res) => {
+                const valid = [];
+                for (const r of res.data) {
+                  const id = parseInt(r.id, 10);
+                  if (!isNaN(id) && r.insightA && r.insightB) {
+                    valid.push({ id, insightA: String(r.insightA), insightB: String(r.insightB) });
+                  }
+                }
+                setRows(valid);
+                setLoading(false);
+              },
+              error: (err) => {
+                setError(err?.message || "Failed to load CSV");
+                setLoading(false);
+              },
+            });
+          }, []);
+
+          return { loading, error, rows };
+        }
+
+        function App() {
+          const theme = useMemo(() => createTheme({ palette: { mode: "light" }, shape: { borderRadius: 16 }, typography: { fontSize: 17 } }), []);
+          const { loading, error, rows } = useInsights();
+
+          const [items, setItems] = useState([]);
+          const [currentIndex, setCurrentIndex] = useState(0);
+
+          const [submitting, setSubmitting] = useState(false);
+          const [snackbar, setSnackbar] = useState(null);
+          const prevIndexRef = React.useRef(null);
+
+          useEffect(() => {
+            setItems((prev) => {
+              if (!prev.length) return prev;
+              const copy = prev.slice();
+              const cur = copy[currentIndex];
+
+              if (cur && !cur.submitted && cur.firstOpenPerf == null) {
+                copy[currentIndex] = {
+                  ...cur,
+                  firstOpenPerf: performance.now(),
+                  firstViewAtISO: cur.firstViewAtISO || new Date().toISOString(),
+                };
+              }
+              return copy;
+            });
+            prevIndexRef.current = currentIndex;
+          }, [currentIndex]);
+
+          useEffect(() => {
+            if (!loading && !error && items.length) {
+              setItems((prev) => {
+                const copy = prev.slice();
+                const first = copy[0];
+                if (first && !first.submitted && first.firstOpenPerf == null) {
+                  copy[0] = {
+                    ...first,
+                    firstOpenPerf: performance.now(),
+                    firstViewAtISO: new Date().toISOString(),
+                  };
+                }
+                return copy;
+              });
+            }
+          }, [loading, error, items.length]);
+
+          // Initialize selection
+          useEffect(() => {
+            if (!loading && !error && rows.length) {
+              const maxN = Math.min(TOTAL_CHARTS, rows.length);
+
+              // Base random selection (1..maxN)
+              let ids = randSample(maxN, PICK_COUNT);
+
+              // Ensure requested chart id is included if valid
+              const wantId = Number.isInteger(REQUESTED_CHART_ID) && REQUESTED_CHART_ID >= 1 && REQUESTED_CHART_ID <= maxN ? REQUESTED_CHART_ID : null;
+              if (wantId && !ids.includes(wantId)) {
+                ids[0] = wantId; // replace first element to ensure inclusion while keeping length
+              }
+
+              const map = new Map(rows.map((r) => [r.id, r]));
+              const picked = ids.map((id) => {
+                const rec = map.get(id) || { insightA: `Insight A for #${id}`, insightB: `Insight B for #${id}` };
+                const originalA = cleanInsightA(rec.insightA);
+                const originalB = String(rec.insightB);
+                let displayA = originalA;
+                let displayB = originalB;
+                let swapped = false;
+                if (Math.random() < 0.5) { [displayA, displayB] = [displayB, displayA]; swapped = true; }
+                return {
+                  id,
+                  imgUrl: `${CHART_DIR}/${id}.svg`,
+                  originalA,
+                  originalB,
+                  displayA,
+                  displayB,
+                  swapped,
+                  ratingA: null,
+                  ratingB: null,
+                  reason: "",
+                  submitted: false,
+                  firstOpenPerf: null,
+                  firstViewAtISO: null,
+                  completedAtISO: null,
+                
+                  uiEvents: [], // {type:'rating_click'|'reason_start'|'reason_change', ui_label?:'A'|'B', value?:number, length?:number, ts:ISO}
+                };
+              });
+
+              // If a specific chart was requested, jump to it
+              let initialIndex = 0;
+              if (wantId) {
+                const idx = picked.findIndex((x) => x.id === wantId);
+                if (idx >= 0) initialIndex = idx;
+              }
+
+              setItems(picked);
+              setCurrentIndex(initialIndex);
+            }
+          }, [loading, error, rows]);
+
+          // Progress = proportion of submitted items
+          const progress = useMemo(() => {
+            const submittedCount = items.reduce((acc, it) => acc + (it.submitted ? 1 : 0), 0);
+            const total = items.length || 1;
+            return Math.round((submittedCount / total) * 100);
+          }, [items]);
+
+          window.appHandlePrev = () => setCurrentIndex((i) => Math.max(0, i - 1));
+
+          function handleRate(field, value) {
+            setItems((prev) => {
+              const copy = prev.slice();
+              const curr = { ...copy[currentIndex] };
+              curr[field] = value || 0;
+             
+              const uiLabel = field === 'ratingA' ? 'A' : 'B';
+              curr.uiEvents = Array.isArray(curr.uiEvents) ? curr.uiEvents.slice() : [];
+              curr.uiEvents.push({ type: 'rating_click', ui_label: uiLabel, value: curr[field], ts: nowIso() });
+              copy[currentIndex] = curr;
+              return copy;
+            });
+          }
+
+          let reasonTimer = null;
+          function handleReason(value) {
+            setItems((prev) => {
+              const copy = prev.slice();
+              const curr = { ...copy[currentIndex] };
+              const prevVal = curr.reason || '';
+              curr.reason = value;
+              curr.uiEvents = Array.isArray(curr.uiEvents) ? curr.uiEvents.slice() : [];
+              if (!prevVal && value) {
+                curr.uiEvents.push({ type: 'reason_start', ts: nowIso() });
+              }
+          
+              if (reasonTimer) clearTimeout(reasonTimer);
+              reasonTimer = setTimeout(() => {
+                setItems((p2) => {
+                  const c2 = p2.slice();
+                  const it2 = { ...c2[currentIndex] };
+                  it2.uiEvents = Array.isArray(it2.uiEvents) ? it2.uiEvents.slice() : [];
+                  it2.uiEvents.push({ type: 'reason_change', length: (value || '').length, ts: nowIso() });
+                  c2[currentIndex] = it2; return c2;
+                });
+              }, 600);
+              copy[currentIndex] = curr;
+              return copy;
+            });
+          }
+
+          function mapRatingsToOriginal(it) {
+            if (!it.swapped) {
+              return { ratingA: it.ratingA, ratingB: it.ratingB };
+            } else {
+              return { ratingA: it.ratingB, ratingB: it.ratingA };
+            }
+          }
+
+          async function handleSubmitCurrent() {
+            const it = items[currentIndex];
+            if (submitting) return;
+            if (!it || it.submitted || !it.ratingA || !it.ratingB) return;
+
+            if (REQUIRE_REASON && !String(it.reason || "").trim()) {
+              setSnackbar({ severity: "warning", msg: "Please fill in the reasoning before submitting." });
+              return;
+            }
+
+            const durationMs = it.firstOpenPerf != null ? Math.round(performance.now() - it.firstOpenPerf) : 0;
+            const completedAtISO = new Date().toISOString();
+            const mapped = mapRatingsToOriginal(it);
+            const displayOrder = it.swapped ? ["B", "A"] : ["A", "B"]; 
+            const display = {
+              left_source: displayOrder[0],
+              right_source: displayOrder[1],
+              left_text: it.displayA,
+              right_text: it.displayB,
+              ui_ratings: { left: it.ratingA, right: it.ratingB },
+            };
+            const uiIndex = currentIndex + 1;
+
+        
+            const ratingClicks = (it.uiEvents || []).filter(e => e.type === 'rating_click');
+            const uiClickOrder = [];
+            for (const e of ratingClicks) {
+              if (e.ui_label && !uiClickOrder.includes(e.ui_label)) uiClickOrder.push(e.ui_label);
+            }
+
+            const payload = {
+              submissionId: (crypto && crypto.randomUUID ? crypto.randomUUID() : `id-${Date.now()}-${Math.random().toString(36).slice(2)}`),
+              createdAt: new Date().toISOString(),
+              timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+              userAgent: navigator.userAgent,
+              selectedCharts: [it.id],
+              responses: [
+                {
+                  chartId: it.id,
+                  insightA: it.originalA,
+                  ratingA: mapped.ratingA,
+                  insightB: it.originalB,
+                  ratingB: mapped.ratingB,
+                  reason: it.reason,
+                  _swapped: it.swapped,
+                  displayOrder,
+                  display,
+                  uiIndex,
+                  durationMs,
+                  firstViewAtISO: it.firstViewAtISO,
+                  completedAtISO,
+                  
+                  ui: {
+                    firstClicked: uiClickOrder[0] || null,  
+                    secondClicked: uiClickOrder[1] || null,  
+                    clickOrder: uiClickOrder,                
+                    events: it.uiEvents || [],               
+                  },
+                },
+              ],
+              prolific: { pid: PROLIFIC_PID, studyId: STUDY_ID, sessionId: SESSION_ID },
+            };
+
+            setSubmitting(true);
+            try {
+              if (!SUBMIT_URL || SUBMIT_URL.includes("YOUR-NGROK-SUBDOMAIN")) {
+                throw new Error("SUBMIT_URL not configured yet");
+              }
+              const res = await fetch(SUBMIT_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+              });
+              if (!res.ok) throw new Error(`Submit failed: ${res.status}`);
+
+              setItems((prev) => {
+                const copy = prev.slice();
+                copy[currentIndex] = { ...copy[currentIndex], submitted: true, lastViewStart: null, completedAtISO };
+                return copy;
+              });
+
+              setSnackbar({ severity: "success", msg: `Item #${currentIndex + 1} submitted in ${(durationMs / 1000).toFixed(1)}s.` });
+
+              setCurrentIndex((idx) => {
+                const nextIdx = items.findIndex((x, i) => i > idx && !x.submitted && i !== idx);
+                if (nextIdx !== -1) return nextIdx;
+                return Math.min(idx + 1, items.length - 1);
+              });
+            } catch (e) {
+              console.warn(e);
+              setSnackbar({ severity: "warning", msg: "Could not reach the server. Please check SUBMIT_URL." });
+            } finally {
+              setSubmitting(false);
+            }
+          }
+
+          const allSubmitted = items.length > 0 && items.every((it) => it.submitted);
+
+          return h(
+            ThemeProvider,
+            { theme },
+            h(CssBaseline, null),
+            h(
+              Box,
+              { sx: { width: "100%", px: 2 } },
+              h(
+                Stack,
+                { spacing: 2 },
+                loading && h(Box, null, h(LinearProgress, null), h(Typography, { variant: "body2", sx: { mt: 1 } }, "Loading charts & insights...")),
+                error && h(Alert, { severity: "error" }, String(error)),
+                !loading && !error && items.length > 0 && h(
+                  Box,
+                  null,
+                  h(CurrentCard, { items, currentIndex, handleRate, handleReason, handleSubmitCurrent, submitting }),
+                  h(
+                    Box,
+                    { className: "sticky-footer", sx: { py: 1, mt: 2 } },
+                    h(
+                      Stack,
+                      { direction: "row", alignItems: "center", spacing: 2 },
+                      h(
+                        Box,
+                        { sx: { flex: 1 } },
+                        h(LinearProgress, { variant: "determinate", value: progress }),
+                        h(Typography, { variant: "caption", color: "text.secondary" }, allSubmitted ? "All items submitted — thank you!" : `${progress}% complete`)
+                      ),
+                      allSubmitted ? h(Button, { variant: "contained", color: "success", onClick: () => { window.location.href = COMPLETION_URL; } }, "Finish & return to Prolific") : h(Box)
+                    )
+                  )
+                )
+              ),
+              h(
+                Snackbar,
+                { open: !!snackbar, autoHideDuration: 4000, onClose: () => setSnackbar(null), anchorOrigin: { vertical: "bottom", horizontal: "center" } },
+                snackbar && h(Alert, { severity: snackbar.severity, variant: "filled" }, snackbar.msg)
+              )
+            )
+          );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(React.createElement(App));
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,4421 @@
+key,,db,sql,vega,nl,,,,,,,,,,"
+"
+2311,,manufacturer,"SELECT Name , Market_Rate FROM furniture WHERE Furniture_ID NOT IN (SELECT Furniture_ID FROM furniture_manufacte)","{
+""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+""data"": {
+""values"": [
+{ ""Name"": ""Bench"", ""Market_Rate"": 3.5 },
+{ ""Name"": ""Four-poster bed"", ""Market_Rate"": 2 }
+]
+},
+""mark"": ""arc"",
+""encoding"": {
+""theta"": {
+""field"": ""Market_Rate"",
+""type"": ""quantitative""
+},
+""color"": {
+""field"": ""Name"",
+""type"": ""nominal"",
+""sort"": null
+}
+},
+""view"": { ""stroke"": null }
+}
+
+
+",Please give me a chart to show the market share of different furniture name,,,,,,,,,,
+2881,,student_assessment,"SELECT course_name , COUNT(course_name) FROM courses GROUP BY course_name","{
+""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",""description"": ""the ratio of each Name by Market_Rate."",
+""data"": {
+""values"": [
+{ ""course_name"": ""English"", ""COUNT(course_name)"": 1 },
+{ ""course_name"": ""French"", ""COUNT(course_name)"": 1 },
+{ ""course_name"": ""data structure"", ""COUNT(course_name)"": 1 },
+{ ""course_name"": ""statistics"", ""COUNT(course_name)"": 1 },
+{ ""course_name"": ""database"", ""COUNT(course_name)"": 1 },
+{ ""course_name"": ""Art history"", ""COUNT(course_name)"": 1 }
+]
+},
+""mark"": ""arc"",
+""encoding"": {
+""theta"": {
+""field"": ""COUNT(course_name)"",
+""type"": ""quantitative""
+},
+""color"": {
+""field"": ""course_name"",
+""type"": ""nominal"",
+""sort"": null
+}
+},
+""view"": { ""stroke"": null }
+}
+
+
+",Give me a chart to show how many course name from different course name.,,,,,,,,,,
+2506,,party_host,"SELECT Location , COUNT(Location) FROM party GROUP BY Location","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""data"": {
+    ""values"": [
+      { ""Location"": ""Heineken Music Hall Amsterdam"",                        ""COUNT(Location)"": 2 },
+      { ""Location"": ""Hemkade 48 Zaandam"",                                  ""COUNT(Location)"": 2 },
+      { ""Location"": ""Hemkade 48 Zaandam, Heineken Music Hall Amsterdam"",   ""COUNT(Location)"": 1 },
+      { ""Location"": ""RAI Amsterdam"",                                       ""COUNT(Location)"": 1 },
+      { ""Location"": ""Various locations"",                                   ""COUNT(Location)"": 2 }
+    ]
+  },
+  ""mark"": ""arc"",
+  ""encoding"": {
+    ""theta"": {
+      ""field"": ""COUNT(Location)"",
+      ""type"": ""quantitative""
+    },
+    ""color"": {
+      ""field"": ""Location"",
+      ""type"": ""nominal"",
+      ""sort"": null
+    }
+  }
+}",Give me the proportion about the location of each party,,,,,,,,,,
+1966,,inn_1,"SELECT bedType , count(*) FROM Rooms GROUP BY bedType","{
+""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+""data"": {
+""values"": [
+{ ""bedType"": ""Double"", ""count(*)"": 2 },
+{ ""bedType"": ""King"", ""count(*)"": 4 },
+{ ""bedType"": ""Queen"", ""count(*)"": 4 }
+]
+},
+""mark"": ""arc"",
+""encoding"": {
+""theta"": {
+""field"": ""count(*)"",
+""type"": ""quantitative""
+},
+""color"": {
+""field"": ""bedType"",
+""type"": ""nominal"",
+""sort"": null
+}
+}
+}
+
+
+",Return a chart on what are the number of rooms for each bed type,,,,,,,,,,
+252,,behavior_monitoring,"SELECT other_details , SUM(monthly_rental) FROM Student_Addresses GROUP BY other_details ORDER BY monthly_rental DESC","{
+""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+""data"": {
+""values"": [
+{ ""other_details"": ""apartment"", ""SUM(monthly_rental)"": 7350.012 },
+{ ""other_details"": ""house"", ""SUM(monthly_rental)"": 11474.009 }
+]
+},
+""mark"": ""arc"",
+""encoding"": {
+""theta"": {
+""field"": ""SUM(monthly_rental)"",
+""type"": ""quantitative""
+},
+""color"": {
+""field"": ""other_details"",
+""type"": ""nominal"",
+""sort"": null
+}
+}
+}",Return a chart about the proportion of  other_details and the sum of monthly_rental.,,,,,,,,,,
+2630,,protein_institute,"SELECT Type , sum(enrollment) FROM institution GROUP BY TYPE","{
+""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+""data"": {
+""values"": [
+{ ""Type"": ""Private"", ""sum(enrollment)"": 7868 },
+{ ""Type"": ""Public"", ""sum(enrollment)"": 5267 },
+{ ""Type"": ""Tribal"", ""sum(enrollment)"": 1000 }
+]
+},
+""mark"": ""arc"",
+""encoding"": {
+""theta"": {
+""field"": ""sum(enrollment)"",
+""type"": ""quantitative""
+},
+""color"": {
+""field"": ""Type"",
+""type"": ""nominal""
+}
+}
+}
+
+
+
+
+
+
+
+",Please tell me the proportion of total enrollment for each type ,,,,,,,,,,
+312,,bike_1,"SELECT end_station_name , COUNT(end_station_name) FROM trip GROUP BY end_station_name ORDER BY id LIMIT 3","{
+""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+""data"": {
+""values"": [
+{
+""end_station_name"": ""San Francisco Caltrain 2 (330 Townsend)"",
+""COUNT(end_station_name)"": 777
+},
+{
+""end_station_name"": ""Harry Bridges Plaza (Ferry Building)"",
+""COUNT(end_station_name)"": 541
+},
+{
+""end_station_name"": ""2nd at Townsend"",
+""COUNT(end_station_name)"": 507
+}
+]
+},
+""mark"": ""arc"",
+""encoding"": {
+""theta"": {
+""field"": ""COUNT(end_station_name)"",
+""type"": ""quantitative""
+},
+""color"": {
+""field"": ""end_station_name"",
+""type"": ""nominal""
+}
+}
+}
+
+
+
+",Give me the proportion of end stations for the trips with the three oldest id,,,,,,,,,,
+8,,activity_1,"SELECT Rank , COUNT(Rank) FROM Faculty GROUP BY Rank","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""Pie chart example of Rank counts"",
+  ""data"": {
+    ""values"": [
+      { ""Rank"": ""AssocProf"", ""Count"": 8 },
+      { ""Rank"": ""AsstProf"", ""Count"": 15 },
+      { ""Rank"": ""Instructor"", ""Count"": 8 },
+      { ""Rank"": ""Professor"", ""Count"": 27 }
+    ]
+  },
+  ""mark"": ""arc"",
+  ""encoding"": {
+    ""theta"": {
+      ""field"": ""Count"",
+      ""type"": ""quantitative""
+    },
+    ""color"": {
+      ""field"": ""Rank"",
+      ""type"": ""nominal""
+    }
+  }
+}",What is the number of the faculty members for each rank? ,,,,,,,,,,
+2489,,news_report,"SELECT Nationality , SUM(Age) FROM journalist GROUP BY Nationality","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY Nationality"",
+  ""data"": {
+    ""values"": [
+      { ""Nationality"": ""England"",         ""SUM(Age)"": 308 },
+      { ""Nationality"": ""Northern Ireland"",""SUM(Age)"": 29  },
+      { ""Nationality"": ""Wales"",           ""SUM(Age)"": 27  }
+    ]
+  },
+  ""mark"": ""arc"",
+  ""encoding"": {
+    ""theta"": {
+      ""field"": ""SUM(Age)"",
+      ""type"": ""quantitative""
+    },
+    ""color"": {
+      ""field"": ""Nationality"",
+      ""type"": ""nominal"",
+      ""sort"": null
+    }
+  },
+  ""view"": { ""stroke"": null }
+}",What are the nationalities and the total ages of journalists.,,,,,,,,,,
+1014,,customers_campaigns_ecommerce,"SELECT product_category , count(*) FROM mailshot_campaigns GROUP BY product_category","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      { ""product_category"": ""clothes"", ""count(*)"": 9 },
+      { ""product_category"": ""food"",    ""count(*)"": 11 }
+    ]
+  },
+  ""mark"": ""arc"",
+  ""encoding"": {
+    ""theta"": {
+      ""field"": ""count(*)"",
+      ""type"": ""quantitative""
+    },
+    ""color"": {
+      ""field"": ""product_category"",
+      ""type"": ""nominal"",
+      ""sort"": null
+    }
+  },
+  ""view"": {
+    ""stroke"": null
+  }
+}
+
+",Show all distinct product categories along with the number of mailshots in each category ,,,,,,,,,,
+3269@y_name@ASC,,world_1,"SELECT Continent , avg(LifeExpectancy) FROM country GROUP BY Continent ORDER BY avg(LifeExpectancy) ASC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""Average Life Expectancy by Continent (replace NULL with 0)"",
+  ""data"": {
+    ""values"": [
+      { ""Continent"": ""Antarctica"",   ""avg(LifeExpectancy)"": null },
+      { ""Continent"": ""Africa"",       ""avg(LifeExpectancy)"": 52.5719298245614 },
+      { ""Continent"": ""Asia"",         ""avg(LifeExpectancy)"": 67.4411764705882 },
+      { ""Continent"": ""Oceania"",      ""avg(LifeExpectancy)"": 69.715 },
+      { ""Continent"": ""South America"",""avg(LifeExpectancy)"": 70.9461538461538 },
+      { ""Continent"": ""North America"",""avg(LifeExpectancy)"": 72.9918918918919 },
+      { ""Continent"": ""Europe"",       ""avg(LifeExpectancy)"": 75.1477272727273 }
+    ]
+  },
+  ""transform"": [
+    {
+      ""calculate"": ""datum['avg(LifeExpectancy)'] == null ? 0 : datum['avg(LifeExpectancy)']"",
+      ""as"": ""avgLife""
+    }
+  ],
+  ""mark"": ""bar"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Continent"",
+      ""type"": ""nominal"",
+      ""sort"": {
+        ""field"": ""avgLife"",
+        ""order"": ""ascending""
+      }
+    },
+    ""y"": {
+      ""field"": ""avgLife"",
+      ""type"": ""quantitative""
+    }
+  }
+}
+
+","Draw a chart of continent versus mean lifeexpectancy, and could you show from low to high by the total number?",,,,,,,,,,
+2517@y_name@ASC,,party_people,"SELECT Minister , COUNT(Minister) FROM party WHERE party_name != 'Progress Party' GROUP BY Minister ORDER BY COUNT(Minister) ASC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY Minister"",
+  ""data"": {
+    ""values"": [
+      { ""Minister"": ""Dr. Kwame Nkrumah (MP)"",  ""COUNT(Minister)"": 1 },
+      { ""Minister"": ""Imoru Egala (MP)"",       ""COUNT(Minister)"": 1 },
+      { ""Minister"": ""Ebenezer Ako-Adjei (MP)"",""COUNT(Minister)"": 2 }
+    ]
+  },
+  ""mark"": ""bar"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Minister"",
+      ""type"": ""nominal"",
+      ""sort"": {
+        ""field"": ""COUNT(Minister)"",
+        ""order"": ""ascending""
+      }
+    },
+    ""y"": {
+      ""field"": ""COUNT(Minister)"",
+      ""type"": ""quantitative""
+    }
+  }
+}
+
+
+
+","Which ministers are associated with parties other than the 'Progress Party', and how many times does each minister appear, listed in ascending order?",,,,,,,,,,
+3214@x_name@DESC,,wedding,"SELECT Country , COUNT(Country) FROM people WHERE age < (SELECT avg(age) FROM people) GROUP BY Country ORDER BY Country DESC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY Country"",
+  ""data"": {
+    ""values"": [
+      { ""Country"": ""United States"", ""COUNT(Country)"": 5 },
+      { ""Country"": ""Australia"",     ""COUNT(Country)"": 1 }
+    ]
+  },
+  ""mark"": ""bar"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Country"",
+      ""type"": ""nominal"",
+      ""sort"": ""descending""
+    },
+    ""y"": {
+      ""field"": ""COUNT(Country)"",
+      ""type"": ""quantitative""
+    }
+  }
+}
+
+
+
+","Show me a chart about the number of countries for all people whose age is smaller than the average, and could you display in desc by the country?",,,,,,,,,,
+665,,college_3,"SELECT Days , AVG(Credits) FROM COURSE GROUP BY Days ORDER BY AVG(Credits)","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY Days, ORDER BY AVG(Credits)"",
+  ""data"": {
+    ""values"": [
+      { ""Days"": ""Th"",   ""AVG(Credits)"": 2.83333333333333 },
+      { ""Days"": ""W"",    ""AVG(Credits)"": 2.2 },
+      { ""Days"": ""MT"",   ""AVG(Credits)"": 3.0 },
+      { ""Days"": ""M"",    ""AVG(Credits)"": 3.0 },
+      { ""Days"": ""MTW"",  ""AVG(Credits)"": 3.27027027027027 },
+      { ""Days"": ""MW"",   ""AVG(Credits)"": 3.0 },
+      { ""Days"": ""T"",    ""AVG(Credits)"": 3.0 },
+      { ""Days"": ""TTh"",  ""AVG(Credits)"": 3.0 },
+      { ""Days"": ""TW"",   ""AVG(Credits)"": 3.0 },
+      { ""Days"": ""ThF"",  ""AVG(Credits)"": 2.75 },
+      { ""Days"": ""Tu"",   ""AVG(Credits)"": 3.0 }
+    ]
+  },
+  ""mark"": ""bar"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Days"",
+      ""type"": ""nominal"",
+      ""sort"": {
+        ""field"": ""AVG(Credits)"",
+        ""order"": ""ascending""
+      }
+    },
+    ""y"": {
+      ""field"": ""AVG(Credits)"",
+      ""type"": ""quantitative""
+    }
+  }
+}
+
+
+
+","What is the average number of credits for each day, listed in ascending order of average credits?",,,,,,,,,,
+2643@x_name@DESC,,race_track,"SELECT Class , COUNT(Class) FROM race GROUP BY Class ORDER BY Class DESC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY Class"",
+  ""data"": {
+    ""values"": [
+      { ""Class"": ""GT"",    ""COUNT(Class)"": 2 },
+      { ""Class"": ""DP/GT"", ""COUNT(Class)"": 5 }
+    ]
+  },
+  ""mark"": ""bar"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Class"",
+      ""type"": ""nominal"",
+      ""sort"": ""descending""
+    },
+    ""y"": {
+      ""field"": ""COUNT(Class)"",
+      ""type"": ""quantitative""
+    }
+  }
+}","Show me how many in each class of all races, and I want to order in descending by the Class.",,,,,,,,,,
+2800@y_name@ASC,,soccer_2,"SELECT state , min(enr) FROM college GROUP BY state ORDER BY min(enr) ASC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      { ""state"": ""AZ"", ""min(enr)"": 12000 },
+      { ""state"": ""LA"", ""min(enr)"": 18000 },
+      { ""state"": ""FL"", ""min(enr)"": 19000 },
+      { ""state"": ""OK"", ""min(enr)"": 22000 }
+    ]
+  },
+  ""mark"": ""bar"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""state"",
+      ""type"": ""nominal"",
+      ""sort"": {
+        ""field"": ""min(enr)"",
+        ""order"": ""ascending""
+      }
+    },
+    ""y"": {
+      ""field"": ""min(enr)"",
+      ""type"": ""quantitative""
+    }
+  }
+}
+
+","Show the smallest enrollment of each state, and could you rank in ascending by the total number?",,,,,,,,,,
+829@x_name@ASC,,cre_Docs_and_Epenses,"SELECT Document_Type_Description , COUNT(Document_Type_Description) FROM Ref_document_types GROUP BY Document_Type_Description ORDER BY Document_Type_Description ASC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY Document_Type_Description"",
+  ""data"": {
+    ""values"": [
+      { ""Document_Type_Description"": ""excellent"", ""COUNT(Document_Type_Description)"": 2 },
+      { ""Document_Type_Description"": ""fun"",       ""COUNT(Document_Type_Description)"": 1 },
+      { ""Document_Type_Description"": ""good"",      ""COUNT(Document_Type_Description)"": 1 },
+      { ""Document_Type_Description"": ""very good"", ""COUNT(Document_Type_Description)"": 1 }
+    ]
+  },
+  ""mark"": ""bar"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Document_Type_Description"",
+      ""type"": ""nominal"",
+      ""sort"": ""ascending""
+    },
+    ""y"": {
+      ""field"": ""COUNT(Document_Type_Description)"",
+      ""type"": ""quantitative""
+    }
+  }
+}
+
+
+","How many times does each document type description appear, listed in alphabetical order?",,,,,,,,,,
+2308@y_name@DESC,,manufacturer,"SELECT Name , Num_of_Component FROM furniture WHERE Num_of_Component > 10 ORDER BY Num_of_Component DESC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      { ""Name"": ""Billiard table"", ""Num_of_Component"": 14 },
+      { ""Name"": ""Dining set"",     ""Num_of_Component"": 12 }
+    ]
+  },
+  ""mark"": ""bar"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Name"",
+      ""type"": ""nominal"",
+      ""sort"": {
+        ""field"": ""Num_of_Component"",
+        ""order"": ""descending""
+      }
+    },
+    ""y"": {
+      ""field"": ""Num_of_Component"",
+      ""type"": ""quantitative""
+    }
+  }
+}
+
+","Visualize the name and their component amounts for all furnitures that have more than 10 components, sort from high to low by the total number please.",,,,,,,,,,
+435@x_name@DESC,,chinook_1,"SELECT Phone , COUNT(Phone) FROM EMPLOYEE GROUP BY Phone ORDER BY Phone DESC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY Phone"",
+  ""data"": {
+    ""values"": [
+      { ""Phone"": ""1 (780) 836-9987"",   ""COUNT(Phone)"": 1 },
+      { ""Phone"": ""+1 (780) 428-9482"",  ""COUNT(Phone)"": 1 },
+      { ""Phone"": ""+1 (403) 467-3351"",  ""COUNT(Phone)"": 1 },
+      { ""Phone"": ""+1 (403) 456-9986"",  ""COUNT(Phone)"": 1 },
+      { ""Phone"": ""+1 (403) 263-4423"",  ""COUNT(Phone)"": 1 },
+      { ""Phone"": ""+1 (403) 262-3443"",  ""COUNT(Phone)"": 2 },
+      { ""Phone"": ""+1 (403) 246-9887"",  ""COUNT(Phone)"": 1 }
+    ]
+  },
+  ""mark"": ""bar"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Phone"",
+      ""type"": ""nominal"",
+      ""sort"": ""descending""
+    },
+    ""y"": {
+      ""field"": ""COUNT(Phone)"",
+      ""type"": ""quantitative""
+    }
+  }
+}
+
+
+","List the phone numbers of all employees, and count them by a bar chart",,,,,,,,,,
+733@y_name@DESC,,cre_Doc_Template_Mgt,"SELECT Template_Type_Code , COUNT(Template_Type_Code) FROM Templates GROUP BY Template_Type_Code ORDER BY COUNT(Template_Type_Code) DESC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      { ""Template_Type_Code"": ""PP"",  ""COUNT(Template_Type_Code)"": 6 },
+      { ""Template_Type_Code"": ""BK"",  ""COUNT(Template_Type_Code)"": 6 },
+      { ""Template_Type_Code"": ""PPT"", ""COUNT(Template_Type_Code)"": 3 },
+      { ""Template_Type_Code"": ""AD"",  ""COUNT(Template_Type_Code)"": 3 },
+      { ""Template_Type_Code"": ""CV"",  ""COUNT(Template_Type_Code)"": 2 }
+    ]
+  },
+  ""mark"": ""bar"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Template_Type_Code"",
+      ""type"": ""nominal"",
+      ""sort"": {
+        ""field"": ""COUNT(Template_Type_Code)"",  
+        ""order"": ""descending""              
+      }
+    },
+    ""y"": {
+      ""field"": ""COUNT(Template_Type_Code)"",
+      ""type"": ""quantitative""
+    }
+  }
+}",How many templates for each template type code? Rank by the the number of template type code in desc.,,,,,,,,,,
+1611,,hr_1,"SELECT SALARY , COMMISSION_PCT FROM employees WHERE salary BETWEEN 8000 AND 12000 AND commission_pct != 'null' OR department_id != 40","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      { ""SALARY"": 24000, ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 17000, ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 17000, ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 9000,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 6000,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 4800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 4800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 4200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 12000, ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 9000,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 8200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 7700,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 7800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 6900,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 11000, ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3100,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2900,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2600,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 8000,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 8200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 7900,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 6500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 5800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2700,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2400,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3300,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2100,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3300,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2900,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2400,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3600,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2700,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3100,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2600,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 14000, ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 13500, ""COMMISSION_PCT"": 0.4 },
+      { ""SALARY"": 12000, ""COMMISSION_PCT"": 0.3 },
+      { ""SALARY"": 11000, ""COMMISSION_PCT"": 0.3 },
+      { ""SALARY"": 10500, ""COMMISSION_PCT"": 0.3 },
+      { ""SALARY"": 10000, ""COMMISSION_PCT"": 0.2 },
+      { ""SALARY"": 9500,  ""COMMISSION_PCT"": 0.3 },
+      { ""SALARY"": 9000,  ""COMMISSION_PCT"": 0.25 },
+      { ""SALARY"": 8000,  ""COMMISSION_PCT"": 0.25 },
+      { ""SALARY"": 7500,  ""COMMISSION_PCT"": 0.2 },
+      { ""SALARY"": 7000,  ""COMMISSION_PCT"": 0.2 },
+      { ""SALARY"": 10000, ""COMMISSION_PCT"": 0.15 },
+      { ""SALARY"": 9500,  ""COMMISSION_PCT"": 0.35 },
+      { ""SALARY"": 9000,  ""COMMISSION_PCT"": 0.35 },
+      { ""SALARY"": 8000,  ""COMMISSION_PCT"": 0.35 },
+      { ""SALARY"": 7500,  ""COMMISSION_PCT"": 0.3 },
+      { ""SALARY"": 7000,  ""COMMISSION_PCT"": 0.3 },
+      { ""SALARY"": 10500, ""COMMISSION_PCT"": 0.25 },
+      { ""SALARY"": 9500,  ""COMMISSION_PCT"": 0.25 },
+      { ""SALARY"": 7200,  ""COMMISSION_PCT"": 0.15 },
+      { ""SALARY"": 6800,  ""COMMISSION_PCT"": 0.1 },
+      { ""SALARY"": 6400,  ""COMMISSION_PCT"": 0.1 },
+      { ""SALARY"": 6200,  ""COMMISSION_PCT"": 0.1 },
+      { ""SALARY"": 11500, ""COMMISSION_PCT"": 0.1 },
+      { ""SALARY"": 10000, ""COMMISSION_PCT"": 0.25 },
+      { ""SALARY"": 9600,  ""COMMISSION_PCT"": 0.2 },
+      { ""SALARY"": 7400,  ""COMMISSION_PCT"": 0.2 },
+      { ""SALARY"": 7300,  ""COMMISSION_PCT"": 0.15 },
+      { ""SALARY"": 6100,  ""COMMISSION_PCT"": 0.15 },
+      { ""SALARY"": 11000, ""COMMISSION_PCT"": 0.1 },
+      { ""SALARY"": 8800,  ""COMMISSION_PCT"": 0.3 },
+      { ""SALARY"": 8600,  ""COMMISSION_PCT"": 0.25 },
+      { ""SALARY"": 8400,  ""COMMISSION_PCT"": 0.2 },
+      { ""SALARY"": 7000,  ""COMMISSION_PCT"": 0.2 },
+      { ""SALARY"": 6200,  ""COMMISSION_PCT"": 0.15 },
+      { ""SALARY"": 3200,  ""COMMISSION_PCT"": 0.1 },
+      { ""SALARY"": 3100,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 4200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 4100,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3400,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3000,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3600,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2900,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 4000,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3900,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3100,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3000,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2600,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2600,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 4400,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 13000, ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 6000,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 10000, ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 12000, ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 8300,  ""COMMISSION_PCT"": 0 }
+    ]
+  },
+  ""mark"": ""point"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""SALARY"",
+      ""type"": ""quantitative""
+    },
+    ""y"": {
+      ""field"": ""COMMISSION_PCT"",
+      ""type"": ""quantitative""
+    }
+  }
+}
+
+
+
+","For those employees whose salary is in the range of 8000 and 12000 and commission is not null or department number does not equal to 40, show me about the correlation between  salary and  commission_pct  in a scatter chart.",,,,,,,,,,
+1574,,hr_1,"SELECT SALARY , COMMISSION_PCT FROM employees WHERE first_name LIKE '%D%' OR first_name LIKE '%S%'","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      { ""SALARY"": 24000, ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 12000, ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 11500, ""COMMISSION_PCT"": 0.25 },
+      { ""SALARY"": 11000, ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 11000, ""COMMISSION_PCT"": 0.3 },
+      { ""SALARY"": 10000, ""COMMISSION_PCT"": 0.2 },
+      { ""SALARY"": 9500,  ""COMMISSION_PCT"": 0.25 },
+      { ""SALARY"": 9500,  ""COMMISSION_PCT"": 0.15 },
+      { ""SALARY"": 9000,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 9000,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 8800,  ""COMMISSION_PCT"": 0.25 },
+      { ""SALARY"": 8200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 8000,  ""COMMISSION_PCT"": 0.2 },
+      { ""SALARY"": 8000,  ""COMMISSION_PCT"": 0.3 },
+      { ""SALARY"": 7800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 7700,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 7500,  ""COMMISSION_PCT"": 0.3 },
+      { ""SALARY"": 7000,  ""COMMISSION_PCT"": 0.25 },
+      { ""SALARY"": 6900,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 6800,  ""COMMISSION_PCT"": 0.1 },
+      { ""SALARY"": 6500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 6500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 6400,  ""COMMISSION_PCT"": 0.1 },
+      { ""SALARY"": 6200,  ""COMMISSION_PCT"": 0.1 },
+      { ""SALARY"": 6100,  ""COMMISSION_PCT"": 0.1 },
+      { ""SALARY"": 4800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 4200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 4200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 4100,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 4000,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3600,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3300,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3100,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3100,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2900,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2600,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2600,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2600,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2400,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2200,  ""COMMISSION_PCT"": 0 }
+    ]
+  },
+  ""mark"": ""point"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""SALARY"",
+      ""type"": ""quantitative""
+    },
+    ""y"": {
+      ""field"": ""COMMISSION_PCT"",
+      ""type"": ""quantitative""
+    }
+  }
+}
+
+
+","For all employees who have the letters D or S in their first name, show me about the correlation between  salary and  commission_pct.",,,,,,,,,,
+1741,,hr_1,"SELECT SALARY , COMMISSION_PCT FROM employees WHERE employee_id NOT IN (SELECT employee_id FROM job_history)","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      { ""SALARY"": 24000, ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 9000,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 6000,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 4800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 4800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 4200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 12000, ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 9000,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 8200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 7700,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 7800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 6900,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3100,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2900,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2600,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 8000,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 8200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 6500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 5800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2700,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2400,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3300,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2100,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3300,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2900,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2400,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3600,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2700,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3100,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2600,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 14000, ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 13500, ""COMMISSION_PCT"": 0.4 },
+      { ""SALARY"": 12000, ""COMMISSION_PCT"": 0.3 },
+      { ""SALARY"": 11000, ""COMMISSION_PCT"": 0.3 },
+      { ""SALARY"": 10500, ""COMMISSION_PCT"": 0.3 },
+      { ""SALARY"": 10000, ""COMMISSION_PCT"": 0.2 },
+      { ""SALARY"": 9500,  ""COMMISSION_PCT"": 0.3 },
+      { ""SALARY"": 9000,  ""COMMISSION_PCT"": 0.25 },
+      { ""SALARY"": 8000,  ""COMMISSION_PCT"": 0.25 },
+      { ""SALARY"": 7500,  ""COMMISSION_PCT"": 0.2 },
+      { ""SALARY"": 7000,  ""COMMISSION_PCT"": 0.2 },
+      { ""SALARY"": 10000, ""COMMISSION_PCT"": 0.15 },
+      { ""SALARY"": 9500,  ""COMMISSION_PCT"": 0.35 },
+      { ""SALARY"": 9000,  ""COMMISSION_PCT"": 0.35 },
+      { ""SALARY"": 8000,  ""COMMISSION_PCT"": 0.35 },
+      { ""SALARY"": 7500,  ""COMMISSION_PCT"": 0.3 },
+      { ""SALARY"": 7000,  ""COMMISSION_PCT"": 0.3 },
+      { ""SALARY"": 10500, ""COMMISSION_PCT"": 0.25 },
+      { ""SALARY"": 9500,  ""COMMISSION_PCT"": 0.25 },
+      { ""SALARY"": 7200,  ""COMMISSION_PCT"": 0.15 },
+      { ""SALARY"": 6800,  ""COMMISSION_PCT"": 0.1 },
+      { ""SALARY"": 6400,  ""COMMISSION_PCT"": 0.1 },
+      { ""SALARY"": 6200,  ""COMMISSION_PCT"": 0.1 },
+      { ""SALARY"": 11500, ""COMMISSION_PCT"": 0.1 },
+      { ""SALARY"": 10000, ""COMMISSION_PCT"": 0.25 },
+      { ""SALARY"": 9600,  ""COMMISSION_PCT"": 0.2 },
+      { ""SALARY"": 7400,  ""COMMISSION_PCT"": 0.15 },
+      { ""SALARY"": 7300,  ""COMMISSION_PCT"": 0.15 },
+      { ""SALARY"": 6100,  ""COMMISSION_PCT"": 0.1 },
+      { ""SALARY"": 11000, ""COMMISSION_PCT"": 0.1 },
+      { ""SALARY"": 8800,  ""COMMISSION_PCT"": 0.3 },
+      { ""SALARY"": 8400,  ""COMMISSION_PCT"": 0.2 },
+      { ""SALARY"": 7000,  ""COMMISSION_PCT"": 0.2 },
+      { ""SALARY"": 6200,  ""COMMISSION_PCT"": 0.15 },
+      { ""SALARY"": 3200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3100,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 4200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 4100,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3400,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3000,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3600,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2900,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 4000,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3900,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3200,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2800,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3100,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 3000,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2600,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 2600,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 6000,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 6500,  ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 10000, ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 12000, ""COMMISSION_PCT"": 0 },
+      { ""SALARY"": 8300,  ""COMMISSION_PCT"": 0 }
+    ]
+  },
+  ""mark"": ""point"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""SALARY"",
+      ""type"": ""quantitative""
+    },
+    ""y"": {
+      ""field"": ""COMMISSION_PCT"",
+      ""type"": ""quantitative""
+    }
+  }
+}
+
+
+
+","For those employees who did not have any job in the past, show me about the correlation between  salary and  commission_pct",,,,,,,,,,
+674,,college_3,"SELECT Credits , DNO FROM COURSE ORDER BY Credits","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      { ""Credits"": 1, ""DNO"": 600 },
+      { ""Credits"": 1, ""DNO"": 600 },
+      { ""Credits"": 1, ""DNO"": 600 },
+      { ""Credits"": 1, ""DNO"": 50 },
+      { ""Credits"": 2, ""DNO"": 550 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 600 },
+      { ""Credits"": 3, ""DNO"": 550 },
+      { ""Credits"": 3, ""DNO"": 550 },
+      { ""Credits"": 3, ""DNO"": 550 },
+      { ""Credits"": 3, ""DNO"": 550 },
+      { ""Credits"": 3, ""DNO"": 550 },
+      { ""Credits"": 3, ""DNO"": 550 },
+      { ""Credits"": 3, ""DNO"": 550 },
+      { ""Credits"": 3, ""DNO"": 550 },
+      { ""Credits"": 3, ""DNO"": 550 },
+      { ""Credits"": 3, ""DNO"": 550 },
+      { ""Credits"": 3, ""DNO"": 550 },
+      { ""Credits"": 3, ""DNO"": 550 },
+      { ""Credits"": 3, ""DNO"": 520 },
+      { ""Credits"": 3, ""DNO"": 520 },
+      { ""Credits"": 3, ""DNO"": 520 },
+      { ""Credits"": 3, ""DNO"": 520 },
+      { ""Credits"": 3, ""DNO"": 520 },
+      { ""Credits"": 3, ""DNO"": 520 },
+      { ""Credits"": 3, ""DNO"": 520 },
+      { ""Credits"": 3, ""DNO"": 520 },
+      { ""Credits"": 3, ""DNO"": 520 },
+      { ""Credits"": 3, ""DNO"": 520 },
+      { ""Credits"": 3, ""DNO"": 520 },
+      { ""Credits"": 3, ""DNO"": 520 },
+      { ""Credits"": 3, ""DNO"": 520 },
+      { ""Credits"": 3, ""DNO"": 520 },
+      { ""Credits"": 3, ""DNO"": 520 },
+      { ""Credits"": 3, ""DNO"": 520 },
+      { ""Credits"": 3, ""DNO"": 50 },
+      { ""Credits"": 3, ""DNO"": 50 },
+      { ""Credits"": 3, ""DNO"": 50 },
+      { ""Credits"": 3, ""DNO"": 50 },
+      { ""Credits"": 3, ""DNO"": 50 },
+      { ""Credits"": 3, ""DNO"": 50 },
+      { ""Credits"": 3, ""DNO"": 50 },
+      { ""Credits"": 3, ""DNO"": 50 },
+      { ""Credits"": 4, ""DNO"": 550 },
+      { ""Credits"": 4, ""DNO"": 550 },
+      { ""Credits"": 4, ""DNO"": 550 },
+      { ""Credits"": 4, ""DNO"": 550 },
+      { ""Credits"": 4, ""DNO"": 550 },
+      { ""Credits"": 4, ""DNO"": 550 },
+      { ""Credits"": 4, ""DNO"": 550 },
+      { ""Credits"": 4, ""DNO"": 550 },
+      { ""Credits"": 4, ""DNO"": 520 },
+      { ""Credits"": 4, ""DNO"": 520 },
+      { ""Credits"": 4, ""DNO"": 520 },
+      { ""Credits"": 4, ""DNO"": 50 }
+    ]
+  },
+  ""mark"": ""point"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Credits"",
+      ""type"": ""quantitative""
+    },
+    ""y"": {
+      ""field"": ""DNO"",
+      ""type"": ""quantitative""
+    }
+  }
+}",Show me about the correlation between  Credits and  DNO.,,,,,,,,,,
+354,,body_builder,"SELECT Snatch , Total FROM body_builder","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""Scatter plot of Snatch vs. Total"",
+  ""data"": {
+    ""values"": [
+      { ""Snatch"": 142.5, ""Total"": 317.5 },
+      { ""Snatch"": 137.5, ""Total"": 315 },
+      { ""Snatch"": 140,   ""Total"": 315 },
+      { ""Snatch"": 137.5, ""Total"": 312.5 },
+      { ""Snatch"": 130,   ""Total"": 292.5 }
+    ]
+  },
+  ""mark"": ""point"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Snatch"",
+      ""type"": ""quantitative"",
+      ""title"": ""Snatch""
+    },
+    ""y"": {
+      ""field"": ""Total"",
+      ""type"": ""quantitative"",
+      ""title"": ""Total""
+    }
+  },
+  ""width"": 400,
+  ""height"": 300
+}",I want to know the relationship between Snatch and Total.,,,,,,,,,,
+4009,,car_1,"SELECT Horsepower, Accelerate FROM cars_data where Edispl > 200","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      { ""Horsepower"": 130, ""Accelerate"": 12.0 },
+      { ""Horsepower"": 165, ""Accelerate"": 11.5 },
+      { ""Horsepower"": 150, ""Accelerate"": 11.0 },
+      { ""Horsepower"": 150, ""Accelerate"": 12.0 },
+      { ""Horsepower"": 140, ""Accelerate"": 10.5 },
+      { ""Horsepower"": 198, ""Accelerate"": 10.0 },
+      { ""Horsepower"": 220, ""Accelerate"": 9.0 },
+      { ""Horsepower"": 215, ""Accelerate"": 8.5 },
+      { ""Horsepower"": 225, ""Accelerate"": 10.0 },
+      { ""Horsepower"": 190, ""Accelerate"": 8.5 },
+      { ""Horsepower"": 165, ""Accelerate"": 11.5 },
+      { ""Horsepower"": 153, ""Accelerate"": 11.0 },
+      { ""Horsepower"": 175, ""Accelerate"": 10.5 },
+      { ""Horsepower"": 175, ""Accelerate"": 11.0 },
+      { ""Horsepower"": 170, ""Accelerate"": 10.0 },
+      { ""Horsepower"": 160, ""Accelerate"": 8.0 },
+      { ""Horsepower"": 140, ""Accelerate"": 8.0 },
+      { ""Horsepower"": 150, ""Accelerate"": 9.5 },
+      { ""Horsepower"": 225, ""Accelerate"": 10.0 },
+      { ""Horsepower"": 215, ""Accelerate"": 14.0 },
+      { ""Horsepower"": 200, ""Accelerate"": 15.0 },
+      { ""Horsepower"": 210, ""Accelerate"": 13.5 },
+      { ""Horsepower"": 193, ""Accelerate"": 18.5 },
+      { ""Horsepower"": 100, ""Accelerate"": 13.0 },
+      { ""Horsepower"": 105, ""Accelerate"": 15.5 },
+      { ""Horsepower"": 100, ""Accelerate"": 15.5 },
+      { ""Horsepower"": 88,  ""Accelerate"": 15.5 },
+      { ""Horsepower"": 100, ""Accelerate"": 15.5 },
+      { ""Horsepower"": 165, ""Accelerate"": 12.0 },
+      { ""Horsepower"": 175, ""Accelerate"": 11.5 },
+      { ""Horsepower"": 153, ""Accelerate"": 13.5 },
+      { ""Horsepower"": 150, ""Accelerate"": 13.0 },
+      { ""Horsepower"": 180, ""Accelerate"": 11.5 },
+      { ""Horsepower"": 170, ""Accelerate"": 12.0 },
+      { ""Horsepower"": 175, ""Accelerate"": 12.0 },
+      { ""Horsepower"": 110, ""Accelerate"": 13.5 },
+      { ""Horsepower"": 100, ""Accelerate"": 15.0 },
+      { ""Horsepower"": 88,  ""Accelerate"": 14.5 },
+      { ""Horsepower"": 165, ""Accelerate"": 12.0 },
+      { ""Horsepower"": 175, ""Accelerate"": 12.0 },
+      { ""Horsepower"": 150, ""Accelerate"": 13.5 },
+      { ""Horsepower"": 153, ""Accelerate"": 13.0 },
+      { ""Horsepower"": 150, ""Accelerate"": 11.5 },
+      { ""Horsepower"": 208, ""Accelerate"": 11.0 },
+      { ""Horsepower"": 155, ""Accelerate"": 13.5 },
+      { ""Horsepower"": 160, ""Accelerate"": 13.5 },
+      { ""Horsepower"": 190, ""Accelerate"": 12.5 },
+      { ""Horsepower"": 150, ""Accelerate"": 12.5 },
+      { ""Horsepower"": 130, ""Accelerate"": 14.0 },
+      { ""Horsepower"": 140, ""Accelerate"": 16.0 },
+      { ""Horsepower"": 150, ""Accelerate"": 14.0 },
+      { ""Horsepower"": 175, ""Accelerate"": 13.0 },
+      { ""Horsepower"": 150, ""Accelerate"": 11.5 },
+      { ""Horsepower"": 145, ""Accelerate"": 13.0 },
+      { ""Horsepower"": 137, ""Accelerate"": 14.5 },
+      { ""Horsepower"": 150, ""Accelerate"": 12.5 },
+      { ""Horsepower"": 198, ""Accelerate"": 11.5 },
+      { ""Horsepower"": 150, ""Accelerate"": 12.0 },
+      { ""Horsepower"": 158, ""Accelerate"": 13.0 },
+      { ""Horsepower"": 150, ""Accelerate"": 14.5 },
+      { ""Horsepower"": 215, ""Accelerate"": 11.0 },
+      { ""Horsepower"": 225, ""Accelerate"": 11.0 },
+      { ""Horsepower"": 175, ""Accelerate"": 11.0 },
+      { ""Horsepower"": 105, ""Accelerate"": 16.5 },
+      { ""Horsepower"": 100, ""Accelerate"": 18.0 },
+      { ""Horsepower"": 100, ""Accelerate"": 16.0 },
+      { ""Horsepower"": 88,  ""Accelerate"": 16.5 },
+      { ""Horsepower"": 150, ""Accelerate"": 14.0 },
+      { ""Horsepower"": 167, ""Accelerate"": 12.5 },
+      { ""Horsepower"": 170, ""Accelerate"": 13.0 },
+      { ""Horsepower"": 180, ""Accelerate"": 12.5 },
+      { ""Horsepower"": 100, ""Accelerate"": 15.0 },
+      { ""Horsepower"": 145, ""Accelerate"": 13.0 },
+      { ""Horsepower"": 230, ""Accelerate"": 9.5 },
+      { ""Horsepower"": 150, ""Accelerate"": 11.0 },
+      { ""Horsepower"": 180, ""Accelerate"": 11.0 },
+      { ""Horsepower"": 100, ""Accelerate"": 16.0 },
+      { ""Horsepower"": 100, ""Accelerate"": 17.0 },
+      { ""Horsepower"": 100, ""Accelerate"": 17.0 },
+      { ""Horsepower"": 110, ""Accelerate"": 18.0 },
+      { ""Horsepower"": 105, ""Accelerate"": 16.5 },
+      { ""Horsepower"": 140, ""Accelerate"": 14.0 },
+      { ""Horsepower"": 150, ""Accelerate"": 14.5 },
+      { ""Horsepower"": 150, ""Accelerate"": 13.5 },
+      { ""Horsepower"": 140, ""Accelerate"": 16.0 },
+      { ""Horsepower"": 150, ""Accelerate"": 15.5 },
+      { ""Horsepower"": 95,  ""Accelerate"": 16.0 },
+      { ""Horsepower"": 105, ""Accelerate"": 16.0 },
+      { ""Horsepower"": 72,  ""Accelerate"": 21.0 },
+      { ""Horsepower"": 72,  ""Accelerate"": 19.5 },
+      { ""Horsepower"": 170, ""Accelerate"": 11.5 },
+      { ""Horsepower"": 145, ""Accelerate"": 14.0 },
+      { ""Horsepower"": 150, ""Accelerate"": 14.5 },
+      { ""Horsepower"": 148, ""Accelerate"": 13.5 },
+      { ""Horsepower"": 110, ""Accelerate"": 21.0 },
+      { ""Horsepower"": 105, ""Accelerate"": 18.5 },
+      { ""Horsepower"": 110, ""Accelerate"": 19.0 },
+      { ""Horsepower"": 95,  ""Accelerate"": 19.0 },
+      { ""Horsepower"": 110, ""Accelerate"": 15.0 },
+      { ""Horsepower"": 110, ""Accelerate"": 13.5 },
+      { ""Horsepower"": 129, ""Accelerate"": 12.0 },
+      { ""Horsepower"": 100, ""Accelerate"": 16.0 },
+      { ""Horsepower"": 90,  ""Accelerate"": 17.0 },
+      { ""Horsepower"": 140, ""Accelerate"": 13.0 },
+      { ""Horsepower"": 150, ""Accelerate"": 13.0 },
+      { ""Horsepower"": 120, ""Accelerate"": 13.9 },
+      { ""Horsepower"": 152, ""Accelerate"": 12.8 },
+      { ""Horsepower"": 100, ""Accelerate"": 15.4 },
+      { ""Horsepower"": 105, ""Accelerate"": 14.5 },
+      { ""Horsepower"": 90,  ""Accelerate"": 17.6 },
+      { ""Horsepower"": 100, ""Accelerate"": 17.7 },
+      { ""Horsepower"": 78,  ""Accelerate"": 21.0 },
+      { ""Horsepower"": 110, ""Accelerate"": 16.2 },
+      { ""Horsepower"": 95,  ""Accelerate"": 17.8 },
+      { ""Horsepower"": 150, ""Accelerate"": 13.2 },
+      { ""Horsepower"": 180, ""Accelerate"": 12.1 },
+      { ""Horsepower"": 145, ""Accelerate"": 12.0 },
+      { ""Horsepower"": 130, ""Accelerate"": 15.0 },
+      { ""Horsepower"": 150, ""Accelerate"": 14.0 },
+      { ""Horsepower"": 145, ""Accelerate"": 12.5 },
+      { ""Horsepower"": 110, ""Accelerate"": 19.0 },
+      { ""Horsepower"": 145, ""Accelerate"": 13.7 },
+      { ""Horsepower"": 130, ""Accelerate"": 14.9 },
+      { ""Horsepower"": 110, ""Accelerate"": 16.4 },
+      { ""Horsepower"": 105, ""Accelerate"": 16.9 },
+      { ""Horsepower"": 100, ""Accelerate"": 17.7 },
+      { ""Horsepower"": 98,  ""Accelerate"": 19.0 },
+      { ""Horsepower"": 180, ""Accelerate"": 11.1 },
+      { ""Horsepower"": 170, ""Accelerate"": 11.4 },
+      { ""Horsepower"": 190, ""Accelerate"": 12.2 },
+      { ""Horsepower"": 149, ""Accelerate"": 14.5 },
+      { ""Horsepower"": 110, ""Accelerate"": 15.5 },
+      { ""Horsepower"": 140, ""Accelerate"": 13.2 },
+      { ""Horsepower"": 139, ""Accelerate"": 12.8 },
+      { ""Horsepower"": 105, ""Accelerate"": 19.2 },
+      { ""Horsepower"": 100, ""Accelerate"": 17.2 },
+      { ""Horsepower"": 90,  ""Accelerate"": 17.2 },
+      { ""Horsepower"": 105, ""Accelerate"": 15.8 },
+      { ""Horsepower"": 110, ""Accelerate"": 18.7 },
+      { ""Horsepower"": 120, ""Accelerate"": 15.1 },
+      { ""Horsepower"": 145, ""Accelerate"": 13.2 },
+      { ""Horsepower"": 165, ""Accelerate"": 13.4 },
+      { ""Horsepower"": 139, ""Accelerate"": 11.2 },
+      { ""Horsepower"": 140, ""Accelerate"": 13.7 },
+      { ""Horsepower"": 115, ""Accelerate"": 15.4 },
+      { ""Horsepower"": 90,  ""Accelerate"": 18.2 },
+      { ""Horsepower"": 110, ""Accelerate"": 16.6 },
+      { ""Horsepower"": 130, ""Accelerate"": 15.4 },
+      { ""Horsepower"": 129, ""Accelerate"": 13.4 },
+      { ""Horsepower"": 138, ""Accelerate"": 13.2 },
+      { ""Horsepower"": 135, ""Accelerate"": 15.2 },
+      { ""Horsepower"": 155, ""Accelerate"": 14.9 },
+      { ""Horsepower"": 142, ""Accelerate"": 14.3 },
+      { ""Horsepower"": 125, ""Accelerate"": 15.0 },
+      { ""Horsepower"": 150, ""Accelerate"": 13.0 },
+      { ""Horsepower"": 125, ""Accelerate"": 17.4 },
+      { ""Horsepower"": 90,  ""Accelerate"": 22.2 },
+      { ""Horsepower"": 90,  ""Accelerate"": 18.7 },
+      { ""Horsepower"": 110, ""Accelerate"": 15.8 },
+      { ""Horsepower"": 105, ""Accelerate"": 19.0 },
+      { ""Horsepower"": 85,  ""Accelerate"": 16.6 },
+      { ""Horsepower"": 85,  ""Accelerate"": 17.0 },
+      { ""Horsepower"": 112, ""Accelerate"": 14.7 }
+    ]
+  },
+  ""mark"": ""point"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Horsepower"",
+      ""type"": ""quantitative""
+    },
+    ""y"": {
+      ""field"": ""Accelerate"",
+      ""type"": ""quantitative""
+    }
+  }
+}",Create a plot to illustrate the correlation between Horsepower and Accelerate for cars with Edispl greater than 200.,,,,,,,,,,
+2708,,school_finance,"SELECT count(*) , sum(enrollment) FROM school GROUP BY county","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      { ""count(*)"": 1, ""sum(enrollment)"": 601 },
+      { ""count(*)"": 1, ""sum(enrollment)"": 852 },
+      { ""count(*)"": 3, ""sum(enrollment)"": 1098 },
+      { ""count(*)"": 2, ""sum(enrollment)"": 984 },
+      { ""count(*)"": 1, ""sum(enrollment)"": 620 }
+    ]
+  },
+  ""mark"": ""point"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""count(*)"",
+      ""type"": ""quantitative""
+    },
+    ""y"": {
+      ""field"": ""sum(enrollment)"",
+      ""type"": ""quantitative""
+    }
+  }
+}",Show the relationship between the number of schools in each county and total enrollment in each county,,,,,,,,,,
+622,,college_2,"SELECT max(capacity) , avg(capacity) FROM classroom GROUP BY building","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      { ""max(capacity)"": 47,  ""avg(capacity)"": 36.5 },
+      { ""max(capacity)"": 12,  ""avg(capacity)"": 12 },
+      { ""max(capacity)"": 11,  ""avg(capacity)"": 10.5 },
+      { ""max(capacity)"": 18,  ""avg(capacity)"": 18 },
+      { ""max(capacity)"": 27,  ""avg(capacity)"": 27 },
+      { ""max(capacity)"": 59,  ""avg(capacity)"": 59 },
+      { ""max(capacity)"": 65,  ""avg(capacity)"": 37.5 },
+      { ""max(capacity)"": 34,  ""avg(capacity)"": 34 },
+      { ""max(capacity)"": 51,  ""avg(capacity)"": 51 },
+      { ""max(capacity)"": 10,  ""avg(capacity)"": 10 },
+      { ""max(capacity)"": 30,  ""avg(capacity)"": 26 },
+      { ""max(capacity)"": 92,  ""avg(capacity)"": 92 },
+      { ""max(capacity)"": 97,  ""avg(capacity)"": 97 },
+      { ""max(capacity)"": 28,  ""avg(capacity)"": 28 },
+      { ""max(capacity)"": 12,  ""avg(capacity)"": 11 },
+      { ""max(capacity)"": 60,  ""avg(capacity)"": 60 },
+      { ""max(capacity)"": 109, ""avg(capacity)"": 49.33333333333334 },
+      { ""max(capacity)"": 113, ""avg(capacity)"": 113 },
+      { ""max(capacity)"": 115, ""avg(capacity)"": 93 },
+      { ""max(capacity)"": 120, ""avg(capacity)"": 76 }
+    ]
+  },
+  ""mark"": ""point"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""max(capacity)"",
+      ""type"": ""quantitative""
+    },
+    ""y"": {
+      ""field"": ""avg(capacity)"",
+      ""type"": ""quantitative""
+    }
+  }
+}
+
+
+",Find the relationship between average and maximum capacity among rooms in each building,,,,,,,,,,
+2633,,protein_institute,"SELECT count(*) , sum(enrollment) FROM institution GROUP BY TYPE","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      { ""count(*)"": 7, ""sum(enrollment)"": 7868 },
+      { ""count(*)"": 3, ""sum(enrollment)"": 5267 },
+      { ""count(*)"": 1, ""sum(enrollment)"": 1000 }
+    ]
+  },
+  ""mark"": ""point"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""count(*)"",
+      ""type"": ""quantitative""
+    },
+    ""y"": {
+      ""field"": ""sum(enrollment)"",
+      ""type"": ""quantitative""
+    }
+  }
+}",Show the relationship between the number of institutions and total enrollment for each type ,,,,,,,,,,
+432,,car_1,"SELECT max(Accelerate) , Cylinders FROM CARS_DATA group BY Cylinders","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      { ""max(Accelerate)"": 13.5, ""Cylinders"": 3 },
+      { ""max(Accelerate)"": 24.8, ""Cylinders"": 4 },
+      { ""max(Accelerate)"": 20.1, ""Cylinders"": 5 },
+      { ""max(Accelerate)"": 21,   ""Cylinders"": 6 },
+      { ""max(Accelerate)"": 22.2, ""Cylinders"": 8 }
+    ]
+  },
+  ""mark"": ""point"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""max(Accelerate)"",
+      ""type"": ""quantitative""
+    },
+    ""y"": {
+      ""field"": ""Cylinders"",
+      ""type"": ""quantitative""
+    }
+  }
+}",What is the maximum accelerate for different number of cylinders?,,,,,,,,,,
+210,,behavior_monitoring,"SELECT
+    CASE strftime('%w', date_address_to)
+        WHEN '0' THEN 'Sun'
+        WHEN '1' THEN 'Mon'
+        WHEN '2' THEN 'Tue'
+        WHEN '3' THEN 'Wed'
+        WHEN '4' THEN 'Thur'
+        WHEN '5' THEN 'Fri'
+        WHEN '6' THEN 'Sat'
+    END AS date_address_to,
+    other_details,
+    SUM(monthly_rental)
+FROM Student_Addresses
+GROUP BY
+    CASE strftime('%w', date_address_to)
+        WHEN '0' THEN 'Sun'
+        WHEN '1' THEN 'Mon'
+        WHEN '2' THEN 'Tue'
+        WHEN '3' THEN 'Wed'
+        WHEN '4' THEN 'Thur'
+        WHEN '5' THEN 'Fri'
+        WHEN '6' THEN 'Sat'
+    END,
+    other_details
+ORDER BY
+    SUM(monthly_rental) DESC;
+
+
+","{
+""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+""description"": ""Stacked bar chart ORDER BY the total of monthly_rental DESC"",
+""data"": {
+""values"": [
+{ ""date_address_to"": ""Mon"", ""other_details"": ""apartment"", ""SUM(monthly_rental)"": 2330.7852 },
+{ ""date_address_to"": ""Tue"", ""other_details"": ""apartment"", ""SUM(monthly_rental)"": 0 },
+{ ""date_address_to"": ""Wed"", ""other_details"": ""apartment"", ""SUM(monthly_rental)"": 2044.1059 },
+{ ""date_address_to"": ""Thur"", ""other_details"": ""apartment"", ""SUM(monthly_rental)"": 1032.8717 },
+{ ""date_address_to"": ""Fri"", ""other_details"": ""apartment"", ""SUM(monthly_rental)"": 0 },
+{ ""date_address_to"": ""Sat"", ""other_details"": ""apartment"", ""SUM(monthly_rental)"": 0 },
+{ ""date_address_to"": ""Sun"", ""other_details"": ""apartment"", ""SUM(monthly_rental)"": 1942.2492 },
+
+{ ""date_address_to"": ""Mon"", ""other_details"": ""house"", ""SUM(monthly_rental)"": 679.2988 },
+{ ""date_address_to"": ""Tue"", ""other_details"": ""house"", ""SUM(monthly_rental)"": 2835.213 },
+{ ""date_address_to"": ""Wed"", ""other_details"": ""house"", ""SUM(monthly_rental)"": 865.2615 },
+{ ""date_address_to"": ""Thur"", ""other_details"": ""house"", ""SUM(monthly_rental)"": 1894.2702 },
+{ ""date_address_to"": ""Fri"", ""other_details"": ""house"", ""SUM(monthly_rental)"": 2007.1954 },
+{ ""date_address_to"": ""Sat"", ""other_details"": ""house"", ""SUM(monthly_rental)"": 0 },
+{ ""date_address_to"": ""Sun"", ""other_details"": ""house"", ""SUM(monthly_rental)"": 3192.7701 }
+]
+},
+""mark"": ""bar"",
+""encoding"": {
+""x"": {
+""field"": ""date_address_to"",
+""type"": ""nominal"",
+""sort"": {
+""op"": ""sum"",
+""field"": ""SUM(monthly_rental)"",
+""order"": ""descending""
+}
+},
+""y"": {
+""field"": ""SUM(monthly_rental)"",
+""type"": ""quantitative"",
+""stack"": ""zero""
+},
+""color"": {
+""field"": ""other_details"",
+""type"": ""nominal""
+}
+}
+}","Can you figure out the total monthly rental for each weekday based on date_address_to, organized by the day of the week and the details in other_details, and then list the results starting with the highest total?",,,,,,,,,,
+4031,,wine_1,"SELECT Year, count(*), Grape from wine where Score > 95 group by Year, Grape","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      { ""Year"": 2006, ""Grape"": ""Cabernet Sauvingnon"", ""count(*)"": 1 },
+      { ""Year"": 2007, ""Grape"": ""Cabernet Sauvingnon"", ""count(*)"": 3 },
+
+
+      { ""Year"": 2006, ""Grape"": ""Grenache"",           ""count(*)"": 1 },
+      { ""Year"": 2007, ""Grape"": ""Grenache"",           ""count(*)"": 0 },
+
+
+      { ""Year"": 2006, ""Grape"": ""Syrah"",              ""count(*)"": 1 },
+      { ""Year"": 2007, ""Grape"": ""Syrah"",              ""count(*)"": 1 }
+    ]
+  },
+  ""mark"": ""bar"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Year"",
+      ""type"": ""nominal"",
+      ""sort"": null
+    },
+    ""y"": {
+      ""field"": ""count(*)"",
+      ""type"": ""quantitative"",
+      ""stack"": ""zero""
+    },
+    ""color"": {
+      ""field"": ""Grape"",
+      ""type"": ""nominal""
+    }
+  }
+}
+
+
+",Show the number of wines with score over 95 in different years colored by grape.,,,,,,,,,,
+2756@x_name@DESC,,ship_mission,"SELECT Type , COUNT(Type),Nationality FROM ship GROUP BY Nationality ,  Type ORDER BY Type DESC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY Nationality, GROUP BY Type (stacked bar)"",
+  ""data"": {
+    ""values"": [
+      { ""Type"": ""Cargo ship"",  ""Nationality"": ""United Kingdom"", ""COUNT(Type)"": 3 },
+      { ""Type"": ""Battle ship"", ""Nationality"": ""United Kingdom"", ""COUNT(Type)"": 2 },
+      { ""Type"": ""Cargo ship"",  ""Nationality"": ""United States"",  ""COUNT(Type)"": 2 },
+      { ""Type"": ""Battle ship"", ""Nationality"": ""United States"",  ""COUNT(Type)"": 1 }
+    ]
+  },
+  ""mark"": ""bar"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Type"",
+      ""type"": ""nominal"",
+      ""sort"": ""descending"" 
+    },
+    ""y"": {
+      ""field"": ""COUNT(Type)"",
+      ""type"": ""quantitative"",
+      ""stack"": ""zero""        
+    },
+    ""color"": {
+      ""field"": ""Nationality"",
+      ""type"": ""nominal""
+    }
+  }
+}
+
+
+
+","Can you count the number of each Type of ship for every Nationality, and then sort the results by Type in descending order?",,,,,,,,,,
+2815@x_name@DESC,,sports_competition,"SELECT Country , COUNT(Country),Competition_type FROM competition GROUP BY Competition_type ,  Country ORDER BY Country DESC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY Competition_type, GROUP BY Country (stacked bar, descending by total count)"",
+  ""data"": {
+    ""values"": [
+      { ""Country"": ""Spain"",     ""Competition_type"": ""Friendly"",   ""COUNT(Country)"": 1 },
+      { ""Country"": ""Slovenia"",  ""Competition_type"": ""Friendly"",   ""COUNT(Country)"": 0 },
+      { ""Country"": ""Russia"",    ""Competition_type"": ""Friendly"",   ""COUNT(Country)"": 2 },
+      { ""Country"": ""Italy"",     ""Competition_type"": ""Friendly"",   ""COUNT(Country)"": 2 },
+      { ""Country"": ""Ireland"",   ""Competition_type"": ""Friendly"",   ""COUNT(Country)"": 1 },
+      { ""Country"": ""Australia"", ""Competition_type"": ""Friendly"",   ""COUNT(Country)"": 2 },
+
+
+      { ""Country"": ""Spain"",     ""Competition_type"": ""Tournament"", ""COUNT(Country)"": 0 },
+      { ""Country"": ""Slovenia"",  ""Competition_type"": ""Tournament"", ""COUNT(Country)"": 2 },
+      { ""Country"": ""Russia"",    ""Competition_type"": ""Tournament"", ""COUNT(Country)"": 1 },
+      { ""Country"": ""Italy"",     ""Competition_type"": ""Tournament"", ""COUNT(Country)"": 0 },
+      { ""Country"": ""Ireland"",   ""Competition_type"": ""Tournament"", ""COUNT(Country)"": 0 },
+      { ""Country"": ""Australia"", ""Competition_type"": ""Tournament"", ""COUNT(Country)"": 0 }
+    ]
+  },
+  ""mark"": ""bar"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Country"",
+      ""type"": ""nominal"",
+      ""sort"": {
+        ""op"": ""sum"",
+        ""field"": ""COUNT(Country)"",
+        ""order"": ""descending""
+      }
+    },
+    ""y"": {
+      ""field"": ""COUNT(Country)"",
+      ""type"": ""quantitative"",
+      ""stack"": ""zero""
+    },
+    ""color"": {
+      ""field"": ""Competition_type"",
+      ""type"": ""nominal""
+    }
+  }
+}
+
+
+","Can you calculate the total number for each competition type, break it down by country, and sort the results in descending order?",,,,,,,,,,
+11@y_name@ASC,,activity_1,"SELECT Rank , count(*),Sex FROM Faculty GROUP BY Sex ,  Rank ORDER BY count(*) ASC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY Sex, GROUP BY Rank (Stacked Bar), sorted by total count in ascending order"",
+  ""data"": {
+    ""values"": [
+      { ""Rank"": ""AssocProf"",  ""Sex"": ""F"", ""count(*)"": 1 },
+      { ""Rank"": ""AsstProf"",   ""Sex"": ""F"", ""count(*)"": 3 },
+      { ""Rank"": ""Instructor"", ""Sex"": ""F"", ""count(*)"": 3 },
+      { ""Rank"": ""Professor"",  ""Sex"": ""F"", ""count(*)"": 0 },
+
+
+      { ""Rank"": ""AssocProf"",  ""Sex"": ""M"", ""count(*)"": 7 },
+      { ""Rank"": ""AsstProf"",   ""Sex"": ""M"", ""count(*)"": 12 },
+      { ""Rank"": ""Instructor"", ""Sex"": ""M"", ""count(*)"": 5 },
+      { ""Rank"": ""Professor"",  ""Sex"": ""M"", ""count(*)"": 27 }
+    ]
+  },
+  ""mark"": ""bar"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Rank"",
+      ""type"": ""nominal"",
+      ""sort"": {
+        ""op"": ""sum"",              
+        ""field"": ""count(*)"",
+        ""order"": ""ascending""       
+      }
+    },
+    ""y"": {
+      ""field"": ""count(*)"",
+      ""type"": ""quantitative"",
+      ""stack"": ""zero""    
+    },
+    ""color"": {
+      ""field"": ""Sex"",
+      ""type"": ""nominal""
+    }
+  }
+}
+
+
+","Can you count the number of faculty members for each Rank and Sex, and then sort the results by the count in ascending order?",,,,,,,,,,
+194,,behavior_monitoring,"SELECT
+    CASE strftime('%m', date_address_to)
+        WHEN '01' THEN 'Jan'
+        WHEN '02' THEN 'Feb'
+        WHEN '03' THEN 'Mar'
+        WHEN '04' THEN 'Apr'
+        WHEN '05' THEN 'May'
+        WHEN '06' THEN 'Jun'
+        WHEN '07' THEN 'Jul'
+        WHEN '08' THEN 'Aug'
+        WHEN '09' THEN 'Sep'
+        WHEN '10' THEN 'Oct'
+        WHEN '11' THEN 'Nov'
+        WHEN '12' THEN 'Dec'
+    END AS date_address_to,
+    other_details,
+    SUM(monthly_rental)
+FROM Student_Addresses
+GROUP BY
+    CASE strftime('%m', date_address_to)
+        WHEN '01' THEN 'Jan'
+        WHEN '02' THEN 'Feb'
+        WHEN '03' THEN 'Mar'
+        WHEN '04' THEN 'Apr'
+        WHEN '05' THEN 'May'
+        WHEN '06' THEN 'Jun'
+        WHEN '07' THEN 'Jul'
+        WHEN '08' THEN 'Aug'
+        WHEN '09' THEN 'Sep'
+        WHEN '10' THEN 'Oct'
+        WHEN '11' THEN 'Nov'
+        WHEN '12' THEN 'Dec'
+    END,
+    other_details
+ORDER BY
+       SUM(monthly_rental) DESC;
+
+
+","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY other_details, BIN date_address_to BY MONTH, order by sum(monthly_rental) DESC"",
+  ""data"": {
+    ""values"": [
+      {
+        ""date_address_to"": ""Feb"",
+        ""other_details"": ""apartment"",
+        ""SUM(monthly_rental)"": 1297.3186
+      },
+      {
+        ""date_address_to"": ""Mar"",
+        ""other_details"": ""apartment"",
+        ""SUM(monthly_rental)"": 6052.69338
+      },
+      {
+        ""date_address_to"": ""Feb"",
+        ""other_details"": ""house"",
+        ""SUM(monthly_rental)"": 747.5312
+      },
+      {
+        ""date_address_to"": ""Mar"",
+        ""other_details"": ""house"",
+        ""SUM(monthly_rental)"": 10726.4778
+      }
+    ]
+  },
+  ""mark"": ""bar"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""date_address_to"",
+      ""type"": ""nominal"",
+      ""sort"": {
+        ""op"": ""sum"",
+        ""field"": ""SUM(monthly_rental)"",
+        ""order"": ""descending""
+      }
+    },
+    ""y"": {
+      ""field"": ""SUM(monthly_rental)"",
+      ""type"": ""quantitative"",
+      ""stack"": ""zero""
+    },
+    ""color"": {
+      ""field"": ""other_details"",
+      ""type"": ""nominal""
+    }
+  }
+}
+
+
+","Can you calculate the total monthly rental for each month, organized by other_details, and then display the results starting with the highest total?",,,,,,,,,,
+189,,behavior_monitoring,"SELECT
+    CASE strftime('%m', date_address_to)
+        WHEN '01' THEN 'Jan'
+        WHEN '02' THEN 'Feb'
+        WHEN '03' THEN 'Mar'
+        WHEN '04' THEN 'Apr'
+        WHEN '05' THEN 'May'
+        WHEN '06' THEN 'Jun'
+        WHEN '07' THEN 'Jul'
+        WHEN '08' THEN 'Aug'
+        WHEN '09' THEN 'Sep'
+        WHEN '10' THEN 'Oct'
+        WHEN '11' THEN 'Nov'
+        WHEN '12' THEN 'Dec'
+    END AS date_address_to,
+    other_details,
+    COUNT(date_address_to) AS ""COUNT(date_address_to)""
+FROM Student_Addresses
+GROUP BY
+    CASE strftime('%m', date_address_to)
+        WHEN '01' THEN 'Jan'
+        WHEN '02' THEN 'Feb'
+        WHEN '03' THEN 'Mar'
+        WHEN '04' THEN 'Apr'
+        WHEN '05' THEN 'May'
+        WHEN '06' THEN 'Jun'
+        WHEN '07' THEN 'Jul'
+        WHEN '08' THEN 'Aug'
+        WHEN '09' THEN 'Sep'
+        WHEN '10' THEN 'Oct'
+        WHEN '11' THEN 'Nov'
+        WHEN '12' THEN 'Dec'
+    END,
+    other_details
+ORDER BY
+    ""COUNT(date_address_to)"" DESC;
+
+
+","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""STACKED BAR ORDER BY COUNT(date_address_to) DESC"",
+  ""data"": {
+    ""values"": [
+      {
+        ""date_address_to"": ""Feb"",
+        ""other_details"": ""apartment"",
+        ""COUNT(date_address_to)"": 1
+      },
+      {
+        ""date_address_to"": ""Mar"",
+        ""other_details"": ""apartment"",
+        ""COUNT(date_address_to)"": 6
+      },
+      {
+        ""date_address_to"": ""Feb"",
+        ""other_details"": ""house"",
+        ""COUNT(date_address_to)"": 1
+      },
+      {
+        ""date_address_to"": ""Mar"",
+        ""other_details"": ""house"",
+        ""COUNT(date_address_to)"": 12
+      }
+    ]
+  },
+  ""mark"": ""bar"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""date_address_to"",
+      ""type"": ""nominal"",
+      ""sort"": {
+        ""op"": ""sum"",
+        ""field"": ""COUNT(date_address_to)"",
+        ""order"": ""descending""
+      }
+    },
+    ""y"": {
+      ""field"": ""COUNT(date_address_to)"",
+      ""type"": ""quantitative"",
+      ""stack"": ""zero""
+    },
+    ""color"": {
+      ""field"": ""other_details"",
+      ""type"": ""nominal""
+    }
+  }
+}","Can you count the occurrences of each month in the date_address_to column, grouped by month and other_details, and sort the results by the count in descending order?",,,,,,,,,,
+202,,behavior_monitoring,"SELECT
+    strftime('%Y', date_address_from) AS date_address_from,
+    other_details,
+    AVG(monthly_rental) AS ""AVG(monthly_rental)""
+FROM Student_Addresses
+GROUP BY
+    strftime('%Y', date_address_from),
+    other_details
+ORDER BY
+    ""AVG(monthly_rental)"" DESC;
+
+
+","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY other_details, BIN date_address_from BY YEAR (Stacked Bar), ORDER BY total AVG(monthly_rental) DESC"",
+  ""data"": {
+    ""values"": [
+      {
+        ""date_address_from"": ""2017"",
+        ""other_details"": ""apartment"",
+        ""AVG(monthly_rental)"": 1003.86666
+      },
+      {
+        ""date_address_from"": ""2018"",
+        ""other_details"": ""apartment"",
+        ""AVG(monthly_rental)"": 1165.33935
+      },
+      {
+        ""date_address_from"": ""2017"",
+        ""other_details"": ""house"",
+        ""AVG(monthly_rental)"": 921.8074667
+      },
+      {
+        ""date_address_from"": ""2018"",
+        ""other_details"": ""house"",
+        ""AVG(monthly_rental)"": 794.43545
+      }
+    ]
+  },
+  ""mark"": ""bar"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""date_address_from"",
+      ""type"": ""nominal"",
+      ""sort"": {
+        ""op"": ""sum"",
+        ""field"": ""AVG(monthly_rental)"",
+        ""order"": ""descending""
+      }
+    },
+    ""y"": {
+      ""field"": ""AVG(monthly_rental)"",
+      ""type"": ""quantitative"",
+      ""stack"": ""zero""
+    },
+    ""color"": {
+      ""field"": ""other_details"",
+      ""type"": ""nominal""
+    }
+  }
+}","Can you find the average monthly_rental for each year and some details, and sort the results by the average amount, starting from the highest?",,,,,,,,,,
+1488@x_name@DESC,,game_injury,"SELECT Home_team , COUNT(Home_team),Away_team FROM game GROUP BY Away_team ,  Home_team ORDER BY Home_team DESC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY Away_team, GROUP BY Home_team (Stacked Bar) - ORDER BY Home_team DESC"",
+  ""data"": {
+    ""values"": [
+      { ""Home_team"": ""Quruvchi"", ""Away_team"": ""Bunyodkor"", ""COUNT(Home_team)"": 0 },
+      { ""Home_team"": ""Pakhtakor"",""Away_team"": ""Bunyodkor"", ""COUNT(Home_team)"": 7 },
+      { ""Home_team"": ""Bunyodkor"",""Away_team"": ""Bunyodkor"", ""COUNT(Home_team)"": 0 },
+
+
+      { ""Home_team"": ""Quruvchi"", ""Away_team"": ""Pakhtakor"",""COUNT(Home_team)"": 1 },
+      { ""Home_team"": ""Pakhtakor"",""Away_team"": ""Pakhtakor"",""COUNT(Home_team)"": 0 },
+      { ""Home_team"": ""Bunyodkor"",""Away_team"": ""Pakhtakor"",""COUNT(Home_team)"": 9 },
+
+
+      { ""Home_team"": ""Quruvchi"", ""Away_team"": ""Quruvchi"", ""COUNT(Home_team)"": 0 },
+      { ""Home_team"": ""Pakhtakor"",""Away_team"": ""Quruvchi"", ""COUNT(Home_team)"": 3 },
+      { ""Home_team"": ""Bunyodkor"",""Away_team"": ""Quruvchi"", ""COUNT(Home_team)"": 0 }
+    ]
+  },
+  ""mark"": ""bar"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Home_team"",
+      ""type"": ""nominal"",
+      ""sort"": ""descending""
+    },
+    ""y"": {
+      ""field"": ""COUNT(Home_team)"",
+      ""type"": ""quantitative"",
+      ""stack"": ""zero""
+    },
+    ""color"": {
+      ""field"": ""Away_team"",
+      ""type"": ""nominal""
+    }
+  }
+}
+
+
+","Can you count the number of games for each Home_team against each Away_team, and sort the results by the Home_team in descending order?",,,,,,,,,,
+4002,,activity_1,"SELECT city_code, count(*), Sex FROM Student GROUP BY city_code, Sex","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      { ""city_code"": ""ATL"", ""Sex"": ""M"", ""count(stuid)"": 1 },
+      { ""city_code"": ""BAL"", ""Sex"": ""F"", ""count(stuid)"": 3 },
+      { ""city_code"": ""BAL"", ""Sex"": ""M"", ""count(stuid)"": 1 },
+      { ""city_code"": ""BOS"", ""Sex"": ""M"", ""count(stuid)"": 1 },
+      { ""city_code"": ""CHI"", ""Sex"": ""M"", ""count(stuid)"": 1 },
+      { ""city_code"": ""DAL"", ""Sex"": ""M"", ""count(stuid)"": 1 },
+      { ""city_code"": ""DET"", ""Sex"": ""M"", ""count(stuid)"": 1 },
+      { ""city_code"": ""HKG"", ""Sex"": ""F"", ""count(stuid)"": 2 },
+      { ""city_code"": ""HKG"", ""Sex"": ""M"", ""count(stuid)"": 1 },
+      { ""city_code"": ""HOU"", ""Sex"": ""M"", ""count(stuid)"": 1 },
+      { ""city_code"": ""LON"", ""Sex"": ""M"", ""count(stuid)"": 1 },
+      { ""city_code"": ""LOS"", ""Sex"": ""M"", ""count(stuid)"": 1 },
+      { ""city_code"": ""NAR"", ""Sex"": ""M"", ""count(stuid)"": 1 },
+      { ""city_code"": ""NYC"", ""Sex"": ""M"", ""count(stuid)"": 3 },
+      { ""city_code"": ""PEK"", ""Sex"": ""M"", ""count(stuid)"": 1 },
+      { ""city_code"": ""PHL"", ""Sex"": ""F"", ""count(stuid)"": 1 },
+      { ""city_code"": ""PHL"", ""Sex"": ""M"", ""count(stuid)"": 2 },
+      { ""city_code"": ""PIT"", ""Sex"": ""F"", ""count(stuid)"": 1 },
+      { ""city_code"": ""PIT"", ""Sex"": ""M"", ""count(stuid)"": 3 },
+      { ""city_code"": ""ROC"", ""Sex"": ""M"", ""count(stuid)"": 1 },
+      { ""city_code"": ""WAS"", ""Sex"": ""F"", ""count(stuid)"": 2 },
+      { ""city_code"": ""WAS"", ""Sex"": ""M"", ""count(stuid)"": 1 },
+      { ""city_code"": ""YYZ"", ""Sex"": ""M"", ""count(stuid)"": 2 },
+      { ""city_code"": ""SFO"", ""Sex"": ""F"", ""count(stuid)"": 1 }
+    ]
+  },
+  ""mark"": ""bar"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""city_code"",
+      ""type"": ""nominal"",
+      ""sort"": null
+    },
+    ""y"": {
+      ""field"": ""count(stuid)"",
+      ""type"": ""quantitative"",
+      ""stack"": ""zero""
+    },
+    ""color"": {
+      ""field"": ""Sex"",
+      ""type"": ""nominal""
+    }
+  }
+}",Use a chart to display the number of students from different cities and genders.,,,,,,,,,,
+273,,behavior_monitoring,"SELECT date_address_to , AVG(monthly_rental) FROM Student_Addresses GROUP BY date_address_to ORDER BY monthly_rental DESC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY date_address_to"",
+  ""data"": {
+    ""values"": [
+      { ""date_address_to"": ""2018-02-25 05:21:34"", ""AVG(monthly_rental)"": 1297.3186 },
+      { ""date_address_to"": ""2018-02-27 04:45:57"", ""AVG(monthly_rental)"": 747.5312 },
+      { ""date_address_to"": ""2018-03-02 00:19:57"", ""AVG(monthly_rental)"": 1113.0996 },
+      { ""date_address_to"": ""2018-03-04 06:05:45"", ""AVG(monthly_rental)"": 683.0735 },
+      { ""date_address_to"": ""2018-03-04 06:51:19"", ""AVG(monthly_rental)"": 1132.742 },
+      { ""date_address_to"": ""2018-03-04 13:24:28"", ""AVG(monthly_rental)"": 644.9306 },
+      { ""date_address_to"": ""2018-03-04 17:04:35"", ""AVG(monthly_rental)"": 756.6745 },
+      { ""date_address_to"": ""2018-03-05 21:12:37"", ""AVG(monthly_rental)"": 1032.9782 },
+      { ""date_address_to"": ""2018-03-06 21:41:20"", ""AVG(monthly_rental)"": 800.1214 },
+      { ""date_address_to"": ""2018-03-07 04:29:28"", ""AVG(monthly_rental)"": 865.2615 },
+      { ""date_address_to"": ""2018-03-12 02:57:48"", ""AVG(monthly_rental)"": 679.2988 },
+      { ""date_address_to"": ""2018-03-12 17:21:24"", ""AVG(monthly_rental)"": 1297.807 },
+      { ""date_address_to"": ""2018-03-14 09:12:05"", ""AVG(monthly_rental)"": 1036.8462 },
+      { ""date_address_to"": ""2018-03-14 17:00:44"", ""AVG(monthly_rental)"": 1007.2597 },
+      { ""date_address_to"": ""2018-03-15 04:44:58"", ""AVG(monthly_rental)"": 1032.8717 },
+      { ""date_address_to"": ""2018-03-15 10:37:19"", ""AVG(monthly_rental)"": 826.4319 },
+      { ""date_address_to"": ""2018-03-18 03:28:47"", ""AVG(monthly_rental)"": 620.2801 },
+      { ""date_address_to"": ""2018-03-20 09:02:48"", ""AVG(monthly_rental)"": 1287.5604 },
+      { ""date_address_to"": ""2018-03-22 17:56:20"", ""AVG(monthly_rental)"": 1067.8383 },
+      { ""date_address_to"": ""2018-03-23 09:52:56"", ""AVG(monthly_rental)"": 894.0958 }
+    ]
+  },
+  ""mark"": ""line"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""date_address_to"",
+      ""type"": ""temporal""
+    },
+    ""y"": {
+      ""field"": ""AVG(monthly_rental)"",
+      ""type"": ""quantitative""
+    }
+  }
+}
+
+
+
+",Show me the trend about the average of monthly_rental over date_address_to,,,,,,,,,,
+3240,,wine_1,"SELECT Year , avg(Price) FROM WINE GROUP BY YEAR","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      { ""Year"": ""2004"", ""avg(Price)"": 60.714285714285715 },
+      { ""Year"": ""2005"", ""avg(Price)"": 52.82142857142857 },
+      { ""Year"": ""2006"", ""avg(Price)"": 52.941176470588225 },
+      { ""Year"": ""2007"", ""avg(Price)"": 49.41847826086956 },
+      { ""Year"": ""2008"", ""avg(Price)"": 39.70769230769231 },
+      { ""Year"": ""2009"", ""avg(Price)"": 30.953846153846154 },
+      { ""Year"": ""2066"", ""avg(Price)"": 32 }
+    ]
+  },
+  ""mark"": ""line"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Year"",
+      ""type"": ""nominal"",
+      ""sort"": null
+    },
+    ""y"": {
+      ""field"": ""avg(Price)"",
+      ""type"": ""quantitative""
+    }
+  }
+}
+
+
+",Plot year by mean price,,,,,,,,,,
+1746@x_name@ASC,,hr_1,"SELECT HIRE_DATE , SALARY FROM employees WHERE employee_id NOT IN (SELECT employee_id FROM job_history) ORDER BY HIRE_DATE ASC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      { ""HIRE_DATE"": ""1987-06-17"", ""SALARY"": 24000 },
+      { ""HIRE_DATE"": ""1987-06-20"", ""SALARY"": 9000 },
+      { ""HIRE_DATE"": ""1987-06-21"", ""SALARY"": 6000 },
+      { ""HIRE_DATE"": ""1987-06-22"", ""SALARY"": 4800 },
+      { ""HIRE_DATE"": ""1987-06-23"", ""SALARY"": 4800 },
+      { ""HIRE_DATE"": ""1987-06-24"", ""SALARY"": 4200 },
+      { ""HIRE_DATE"": ""1987-06-25"", ""SALARY"": 12000 },
+      { ""HIRE_DATE"": ""1987-06-26"", ""SALARY"": 9000 },
+      { ""HIRE_DATE"": ""1987-06-27"", ""SALARY"": 8200 },
+      { ""HIRE_DATE"": ""1987-06-28"", ""SALARY"": 7700 },
+      { ""HIRE_DATE"": ""1987-06-29"", ""SALARY"": 7800 },
+      { ""HIRE_DATE"": ""1987-06-30"", ""SALARY"": 6900 },
+      { ""HIRE_DATE"": ""1987-07-02"", ""SALARY"": 3100 },
+      { ""HIRE_DATE"": ""1987-07-03"", ""SALARY"": 2900 },
+      { ""HIRE_DATE"": ""1987-07-04"", ""SALARY"": 2800 },
+      { ""HIRE_DATE"": ""1987-07-05"", ""SALARY"": 2600 },
+      { ""HIRE_DATE"": ""1987-07-06"", ""SALARY"": 2500 },
+      { ""HIRE_DATE"": ""1987-07-07"", ""SALARY"": 8000 },
+      { ""HIRE_DATE"": ""1987-07-08"", ""SALARY"": 8200 },
+      { ""HIRE_DATE"": ""1987-07-10"", ""SALARY"": 6500 },
+      { ""HIRE_DATE"": ""1987-07-11"", ""SALARY"": 5800 },
+      { ""HIRE_DATE"": ""1987-07-12"", ""SALARY"": 3200 },
+      { ""HIRE_DATE"": ""1987-07-13"", ""SALARY"": 2700 },
+      { ""HIRE_DATE"": ""1987-07-14"", ""SALARY"": 2400 },
+      { ""HIRE_DATE"": ""1987-07-15"", ""SALARY"": 2200 },
+      { ""HIRE_DATE"": ""1987-07-16"", ""SALARY"": 3300 },
+      { ""HIRE_DATE"": ""1987-07-17"", ""SALARY"": 2800 },
+      { ""HIRE_DATE"": ""1987-07-18"", ""SALARY"": 2500 },
+      { ""HIRE_DATE"": ""1987-07-19"", ""SALARY"": 2100 },
+      { ""HIRE_DATE"": ""1987-07-20"", ""SALARY"": 3300 },
+      { ""HIRE_DATE"": ""1987-07-21"", ""SALARY"": 2900 },
+      { ""HIRE_DATE"": ""1987-07-22"", ""SALARY"": 2400 },
+      { ""HIRE_DATE"": ""1987-07-23"", ""SALARY"": 2200 },
+      { ""HIRE_DATE"": ""1987-07-24"", ""SALARY"": 3600 },
+      { ""HIRE_DATE"": ""1987-07-25"", ""SALARY"": 3200 },
+      { ""HIRE_DATE"": ""1987-07-26"", ""SALARY"": 2700 },
+      { ""HIRE_DATE"": ""1987-07-27"", ""SALARY"": 2500 },
+      { ""HIRE_DATE"": ""1987-07-28"", ""SALARY"": 3500 },
+      { ""HIRE_DATE"": ""1987-07-29"", ""SALARY"": 3100 },
+      { ""HIRE_DATE"": ""1987-07-30"", ""SALARY"": 2600 },
+      { ""HIRE_DATE"": ""1987-07-31"", ""SALARY"": 2500 },
+      { ""HIRE_DATE"": ""1987-08-01"", ""SALARY"": 14000 },
+      { ""HIRE_DATE"": ""1987-08-02"", ""SALARY"": 13500 },
+      { ""HIRE_DATE"": ""1987-08-03"", ""SALARY"": 12000 },
+      { ""HIRE_DATE"": ""1987-08-04"", ""SALARY"": 11000 },
+      { ""HIRE_DATE"": ""1987-08-05"", ""SALARY"": 10500 },
+      { ""HIRE_DATE"": ""1987-08-06"", ""SALARY"": 10000 },
+      { ""HIRE_DATE"": ""1987-08-07"", ""SALARY"": 9500 },
+      { ""HIRE_DATE"": ""1987-08-08"", ""SALARY"": 9000 },
+      { ""HIRE_DATE"": ""1987-08-09"", ""SALARY"": 8000 },
+      { ""HIRE_DATE"": ""1987-08-10"", ""SALARY"": 7500 },
+      { ""HIRE_DATE"": ""1987-08-11"", ""SALARY"": 7000 },
+      { ""HIRE_DATE"": ""1987-08-12"", ""SALARY"": 10000 },
+      { ""HIRE_DATE"": ""1987-08-13"", ""SALARY"": 9500 },
+      { ""HIRE_DATE"": ""1987-08-14"", ""SALARY"": 9000 },
+      { ""HIRE_DATE"": ""1987-08-15"", ""SALARY"": 8000 },
+      { ""HIRE_DATE"": ""1987-08-16"", ""SALARY"": 7500 },
+      { ""HIRE_DATE"": ""1987-08-17"", ""SALARY"": 7000 },
+      { ""HIRE_DATE"": ""1987-08-18"", ""SALARY"": 10500 },
+      { ""HIRE_DATE"": ""1987-08-19"", ""SALARY"": 9500 },
+      { ""HIRE_DATE"": ""1987-08-20"", ""SALARY"": 7200 },
+      { ""HIRE_DATE"": ""1987-08-21"", ""SALARY"": 6800 },
+      { ""HIRE_DATE"": ""1987-08-22"", ""SALARY"": 6400 },
+      { ""HIRE_DATE"": ""1987-08-23"", ""SALARY"": 6200 },
+      { ""HIRE_DATE"": ""1987-08-24"", ""SALARY"": 11500 },
+      { ""HIRE_DATE"": ""1987-08-25"", ""SALARY"": 10000 },
+      { ""HIRE_DATE"": ""1987-08-26"", ""SALARY"": 9600 },
+      { ""HIRE_DATE"": ""1987-08-27"", ""SALARY"": 7400 },
+      { ""HIRE_DATE"": ""1987-08-28"", ""SALARY"": 7300 },
+      { ""HIRE_DATE"": ""1987-08-29"", ""SALARY"": 6100 },
+      { ""HIRE_DATE"": ""1987-08-30"", ""SALARY"": 11000 },
+      { ""HIRE_DATE"": ""1987-08-31"", ""SALARY"": 8800 },
+      { ""HIRE_DATE"": ""1987-09-02"", ""SALARY"": 8400 },
+      { ""HIRE_DATE"": ""1987-09-03"", ""SALARY"": 7000 },
+      { ""HIRE_DATE"": ""1987-09-04"", ""SALARY"": 6200 },
+      { ""HIRE_DATE"": ""1987-09-05"", ""SALARY"": 3200 },
+      { ""HIRE_DATE"": ""1987-09-06"", ""SALARY"": 3100 },
+      { ""HIRE_DATE"": ""1987-09-07"", ""SALARY"": 2500 },
+      { ""HIRE_DATE"": ""1987-09-08"", ""SALARY"": 2800 },
+      { ""HIRE_DATE"": ""1987-09-09"", ""SALARY"": 4200 },
+      { ""HIRE_DATE"": ""1987-09-10"", ""SALARY"": 4100 },
+      { ""HIRE_DATE"": ""1987-09-11"", ""SALARY"": 3400 },
+      { ""HIRE_DATE"": ""1987-09-12"", ""SALARY"": 3000 },
+      { ""HIRE_DATE"": ""1987-09-13"", ""SALARY"": 3800 },
+      { ""HIRE_DATE"": ""1987-09-14"", ""SALARY"": 3600 },
+      { ""HIRE_DATE"": ""1987-09-15"", ""SALARY"": 2900 },
+      { ""HIRE_DATE"": ""1987-09-16"", ""SALARY"": 2500 },
+      { ""HIRE_DATE"": ""1987-09-17"", ""SALARY"": 4000 },
+      { ""HIRE_DATE"": ""1987-09-18"", ""SALARY"": 3900 },
+      { ""HIRE_DATE"": ""1987-09-19"", ""SALARY"": 3200 },
+      { ""HIRE_DATE"": ""1987-09-20"", ""SALARY"": 2800 },
+      { ""HIRE_DATE"": ""1987-09-21"", ""SALARY"": 3100 },
+      { ""HIRE_DATE"": ""1987-09-22"", ""SALARY"": 3000 },
+      { ""HIRE_DATE"": ""1987-09-23"", ""SALARY"": 2600 },
+      { ""HIRE_DATE"": ""1987-09-24"", ""SALARY"": 2600 },
+      { ""HIRE_DATE"": ""1987-09-27"", ""SALARY"": 6000 },
+      { ""HIRE_DATE"": ""1987-09-28"", ""SALARY"": 6500 },
+      { ""HIRE_DATE"": ""1987-09-29"", ""SALARY"": 10000 },
+      { ""HIRE_DATE"": ""1987-09-30"", ""SALARY"": 12000 },
+      { ""HIRE_DATE"": ""1987-10-01"", ""SALARY"": 8300 }
+    ]
+  },
+  ""mark"": ""line"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""HIRE_DATE"",
+      ""type"": ""temporal"",
+      ""sort"": ""ascending""
+    },
+    ""y"": {
+      ""field"": ""SALARY"",
+      ""type"": ""quantitative""
+    }
+  }
+}
+
+
+
+","For those employees who did not have any job in the past, draw a chart about the change of salary over hire_date",,,,,,,,,,
+1773@x_name@ASC,,hr_1,"SELECT HIRE_DATE , MANAGER_ID FROM employees WHERE hire_date < '2002-06-21' ORDER BY HIRE_DATE ASC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      { ""HIRE_DATE"": ""1987-06-17"", ""MANAGER_ID"": 0 },
+      { ""HIRE_DATE"": ""1987-06-18"", ""MANAGER_ID"": 100 },
+      { ""HIRE_DATE"": ""1987-06-19"", ""MANAGER_ID"": 100 },
+      { ""HIRE_DATE"": ""1987-06-20"", ""MANAGER_ID"": 102 },
+      { ""HIRE_DATE"": ""1987-06-21"", ""MANAGER_ID"": 103 },
+      { ""HIRE_DATE"": ""1987-06-22"", ""MANAGER_ID"": 103 },
+      { ""HIRE_DATE"": ""1987-06-23"", ""MANAGER_ID"": 103 },
+      { ""HIRE_DATE"": ""1987-06-24"", ""MANAGER_ID"": 103 },
+      { ""HIRE_DATE"": ""1987-06-25"", ""MANAGER_ID"": 101 },
+      { ""HIRE_DATE"": ""1987-06-26"", ""MANAGER_ID"": 108 },
+      { ""HIRE_DATE"": ""1987-06-27"", ""MANAGER_ID"": 108 },
+      { ""HIRE_DATE"": ""1987-06-28"", ""MANAGER_ID"": 108 },
+      { ""HIRE_DATE"": ""1987-06-29"", ""MANAGER_ID"": 108 },
+      { ""HIRE_DATE"": ""1987-06-30"", ""MANAGER_ID"": 108 },
+      { ""HIRE_DATE"": ""1987-07-01"", ""MANAGER_ID"": 100 },
+      { ""HIRE_DATE"": ""1987-07-02"", ""MANAGER_ID"": 114 },
+      { ""HIRE_DATE"": ""1987-07-03"", ""MANAGER_ID"": 114 },
+      { ""HIRE_DATE"": ""1987-07-04"", ""MANAGER_ID"": 114 },
+      { ""HIRE_DATE"": ""1987-07-05"", ""MANAGER_ID"": 114 },
+      { ""HIRE_DATE"": ""1987-07-06"", ""MANAGER_ID"": 114 },
+      { ""HIRE_DATE"": ""1987-07-07"", ""MANAGER_ID"": 100 },
+      { ""HIRE_DATE"": ""1987-07-08"", ""MANAGER_ID"": 100 },
+      { ""HIRE_DATE"": ""1987-07-09"", ""MANAGER_ID"": 100 },
+      { ""HIRE_DATE"": ""1987-07-10"", ""MANAGER_ID"": 100 },
+      { ""HIRE_DATE"": ""1987-07-11"", ""MANAGER_ID"": 100 },
+      { ""HIRE_DATE"": ""1987-07-12"", ""MANAGER_ID"": 120 },
+      { ""HIRE_DATE"": ""1987-07-13"", ""MANAGER_ID"": 120 },
+      { ""HIRE_DATE"": ""1987-07-14"", ""MANAGER_ID"": 120 },
+      { ""HIRE_DATE"": ""1987-07-15"", ""MANAGER_ID"": 120 },
+      { ""HIRE_DATE"": ""1987-07-16"", ""MANAGER_ID"": 121 },
+      { ""HIRE_DATE"": ""1987-07-17"", ""MANAGER_ID"": 121 },
+      { ""HIRE_DATE"": ""1987-07-18"", ""MANAGER_ID"": 121 },
+      { ""HIRE_DATE"": ""1987-07-19"", ""MANAGER_ID"": 121 },
+      { ""HIRE_DATE"": ""1987-07-20"", ""MANAGER_ID"": 122 },
+      { ""HIRE_DATE"": ""1987-07-21"", ""MANAGER_ID"": 122 },
+      { ""HIRE_DATE"": ""1987-07-22"", ""MANAGER_ID"": 122 },
+      { ""HIRE_DATE"": ""1987-07-23"", ""MANAGER_ID"": 122 },
+      { ""HIRE_DATE"": ""1987-07-24"", ""MANAGER_ID"": 123 },
+      { ""HIRE_DATE"": ""1987-07-25"", ""MANAGER_ID"": 123 },
+      { ""HIRE_DATE"": ""1987-07-26"", ""MANAGER_ID"": 123 },
+      { ""HIRE_DATE"": ""1987-07-27"", ""MANAGER_ID"": 123 },
+      { ""HIRE_DATE"": ""1987-07-28"", ""MANAGER_ID"": 124 },
+      { ""HIRE_DATE"": ""1987-07-29"", ""MANAGER_ID"": 124 },
+      { ""HIRE_DATE"": ""1987-07-30"", ""MANAGER_ID"": 124 },
+      { ""HIRE_DATE"": ""1987-07-31"", ""MANAGER_ID"": 124 },
+      { ""HIRE_DATE"": ""1987-08-01"", ""MANAGER_ID"": 100 },
+      { ""HIRE_DATE"": ""1987-08-02"", ""MANAGER_ID"": 100 },
+      { ""HIRE_DATE"": ""1987-08-03"", ""MANAGER_ID"": 100 },
+      { ""HIRE_DATE"": ""1987-08-04"", ""MANAGER_ID"": 100 },
+      { ""HIRE_DATE"": ""1987-08-05"", ""MANAGER_ID"": 100 },
+      { ""HIRE_DATE"": ""1987-08-06"", ""MANAGER_ID"": 145 },
+      { ""HIRE_DATE"": ""1987-08-07"", ""MANAGER_ID"": 145 },
+      { ""HIRE_DATE"": ""1987-08-08"", ""MANAGER_ID"": 145 },
+      { ""HIRE_DATE"": ""1987-08-09"", ""MANAGER_ID"": 145 },
+      { ""HIRE_DATE"": ""1987-08-10"", ""MANAGER_ID"": 145 },
+      { ""HIRE_DATE"": ""1987-08-11"", ""MANAGER_ID"": 145 },
+      { ""HIRE_DATE"": ""1987-08-12"", ""MANAGER_ID"": 146 },
+      { ""HIRE_DATE"": ""1987-08-13"", ""MANAGER_ID"": 146 },
+      { ""HIRE_DATE"": ""1987-08-14"", ""MANAGER_ID"": 146 },
+      { ""HIRE_DATE"": ""1987-08-15"", ""MANAGER_ID"": 146 },
+      { ""HIRE_DATE"": ""1987-08-16"", ""MANAGER_ID"": 146 },
+      { ""HIRE_DATE"": ""1987-08-17"", ""MANAGER_ID"": 146 },
+      { ""HIRE_DATE"": ""1987-08-18"", ""MANAGER_ID"": 147 },
+      { ""HIRE_DATE"": ""1987-08-19"", ""MANAGER_ID"": 147 },
+      { ""HIRE_DATE"": ""1987-08-20"", ""MANAGER_ID"": 147 },
+      { ""HIRE_DATE"": ""1987-08-21"", ""MANAGER_ID"": 147 },
+      { ""HIRE_DATE"": ""1987-08-22"", ""MANAGER_ID"": 147 },
+      { ""HIRE_DATE"": ""1987-08-23"", ""MANAGER_ID"": 147 },
+      { ""HIRE_DATE"": ""1987-08-24"", ""MANAGER_ID"": 148 },
+      { ""HIRE_DATE"": ""1987-08-25"", ""MANAGER_ID"": 148 },
+      { ""HIRE_DATE"": ""1987-08-26"", ""MANAGER_ID"": 148 },
+      { ""HIRE_DATE"": ""1987-08-27"", ""MANAGER_ID"": 148 },
+      { ""HIRE_DATE"": ""1987-08-28"", ""MANAGER_ID"": 148 },
+      { ""HIRE_DATE"": ""1987-08-29"", ""MANAGER_ID"": 148 },
+      { ""HIRE_DATE"": ""1987-08-30"", ""MANAGER_ID"": 149 },
+      { ""HIRE_DATE"": ""1987-08-31"", ""MANAGER_ID"": 149 },
+      { ""HIRE_DATE"": ""1987-09-01"", ""MANAGER_ID"": 149 },
+      { ""HIRE_DATE"": ""1987-09-02"", ""MANAGER_ID"": 149 },
+      { ""HIRE_DATE"": ""1987-09-03"", ""MANAGER_ID"": 149 },
+      { ""HIRE_DATE"": ""1987-09-04"", ""MANAGER_ID"": 149 },
+      { ""HIRE_DATE"": ""1987-09-05"", ""MANAGER_ID"": 120 },
+      { ""HIRE_DATE"": ""1987-09-06"", ""MANAGER_ID"": 120 },
+      { ""HIRE_DATE"": ""1987-09-07"", ""MANAGER_ID"": 120 },
+      { ""HIRE_DATE"": ""1987-09-08"", ""MANAGER_ID"": 120 },
+      { ""HIRE_DATE"": ""1987-09-09"", ""MANAGER_ID"": 121 },
+      { ""HIRE_DATE"": ""1987-09-10"", ""MANAGER_ID"": 121 },
+      { ""HIRE_DATE"": ""1987-09-11"", ""MANAGER_ID"": 121 },
+      { ""HIRE_DATE"": ""1987-09-12"", ""MANAGER_ID"": 121 },
+      { ""HIRE_DATE"": ""1987-09-13"", ""MANAGER_ID"": 122 },
+      { ""HIRE_DATE"": ""1987-09-14"", ""MANAGER_ID"": 122 },
+      { ""HIRE_DATE"": ""1987-09-15"", ""MANAGER_ID"": 122 },
+      { ""HIRE_DATE"": ""1987-09-16"", ""MANAGER_ID"": 122 },
+      { ""HIRE_DATE"": ""1987-09-17"", ""MANAGER_ID"": 123 },
+      { ""HIRE_DATE"": ""1987-09-18"", ""MANAGER_ID"": 123 },
+      { ""HIRE_DATE"": ""1987-09-19"", ""MANAGER_ID"": 123 },
+      { ""HIRE_DATE"": ""1987-09-20"", ""MANAGER_ID"": 123 },
+      { ""HIRE_DATE"": ""1987-09-21"", ""MANAGER_ID"": 124 },
+      { ""HIRE_DATE"": ""1987-09-22"", ""MANAGER_ID"": 124 },
+      { ""HIRE_DATE"": ""1987-09-23"", ""MANAGER_ID"": 124 },
+      { ""HIRE_DATE"": ""1987-09-24"", ""MANAGER_ID"": 124 },
+      { ""HIRE_DATE"": ""1987-09-25"", ""MANAGER_ID"": 101 },
+      { ""HIRE_DATE"": ""1987-09-26"", ""MANAGER_ID"": 100 },
+      { ""HIRE_DATE"": ""1987-09-27"", ""MANAGER_ID"": 201 },
+      { ""HIRE_DATE"": ""1987-09-28"", ""MANAGER_ID"": 101 },
+      { ""HIRE_DATE"": ""1987-09-29"", ""MANAGER_ID"": 101 },
+      { ""HIRE_DATE"": ""1987-09-30"", ""MANAGER_ID"": 101 },
+      { ""HIRE_DATE"": ""1987-10-01"", ""MANAGER_ID"": 205 }
+    ]
+  },
+  ""mark"": ""line"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""HIRE_DATE"",
+      ""type"": ""temporal"",
+      ""sort"": ""ascending""
+    },
+    ""y"": {
+      ""field"": ""MANAGER_ID"",
+      ""type"": ""quantitative""
+    }
+  }
+}","Can you create a chart showing how manager_id changes over hire_date for employees hired before June 21, 2002, and list the data in ascending order by hire_date?",,,,,,,,,,
+3256@x_name@ASC,,wine_1,"SELECT Year , max(Price) FROM WINE GROUP BY Year ORDER BY Year ASC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      { ""Year"": ""2004"", ""max(Price)"": 75 },
+      { ""Year"": ""2005"", ""max(Price)"": 100 },
+      { ""Year"": ""2006"", ""max(Price)"": 200 },
+      { ""Year"": ""2007"", ""max(Price)"": 225 },
+      { ""Year"": ""2008"", ""max(Price)"": 130 },
+      { ""Year"": ""2009"", ""max(Price)"": 78 },
+      { ""Year"": ""2066"", ""max(Price)"": 32 }
+    ]
+  },
+  ""mark"": ""line"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Year"",
+      ""type"": ""ordinal"",
+      ""sort"": ""ascending""
+    },
+    ""y"": {
+      ""field"": ""max(Price)"",
+      ""type"": ""quantitative""
+    }
+  }
+}
+
+
+",Visualize the general trend of maximal price over the year ,,,,,,,,,,
+1101@x_name@ASC,,department_management,"SELECT Creation , AVG(Budget_in_Billions) FROM department GROUP BY Creation ORDER BY Creation ASC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY Creation"",
+  ""data"": {
+    ""values"": [
+      { ""Creation"": ""1789"", ""AVG(Budget_in_Billions)"": 10.53 },
+      { ""Creation"": ""1849"", ""AVG(Budget_in_Billions)"": 10.7  },
+      { ""Creation"": ""1870"", ""AVG(Budget_in_Billions)"": 23.4  },
+      { ""Creation"": ""1889"", ""AVG(Budget_in_Billions)"": 77.6  },
+      { ""Creation"": ""1903"", ""AVG(Budget_in_Billions)"": 6.2   },
+      { ""Creation"": ""1913"", ""AVG(Budget_in_Billions)"": 59.7  },
+      { ""Creation"": ""1947"", ""AVG(Budget_in_Billions)"": 439.3 },
+      { ""Creation"": ""1953"", ""AVG(Budget_in_Billions)"": 543.2 },
+      { ""Creation"": ""1965"", ""AVG(Budget_in_Billions)"": 46.2  },
+      { ""Creation"": ""1966"", ""AVG(Budget_in_Billions)"": 58.0  },
+      { ""Creation"": ""1977"", ""AVG(Budget_in_Billions)"": 21.5  },
+      { ""Creation"": ""1979"", ""AVG(Budget_in_Billions)"": 62.8  },
+      { ""Creation"": ""1989"", ""AVG(Budget_in_Billions)"": 73.2  },
+      { ""Creation"": ""2002"", ""AVG(Budget_in_Billions)"": 44.6  }
+    ]
+  },
+  ""mark"": ""line"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Creation"",
+      ""type"": ""quantitative"",
+      ""sort"": ""ascending""
+    },
+    ""y"": {
+      ""field"": ""AVG(Budget_in_Billions)"",
+      ""type"": ""quantitative""
+    }
+  }
+}
+
+
+","Plot the average of budget in billions over creation in a chart, and show creation in asc order.",,,,,,,,,,
+640@x_name@ASC,,college_2,"SELECT year , count(Distinct course_id) FROM SECTION GROUP BY year ORDER BY year ASC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY year"",
+  ""data"": {
+    ""values"": [
+      { ""year"": ""2001"", ""count(Distinct course_id)"": 5 },
+      { ""year"": ""2002"", ""count(Distinct course_id)"": 13 },
+      { ""year"": ""2003"", ""count(Distinct course_id)"": 12 },
+      { ""year"": ""2004"", ""count(Distinct course_id)"": 7 },
+      { ""year"": ""2005"", ""count(Distinct course_id)"": 8 },
+      { ""year"": ""2006"", ""count(Distinct course_id)"": 13 },
+      { ""year"": ""2007"", ""count(Distinct course_id)"": 12 },
+      { ""year"": ""2008"", ""count(Distinct course_id)"": 9 },
+      { ""year"": ""2009"", ""count(Distinct course_id)"": 9 },
+      { ""year"": ""2010"", ""count(Distinct course_id)"": 11 }
+    ]
+  },
+  ""mark"": ""line"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""year"",
+      ""type"": ""quantitative"",
+      ""sort"": ""ascending""
+    },
+    ""y"": {
+      ""field"": ""count(Distinct course_id)"",
+      ""type"": ""quantitative""
+    }
+  }
+}
+
+
+",Find the number of different courses provided in each year.,,,,,,,,,,
+1494@x_name@ASC,,game_injury,"SELECT Season , COUNT(Season) FROM game GROUP BY Season ORDER BY Season ASC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY Season"",
+  ""data"": {
+    ""values"": [
+      { ""Season"": ""2007"", ""COUNT(Season)"": 3 },
+      { ""Season"": ""2008"", ""COUNT(Season)"": 3 },
+      { ""Season"": ""2009"", ""COUNT(Season)"": 3 },
+      { ""Season"": ""2010"", ""COUNT(Season)"": 2 },
+      { ""Season"": ""2011"", ""COUNT(Season)"": 2 },
+      { ""Season"": ""2012"", ""COUNT(Season)"": 5 },
+      { ""Season"": ""2013"", ""COUNT(Season)"": 2 }
+    ]
+  },
+  ""mark"": ""line"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Season"",
+      ""type"": ""quantitative"",
+      ""sort"": ""ascending""
+    },
+    ""y"": {
+      ""field"": ""COUNT(Season)"",
+      ""type"": ""quantitative""
+    }
+  }
+}
+
+",List the number of games in each season ,,,,,,,,,,
+2617,,products_for_hire,"SELECT 
+    DATE(payment_date), 
+    COUNT(payment_date) 
+FROM 
+    payments 
+WHERE 
+    (amount_paid > 300 OR payment_type_code = 'Check') 
+GROUP BY 
+    DATE(payment_date);
+
+
+","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY payment_date"",
+  ""data"": {
+    ""values"": [
+      { ""payment_date"": ""2018-02-27"", ""COUNT(payment_date)"": 1 },
+      { ""payment_date"": ""2018-03-02"", ""COUNT(payment_date)"": 1 },
+      { ""payment_date"": ""2018-03-03"", ""COUNT(payment_date)"": 3 },
+      { ""payment_date"": ""2018-03-09"", ""COUNT(payment_date)"": 1 },
+      { ""payment_date"": ""2018-03-12"", ""COUNT(payment_date)"": 2 },
+      { ""payment_date"": ""2018-03-17"", ""COUNT(payment_date)"": 2 },
+      { ""payment_date"": ""2018-03-19"", ""COUNT(payment_date)"": 1 },
+      { ""payment_date"": ""2018-03-22"", ""COUNT(payment_date)"": 1 },
+      { ""payment_date"": ""2018-03-23"", ""COUNT(payment_date)"": 2 }
+    ]
+  },
+  ""mark"": ""line"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""payment_date"",
+      ""type"": ""temporal""
+    },
+    ""y"": {
+      ""field"": ""COUNT(payment_date)"",
+      ""type"": ""quantitative""
+    }
+  }
+}
+
+
+","What are the payment date of the payment with amount paid higher than 300 or with payment type is 'Check, and count them",,,,,,,,,,
+1835@x_name@ASC,,hr_1,"SELECT HIRE_DATE , SALARY FROM employees WHERE first_name NOT LIKE '%M%' ORDER BY HIRE_DATE ASC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      { ""HIRE_DATE"": ""1987-06-17"", ""SALARY"": 24000 },
+      { ""HIRE_DATE"": ""1987-06-18"", ""SALARY"": 17000 },
+      { ""HIRE_DATE"": ""1987-06-19"", ""SALARY"": 17000 },
+      { ""HIRE_DATE"": ""1987-06-20"", ""SALARY"": 9000 },
+      { ""HIRE_DATE"": ""1987-06-21"", ""SALARY"": 6000 },
+      { ""HIRE_DATE"": ""1987-06-22"", ""SALARY"": 4800 },
+      { ""HIRE_DATE"": ""1987-06-23"", ""SALARY"": 4800 },
+      { ""HIRE_DATE"": ""1987-06-24"", ""SALARY"": 4200 },
+      { ""HIRE_DATE"": ""1987-06-25"", ""SALARY"": 12000 },
+      { ""HIRE_DATE"": ""1987-06-26"", ""SALARY"": 9000 },
+      { ""HIRE_DATE"": ""1987-06-27"", ""SALARY"": 8200 },
+      { ""HIRE_DATE"": ""1987-06-30"", ""SALARY"": 6900 },
+      { ""HIRE_DATE"": ""1987-07-01"", ""SALARY"": 11000 },
+      { ""HIRE_DATE"": ""1987-07-02"", ""SALARY"": 3100 },
+      { ""HIRE_DATE"": ""1987-07-03"", ""SALARY"": 2900 },
+      { ""HIRE_DATE"": ""1987-07-04"", ""SALARY"": 2800 },
+      { ""HIRE_DATE"": ""1987-07-05"", ""SALARY"": 2600 },
+      { ""HIRE_DATE"": ""1987-07-06"", ""SALARY"": 2500 },
+      { ""HIRE_DATE"": ""1987-07-10"", ""SALARY"": 6500 },
+      { ""HIRE_DATE"": ""1987-07-11"", ""SALARY"": 5800 },
+      { ""HIRE_DATE"": ""1987-07-12"", ""SALARY"": 3200 },
+      { ""HIRE_DATE"": ""1987-07-13"", ""SALARY"": 2700 },
+      { ""HIRE_DATE"": ""1987-07-15"", ""SALARY"": 2200 },
+      { ""HIRE_DATE"": ""1987-07-16"", ""SALARY"": 3300 },
+      { ""HIRE_DATE"": ""1987-07-19"", ""SALARY"": 2100 },
+      { ""HIRE_DATE"": ""1987-07-20"", ""SALARY"": 3300 },
+      { ""HIRE_DATE"": ""1987-07-22"", ""SALARY"": 2400 },
+      { ""HIRE_DATE"": ""1987-07-23"", ""SALARY"": 2200 },
+      { ""HIRE_DATE"": ""1987-07-24"", ""SALARY"": 3600 },
+      { ""HIRE_DATE"": ""1987-07-25"", ""SALARY"": 3200 },
+      { ""HIRE_DATE"": ""1987-07-26"", ""SALARY"": 2700 },
+      { ""HIRE_DATE"": ""1987-07-27"", ""SALARY"": 2500 },
+      { ""HIRE_DATE"": ""1987-07-28"", ""SALARY"": 3500 },
+      { ""HIRE_DATE"": ""1987-07-29"", ""SALARY"": 3100 },
+      { ""HIRE_DATE"": ""1987-07-30"", ""SALARY"": 2600 },
+      { ""HIRE_DATE"": ""1987-07-31"", ""SALARY"": 2500 },
+      { ""HIRE_DATE"": ""1987-08-01"", ""SALARY"": 14000 },
+      { ""HIRE_DATE"": ""1987-08-02"", ""SALARY"": 13500 },
+      { ""HIRE_DATE"": ""1987-08-03"", ""SALARY"": 12000 },
+      { ""HIRE_DATE"": ""1987-08-04"", ""SALARY"": 11000 },
+      { ""HIRE_DATE"": ""1987-08-05"", ""SALARY"": 10500 },
+      { ""HIRE_DATE"": ""1987-08-06"", ""SALARY"": 10000 },
+      { ""HIRE_DATE"": ""1987-08-07"", ""SALARY"": 9500 },
+      { ""HIRE_DATE"": ""1987-08-08"", ""SALARY"": 9000 },
+      { ""HIRE_DATE"": ""1987-08-09"", ""SALARY"": 8000 },
+      { ""HIRE_DATE"": ""1987-08-10"", ""SALARY"": 7500 },
+      { ""HIRE_DATE"": ""1987-08-11"", ""SALARY"": 7000 },
+      { ""HIRE_DATE"": ""1987-08-12"", ""SALARY"": 10000 },
+      { ""HIRE_DATE"": ""1987-08-13"", ""SALARY"": 9500 },
+      { ""HIRE_DATE"": ""1987-08-14"", ""SALARY"": 9000 },
+      { ""HIRE_DATE"": ""1987-08-15"", ""SALARY"": 8000 },
+      { ""HIRE_DATE"": ""1987-08-16"", ""SALARY"": 7500 },
+      { ""HIRE_DATE"": ""1987-08-17"", ""SALARY"": 7000 },
+      { ""HIRE_DATE"": ""1987-08-18"", ""SALARY"": 10500 },
+      { ""HIRE_DATE"": ""1987-08-19"", ""SALARY"": 9500 },
+      { ""HIRE_DATE"": ""1987-08-21"", ""SALARY"": 6800 },
+      { ""HIRE_DATE"": ""1987-08-22"", ""SALARY"": 6400 },
+      { ""HIRE_DATE"": ""1987-08-24"", ""SALARY"": 11500 },
+      { ""HIRE_DATE"": ""1987-08-25"", ""SALARY"": 10000 },
+      { ""HIRE_DATE"": ""1987-08-26"", ""SALARY"": 9600 },
+      { ""HIRE_DATE"": ""1987-08-28"", ""SALARY"": 7300 },
+      { ""HIRE_DATE"": ""1987-08-29"", ""SALARY"": 6100 },
+      { ""HIRE_DATE"": ""1987-08-30"", ""SALARY"": 11000 },
+      { ""HIRE_DATE"": ""1987-08-31"", ""SALARY"": 8800 },
+      { ""HIRE_DATE"": ""1987-09-01"", ""SALARY"": 8600 },
+      { ""HIRE_DATE"": ""1987-09-02"", ""SALARY"": 8400 },
+      { ""HIRE_DATE"": ""1987-09-04"", ""SALARY"": 6200 },
+      { ""HIRE_DATE"": ""1987-09-05"", ""SALARY"": 3200 },
+      { ""HIRE_DATE"": ""1987-09-06"", ""SALARY"": 3100 },
+      { ""HIRE_DATE"": ""1987-09-08"", ""SALARY"": 2800 },
+      { ""HIRE_DATE"": ""1987-09-09"", ""SALARY"": 4200 },
+      { ""HIRE_DATE"": ""1987-09-10"", ""SALARY"": 4100 },
+      { ""HIRE_DATE"": ""1987-09-11"", ""SALARY"": 3400 },
+      { ""HIRE_DATE"": ""1987-09-12"", ""SALARY"": 3000 },
+      { ""HIRE_DATE"": ""1987-09-13"", ""SALARY"": 3800 },
+      { ""HIRE_DATE"": ""1987-09-14"", ""SALARY"": 3600 },
+      { ""HIRE_DATE"": ""1987-09-16"", ""SALARY"": 2500 },
+      { ""HIRE_DATE"": ""1987-09-17"", ""SALARY"": 4000 },
+      { ""HIRE_DATE"": ""1987-09-18"", ""SALARY"": 3900 },
+      { ""HIRE_DATE"": ""1987-09-20"", ""SALARY"": 2800 },
+      { ""HIRE_DATE"": ""1987-09-21"", ""SALARY"": 3100 },
+      { ""HIRE_DATE"": ""1987-09-22"", ""SALARY"": 3000 },
+      { ""HIRE_DATE"": ""1987-09-23"", ""SALARY"": 2600 },
+      { ""HIRE_DATE"": ""1987-09-24"", ""SALARY"": 2600 },
+      { ""HIRE_DATE"": ""1987-09-25"", ""SALARY"": 4400 },
+      { ""HIRE_DATE"": ""1987-09-27"", ""SALARY"": 6000 },
+      { ""HIRE_DATE"": ""1987-09-28"", ""SALARY"": 6500 },
+      { ""HIRE_DATE"": ""1987-09-30"", ""SALARY"": 12000 }
+    ]
+  },
+  ""mark"": ""line"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""HIRE_DATE"",
+      ""type"": ""temporal"",
+      ""sort"": ""ascending""
+    },
+    ""y"": {
+      ""field"": ""SALARY"",
+      ""type"": ""quantitative""
+    }
+  }
+}
+
+
+","For those employees whose first name does not contain the letter M, give me a chart to show the hire date and the corresponding salaries",,,,,,,,,,
+3165,,university_basketball,"SELECT ACC_Percent , All_Games_Percent ,Team_Name FROM basketball_match GROUP BY Team_Name","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY Team_Name"",
+  ""data"": {
+    ""values"": [
+      { ""Team_Name"": ""Clemson"",         ""ACC_Percent"": 0.625, ""All_Games_Percent"": 0.706 },
+      { ""Team_Name"": ""Duke"",           ""ACC_Percent"": 0.813, ""All_Games_Percent"": 0.8240000000000001 },
+      { ""Team_Name"": ""North Carolina"", ""ACC_Percent"": 0.875, ""All_Games_Percent"": 0.946 },
+      { ""Team_Name"": ""Virginia Tech"",  ""ACC_Percent"": 0.563, ""All_Games_Percent"": 0.6 }
+    ]
+  },
+  ""mark"": ""point"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""ACC_Percent"",
+      ""type"": ""quantitative"",
+      ""axis"": { ""title"": ""ACC_Percent"" }
+    },
+    ""y"": {
+      ""field"": ""All_Games_Percent"",
+      ""type"": ""quantitative"",
+      ""axis"": { ""title"": ""All_Games_Percent"" }
+    },
+    ""color"": {
+      ""field"": ""Team_Name"",
+      ""type"": ""nominal""
+    }
+  }
+}","Can you calculate and display the ACC_Percent, All_Games_Percent, and Team_Name for each team in the basketball matches?",,,,,,,,,,
+1172,,dog_kennels,"SELECT age , weight , name FROM Dogs WHERE abandoned_yn = 1 GROUP BY name","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY name"",
+  ""data"": {
+    ""values"": [
+      { ""name"": ""Evangeline"", ""age"": 1, ""weight"": 4.01 },
+      { ""name"": ""Kacey"",      ""age"": 6, ""weight"": 7.57 },
+      { ""name"": ""Lyric"",      ""age"": 4, ""weight"": 4.36 }
+    ]
+  },
+  ""mark"": ""point"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""age"",
+      ""type"": ""quantitative""
+    },
+    ""y"": {
+      ""field"": ""weight"",
+      ""type"": ""quantitative""
+    },
+    ""color"": {
+      ""field"": ""name"",
+      ""type"": ""nominal""
+    }
+  }
+}
+
+
+",What is the relationship between age and weight of the dogs who have been abandoned? ,,,,,,,,,,
+387,,candidate_poll,"SELECT Height , Weight ,Sex FROM people","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""Scatter plot without x/y axis starting at zero"",
+  ""data"": {
+    ""values"": [
+      { ""Sex"": ""F"", ""Height"": 200, ""Weight"": 94 },
+      { ""Sex"": ""F"", ""Height"": 195, ""Weight"": 90 },
+
+
+      { ""Sex"": ""M"", ""Height"": 188, ""Weight"": 83 },
+      { ""Sex"": ""M"", ""Height"": 197, ""Weight"": 85 },
+      { ""Sex"": ""M"", ""Height"": 202, ""Weight"": 92 },
+      { ""Sex"": ""M"", ""Height"": 196, ""Weight"": 88 },
+      { ""Sex"": ""M"", ""Height"": 193, ""Weight"": 89 },
+      { ""Sex"": ""M"", ""Height"": 194, ""Weight"": 88 },
+      { ""Sex"": ""M"", ""Height"": 196, ""Weight"": 82 }
+    ]
+  },
+  ""mark"": ""point"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Height"",
+      ""type"": ""quantitative"",
+      ""scale"": {
+        ""zero"": false
+      }
+    },
+    ""y"": {
+      ""field"": ""Weight"",
+      ""type"": ""quantitative"",
+      ""scale"": {
+        ""zero"": false
+      }
+    },
+    ""color"": {
+      ""field"": ""Sex"",
+      ""type"": ""nominal""
+    }
+  }
+}
+
+
+","Draw a scatter chart about the correlation between  Height and  Weight , and attribute Sex.",,,,,,,,,,
+4032,,wine_1,"SELECT Price, Score, Grape from wine where Grape in ('Grenache', 'Syrah','Zinfandel')","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""Scatter plot grouped by wine type (color & shape)."",
+  ""data"": {
+    ""values"": [
+  { ""WineType"": ""Zinfandel"", ""Price"": 44, ""Score"": 93 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 35, ""Score"": 93 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 40, ""Score"": 91 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 38, ""Score"": 89 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 44, ""Score"": 88 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 15, ""Score"": 88 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 18, ""Score"": 87 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 43, ""Score"": 93 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 29, ""Score"": 93 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 34, ""Score"": 93 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 32, ""Score"": 92 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 42, ""Score"": 91 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 40, ""Score"": 90 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 28, ""Score"": 90 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 38, ""Score"": 89 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 24, ""Score"": 88 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 20, ""Score"": 88 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 18, ""Score"": 88 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 18, ""Score"": 87 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 30, ""Score"": 87 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 13, ""Score"": 86 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 45, ""Score"": 86 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 24, ""Score"": 91 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 35, ""Score"": 91 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 33, ""Score"": 95 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 48, ""Score"": 94 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 40, ""Score"": 93 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 23, ""Score"": 92 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 43, ""Score"": 91 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 27, ""Score"": 91 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 50, ""Score"": 91 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 27, ""Score"": 89 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 20, ""Score"": 89 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 18, ""Score"": 89 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 18, ""Score"": 88 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 19, ""Score"": 88 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 18, ""Score"": 87 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 18, ""Score"": 87 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 35, ""Score"": 87 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 26, ""Score"": 86 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 20, ""Score"": 86 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 20, ""Score"": 84 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 15, ""Score"": 84 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 12, ""Score"": 82 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 10, ""Score"": 82 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 25, ""Score"": 78 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 25, ""Score"": 88 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 22, ""Score"": 88 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 17, ""Score"": 83 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 33, ""Score"": 90 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 55, ""Score"": 89 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 35, ""Score"": 89 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 35, ""Score"": 89 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 38, ""Score"": 89 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 41, ""Score"": 89 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 32, ""Score"": 88 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 32, ""Score"": 88 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 28, ""Score"": 88 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 34, ""Score"": 88 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 50, ""Score"": 88 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 35, ""Score"": 88 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 28, ""Score"": 88 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 30, ""Score"": 88 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 28, ""Score"": 88 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 18, ""Score"": 87 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 22, ""Score"": 87 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 25, ""Score"": 87 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 24, ""Score"": 87 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 27, ""Score"": 87 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 30, ""Score"": 87 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 18, ""Score"": 87 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 45, ""Score"": 87 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 45, ""Score"": 87 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 24, ""Score"": 86 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 18, ""Score"": 86 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 14, ""Score"": 85 },
+  { ""WineType"": ""Zinfandel"", ""Price"": 12, ""Score"": 86 },
+  { ""WineType"": ""Grenache"",  ""Price"": 200, ""Score"": 97 },
+  { ""WineType"": ""Grenache"",  ""Price"": 36,  ""Score"": 93 },
+  { ""WineType"": ""Grenache"",  ""Price"": 35,  ""Score"": 91 },
+  { ""WineType"": ""Grenache"",  ""Price"": 48,  ""Score"": 88 },
+  { ""WineType"": ""Grenache"",  ""Price"": 39,  ""Score"": 87 },
+  { ""WineType"": ""Grenache"",  ""Price"": 42,  ""Score"": 87 },
+  { ""WineType"": ""Grenache"",  ""Price"": 38,  ""Score"": 87 },
+  { ""WineType"": ""Grenache"",  ""Price"": 100, ""Score"": 93 },
+  { ""WineType"": ""Grenache"",  ""Price"": 135, ""Score"": 91 },
+  { ""WineType"": ""Grenache"",  ""Price"": 15,  ""Score"": 90 },
+  { ""WineType"": ""Syrah"",     ""Price"": 60,  ""Score"": 94 },
+  { ""WineType"": ""Syrah"",     ""Price"": 76,  ""Score"": 92 },
+  { ""WineType"": ""Syrah"",     ""Price"": 200, ""Score"": 98 },
+  { ""WineType"": ""Syrah"",     ""Price"": 65,  ""Score"": 95 },
+  { ""WineType"": ""Syrah"",     ""Price"": 40,  ""Score"": 94 },
+  { ""WineType"": ""Syrah"",     ""Price"": 45,  ""Score"": 93 },
+  { ""WineType"": ""Syrah"",     ""Price"": 36,  ""Score"": 93 },
+  { ""WineType"": ""Syrah"",     ""Price"": 36,  ""Score"": 93 },
+  { ""WineType"": ""Syrah"",     ""Price"": 42,  ""Score"": 93 },
+  { ""WineType"": ""Syrah"",     ""Price"": 55,  ""Score"": 92 },
+  { ""WineType"": ""Syrah"",     ""Price"": 38,  ""Score"": 92 },
+  { ""WineType"": ""Syrah"",     ""Price"": 40,  ""Score"": 92 },
+  { ""WineType"": ""Syrah"",     ""Price"": 40,  ""Score"": 91 },
+  { ""WineType"": ""Syrah"",     ""Price"": 27,  ""Score"": 91 },
+  { ""WineType"": ""Syrah"",     ""Price"": 44,  ""Score"": 91 },
+  { ""WineType"": ""Syrah"",     ""Price"": 50,  ""Score"": 90 },
+  { ""WineType"": ""Syrah"",     ""Price"": 55,  ""Score"": 90 },
+  { ""WineType"": ""Syrah"",     ""Price"": 38,  ""Score"": 90 },
+  { ""WineType"": ""Syrah"",     ""Price"": 22,  ""Score"": 89 },
+  { ""WineType"": ""Syrah"",     ""Price"": 35,  ""Score"": 89 },
+  { ""WineType"": ""Syrah"",     ""Price"": 17,  ""Score"": 88 },
+  { ""WineType"": ""Syrah"",     ""Price"": 40,  ""Score"": 88 },
+  { ""WineType"": ""Syrah"",     ""Price"": 20,  ""Score"": 88 },
+  { ""WineType"": ""Syrah"",     ""Price"": 60,  ""Score"": 88 },
+  { ""WineType"": ""Syrah"",     ""Price"": 45,  ""Score"": 88 },
+  { ""WineType"": ""Syrah"",     ""Price"": 25,  ""Score"": 88 },
+  { ""WineType"": ""Syrah"",     ""Price"": 25,  ""Score"": 88 },
+  { ""WineType"": ""Syrah"",     ""Price"": 38,  ""Score"": 88 },
+  { ""WineType"": ""Syrah"",     ""Price"": 40,  ""Score"": 87 },
+  { ""WineType"": ""Syrah"",     ""Price"": 30,  ""Score"": 87 },
+  { ""WineType"": ""Syrah"",     ""Price"": 35,  ""Score"": 87 },
+  { ""WineType"": ""Syrah"",     ""Price"": 45,  ""Score"": 87 },
+  { ""WineType"": ""Syrah"",     ""Price"": 30,  ""Score"": 87 },
+  { ""WineType"": ""Syrah"",     ""Price"": 24,  ""Score"": 87 },
+  { ""WineType"": ""Syrah"",     ""Price"": 18,  ""Score"": 84 },
+  { ""WineType"": ""Syrah"",     ""Price"": 9,   ""Score"": 83 },
+  { ""WineType"": ""Syrah"",     ""Price"": 38,  ""Score"": 93 },
+  { ""WineType"": ""Syrah"",     ""Price"": 60,  ""Score"": 93 },
+  { ""WineType"": ""Syrah"",     ""Price"": 28,  ""Score"": 92 },
+  { ""WineType"": ""Syrah"",     ""Price"": 52,  ""Score"": 91 },
+  { ""WineType"": ""Syrah"",     ""Price"": 45,  ""Score"": 91 },
+  { ""WineType"": ""Syrah"",     ""Price"": 25,  ""Score"": 91 },
+  { ""WineType"": ""Syrah"",     ""Price"": 75,  ""Score"": 90 },
+  { ""WineType"": ""Syrah"",     ""Price"": 45,  ""Score"": 90 },
+  { ""WineType"": ""Syrah"",     ""Price"": 45,  ""Score"": 90 },
+  { ""WineType"": ""Syrah"",     ""Price"": 55,  ""Score"": 90 },
+  { ""WineType"": ""Syrah"",     ""Price"": 43,  ""Score"": 98 },
+  { ""WineType"": ""Syrah"",     ""Price"": 43,  ""Score"": 94 },
+  { ""WineType"": ""Syrah"",     ""Price"": 75,  ""Score"": 94 },
+  { ""WineType"": ""Syrah"",     ""Price"": 38,  ""Score"": 93 },
+  { ""WineType"": ""Syrah"",     ""Price"": 55,  ""Score"": 93 },
+  { ""WineType"": ""Syrah"",     ""Price"": 75,  ""Score"": 93 },
+  { ""WineType"": ""Syrah"",     ""Price"": 36,  ""Score"": 93 },
+  { ""WineType"": ""Syrah"",     ""Price"": 35,  ""Score"": 92 },
+  { ""WineType"": ""Syrah"",     ""Price"": 30,  ""Score"": 91 },
+  { ""WineType"": ""Syrah"",     ""Price"": 45,  ""Score"": 92 },
+  { ""WineType"": ""Syrah"",     ""Price"": 135, ""Score"": 92 },
+  { ""WineType"": ""Syrah"",     ""Price"": 40,  ""Score"": 89 },
+  { ""WineType"": ""Syrah"",     ""Price"": 18,  ""Score"": 88 },
+  { ""WineType"": ""Syrah"",     ""Price"": 45,  ""Score"": 88 },
+  { ""WineType"": ""Syrah"",     ""Price"": 16,  ""Score"": 87 }
+]
+
+
+  },
+  ""mark"": ""point"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Price"",
+      ""type"": ""quantitative"",
+      ""title"": ""Price"",
+      ""scale"": {
+""zero"": false
+}
+    },
+    ""y"": {
+      ""field"": ""Score"",
+      ""type"": ""quantitative"",
+      ""title"": ""Score"",
+      ""scale"": {
+""zero"": false
+}
+    },
+    ""color"": {
+      ""field"": ""WineType"",
+      ""type"": ""nominal"",
+      ""title"": ""Wine Type""
+    },
+    ""shape"": {
+      ""field"": ""WineType"",
+      ""type"": ""nominal""
+    }
+  }
+}
+
+
+","A plot illustrating the prices and scores of grapes Grenache, Syrah, and Zinfandel,",,,,,,,,,,
+3085,,university_basketball,"SELECT ACC_Percent , All_Games_Percent ,ACC_Home FROM basketball_match","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY ACC_Home"",
+  ""data"": {
+    ""values"": [
+      {
+        ""ACC_Home"": ""6-2"",
+        ""ACC_Percent"": 0.875,
+        ""All_Games_Percent"": 0.946
+      },
+      {
+        ""ACC_Home"": ""6-2"",
+        ""ACC_Percent"": 0.563,
+        ""All_Games_Percent"": 0.600
+      },
+      {
+        ""ACC_Home"": ""7-1"",
+        ""ACC_Percent"": 0.625,
+        ""All_Games_Percent"": 0.706
+      },
+      {
+        ""ACC_Home"": ""7-1"",
+        ""ACC_Percent"": 0.813,
+        ""All_Games_Percent"": 0.8240000000000001
+      }
+    ]
+  },
+  ""mark"": ""point"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""ACC_Percent"",
+      ""type"": ""quantitative""
+    },
+    ""y"": {
+      ""field"": ""All_Games_Percent"",
+      ""type"": ""quantitative""
+    },
+    ""color"": {
+      ""field"": ""ACC_Home"",
+      ""type"": ""nominal""
+    }
+  }
+}",Show the relation between acc percent and all_games_percent for each ACC_Home ,,,,,,,,,,
+4024,,gas_company,"SELECT Sales_billion, Profits_billion, Main_Industry from company","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      /* ---------- Banking ---------- */
+      { ""Sector"": ""Banking"",      ""Sales_billion"": 82.6,  ""Profits_billion"": 25.1 },
+      { ""Sector"": ""Banking"",      ""Sales_billion"": 102.0, ""Profits_billion"": 16.2 },
+      { ""Sector"": ""Banking"",      ""Sales_billion"": 87.6,  ""Profits_billion"": 15.9 },
+
+
+      /* ---------- Conglomerate ---------- */
+      { ""Sector"": ""Conglomerate"", ""Sales_billion"": 147.3, ""Profits_billion"": 14.2 },
+      { ""Sector"": ""Conglomerate"", ""Sales_billion"": 143.7, ""Profits_billion"": 10.3 },
+
+
+      /* ---------- Oil and gas ---------- */
+      { ""Sector"": ""Oil and gas"",  ""Sales_billion"": 433.5, ""Profits_billion"": 41.1 },
+      { ""Sector"": ""Oil and gas"",  ""Sales_billion"": 470.2, ""Profits_billion"": 30.9 },
+      { ""Sector"": ""Oil and gas"",  ""Sales_billion"": 310.1, ""Profits_billion"": 20.6 },
+      { ""Sector"": ""Oil and gas"",  ""Sales_billion"": 145.9, ""Profits_billion"": 20.1 },
+      { ""Sector"": ""Oil and gas"",  ""Sales_billion"": 375.5, ""Profits_billion"": 25.7 }
+    ]
+  },
+  ""mark"": ""point"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Sales_billion"",
+      ""type"": ""quantitative"",
+      ""title"": ""Sales (in billions)""
+    },
+    ""y"": {
+      ""field"": ""Profits_billion"",
+      ""type"": ""quantitative"",
+      ""title"": ""Profits (in billions)""
+    },
+    ""color"": {
+      ""field"": ""Sector"",
+      ""type"": ""nominal"",
+      ""title"": ""Industry Sector""
+    }
+  }
+}
+
+
+
+","The relationship between sales and profits, Color by Main Industry.",,,,,,,,,,
+3177,,university_basketball,"SELECT ACC_Percent , All_Games_Percent,All_Games FROM basketball_match ","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY All_Games"",
+  ""data"": {
+    ""values"": [
+      {
+        ""All_Games"": ""21-14"",
+        ""ACC_Percent"": 0.563,
+        ""All_Games_Percent"": 0.600
+      },
+      {
+        ""All_Games"": ""24-10"",
+        ""ACC_Percent"": 0.625,
+        ""All_Games_Percent"": 0.706
+      },
+      {
+        ""All_Games"": ""28-6"",
+        ""ACC_Percent"": 0.813,
+        ""All_Games_Percent"": 0.8240000000000001
+      },
+      {
+        ""All_Games"": ""35-2"",
+        ""ACC_Percent"": 0.875,
+        ""All_Games_Percent"": 0.946
+      }
+    ]
+  },
+  ""mark"": ""point"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""ACC_Percent"",
+      ""type"": ""quantitative""
+    },
+    ""y"": {
+      ""field"": ""All_Games_Percent"",
+      ""type"": ""quantitative""
+    },
+    ""color"": {
+      ""field"": ""All_Games"",
+      ""type"": ""nominal""
+    }
+  }
+}
+
+
+","Return a scatter chart about the correlation between  ACC_Percent, All_Games_Percent , and All_Games.",,,,,,,,,,
+2634,,protein_institute,"SELECT count(*) , sum(enrollment) ,Type FROM institution GROUP BY Type","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY Type"",
+  ""data"": {
+    ""values"": [
+      {
+        ""Type"": ""Private"",
+        ""count(*)"": 7,
+        ""sum(enrollment)"": 7868
+      },
+      {
+        ""Type"": ""Public"",
+        ""count(*)"": 3,
+        ""sum(enrollment)"": 5267
+      },
+      {
+        ""Type"": ""Tribal"",
+        ""count(*)"": 1,
+        ""sum(enrollment)"": 1000
+      }
+    ]
+  },
+  ""mark"": ""point"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""count(*)"",
+      ""type"": ""quantitative""
+    },
+    ""y"": {
+      ""field"": ""sum(enrollment)"",
+      ""type"": ""quantitative""
+    },
+    ""color"": {
+      ""field"": ""Type"",
+      ""type"": ""nominal""
+    }
+  }
+}
+
+
+",Can you find the total number of institutions and the total enrollment for each type of institution?,,,,,,,,,,
+2745,,ship_1,"SELECT avg(age) , min(age),Class FROM captain GROUP BY Class","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY Class"",
+  ""data"": {
+    ""values"": [
+      {
+        ""Class"": ""Armed schooner"",
+        ""avg(age)"": 45,
+        ""min(age)"": 45
+      },
+      {
+        ""Class"": ""Cutter"",
+        ""avg(age)"": 43,
+        ""min(age)"": 43
+      },
+      {
+        ""Class"": ""Frigate"",
+        ""avg(age)"": 38,
+        ""min(age)"": 38
+      },
+      {
+        ""Class"": ""Sloop-of-war"",
+        ""avg(age)"": 38,
+        ""min(age)"": 38
+      },
+      {
+        ""Class"": ""Third-rate ship of the line"",
+        ""avg(age)"": 51.33333333333334,
+        ""min(age)"": 40
+      }
+    ]
+  },
+  ""mark"": ""point"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""avg(age)"",
+      ""type"": ""quantitative""
+    },
+    ""y"": {
+      ""field"": ""min(age)"",
+      ""type"": ""quantitative""
+    },
+    ""color"": {
+      ""field"": ""Class"",
+      ""type"": ""nominal""
+    }
+  }
+}
+
+
+","Show me a plot for the relationship between average and minimum age of captains in each class, color different classes.",,,,,,,,,,
+3272,,world_1,"SELECT sum(Population) , avg(LifeExpectancy),Continent FROM country where Continent != 'Antarctica' GROUP BY Continent","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""GROUP BY Continent"",
+  ""data"": {
+    ""values"": [
+      {
+        ""Continent"": ""Africa"",
+        ""sum(Population)"": 784475000,
+        ""avg(LifeExpectancy)"": 52.57192982456139
+      },
+      {
+        ""Continent"": ""Asia"",
+        ""sum(Population)"": 3705025700,
+        ""avg(LifeExpectancy)"": 67.44117647058825
+      },
+      {
+        ""Continent"": ""Europe"",
+        ""sum(Population)"": 730074600,
+        ""avg(LifeExpectancy)"": 75.14772727272728
+      },
+      {
+        ""Continent"": ""North America"",
+        ""sum(Population)"": 482993000,
+        ""avg(LifeExpectancy)"": 72.99189189189188
+      },
+      {
+        ""Continent"": ""Oceania"",
+        ""sum(Population)"": 30401150,
+        ""avg(LifeExpectancy)"": 69.715
+      },
+      {
+        ""Continent"": ""South America"",
+        ""sum(Population)"": 345780000,
+        ""avg(LifeExpectancy)"": 70.94615384615386
+      }
+    ]
+  },
+  ""mark"": ""point"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""sum(Population)"",
+      ""type"": ""quantitative"",
+      ""title"": ""Total Population""
+    },
+    ""y"": {
+      ""field"": ""avg(LifeExpectancy)"",
+      ""type"": ""quantitative"",
+      ""title"": ""Average Life Expectancy""
+    },
+    ""color"": {
+      ""field"": ""Continent"",
+      ""type"": ""nominal""
+    }
+  }
+}",Can you calculate the total population and the average life expectancy for each continent?,,,,,,,,,,
+4016,,college_2,"SELECT year, count(*), semester from section where year >=2005 GROUP BY year, semester","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+      { ""Season"": ""Fall"",   ""year"": 2005, ""semester"": 4 },
+      { ""Season"": ""Fall"",   ""year"": 2006, ""semester"": 8 },
+      { ""Season"": ""Fall"",   ""year"": 2007, ""semester"": 6 },
+      { ""Season"": ""Fall"",   ""year"": 2008, ""semester"": 1 },
+      { ""Season"": ""Fall"",   ""year"": 2009, ""semester"": 7 },
+      { ""Season"": ""Fall"",   ""year"": 2010, ""semester"": 5 },
+
+
+      { ""Season"": ""Spring"", ""year"": 2005, ""semester"": 4 },
+      { ""Season"": ""Spring"", ""year"": 2006, ""semester"": 5 },
+      { ""Season"": ""Spring"", ""year"": 2007, ""semester"": 6 },
+      { ""Season"": ""Spring"", ""year"": 2008, ""semester"": 9 },
+      { ""Season"": ""Spring"", ""year"": 2009, ""semester"": 2 },
+      { ""Season"": ""Spring"", ""year"": 2010, ""semester"": 6 }
+    ]
+  },
+  ""mark"": ""line"",
+  ""encoding"": {
+    ""x"": { ""field"": ""year"", ""type"": ""quantitative"", ""axis"": { ""title"": null } },
+    ""y"": {
+      ""field"": ""semester"",
+      ""type"": ""quantitative""
+    },
+    ""color"": {
+      ""field"": ""Season"",
+      ""type"": ""nominal""
+    }
+  }
+}
+
+",Show me the trend of the number of courses in Fall and Spring from 2005 ,,,,,,,,,,
+4006,,baseball_1,"SELECT year, count(DISTINCT player_id) as count_player_id, league_id FROM player_award where year >= 2000 GROUP BY year, league_id","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": """",
+  ""data"": {
+    ""values"": [
+  { ""League"": ""NL"", ""year"": 2000, ""count_player_id"": 22 },
+  { ""League"": ""NL"", ""year"": 2001, ""count_player_id"": 24 },
+  { ""League"": ""NL"", ""year"": 2002, ""count_player_id"": 20 },
+  { ""League"": ""NL"", ""year"": 2003, ""count_player_id"": 22 },
+  { ""League"": ""NL"", ""year"": 2004, ""count_player_id"": 23 },
+  { ""League"": ""NL"", ""year"": 2005, ""count_player_id"": 23 },
+  { ""League"": ""NL"", ""year"": 2006, ""count_player_id"": 25 },
+  { ""League"": ""NL"", ""year"": 2007, ""count_player_id"": 20 },
+  { ""League"": ""NL"", ""year"": 2008, ""count_player_id"": 22 },
+  { ""League"": ""NL"", ""year"": 2009, ""count_player_id"": 22 },
+  { ""League"": ""NL"", ""year"": 2010, ""count_player_id"": 22 },
+  { ""League"": ""NL"", ""year"": 2011, ""count_player_id"": 19 },
+  { ""League"": ""NL"", ""year"": 2012, ""count_player_id"": 21 },
+  { ""League"": ""NL"", ""year"": 2013, ""count_player_id"": 21 },
+  { ""League"": ""NL"", ""year"": 2014, ""count_player_id"": 21 },
+  { ""League"": ""NL"", ""year"": 2015, ""count_player_id"": 18 },
+  { ""League"": ""AL"", ""year"": 2000, ""count_player_id"": 23 },
+  { ""League"": ""AL"", ""year"": 2001, ""count_player_id"": 22 },
+  { ""League"": ""AL"", ""year"": 2002, ""count_player_id"": 23 },
+  { ""League"": ""AL"", ""year"": 2003, ""count_player_id"": 23 },
+  { ""League"": ""AL"", ""year"": 2004, ""count_player_id"": 24 },
+  { ""League"": ""AL"", ""year"": 2005, ""count_player_id"": 26 },
+  { ""League"": ""AL"", ""year"": 2006, ""count_player_id"": 23 },
+  { ""League"": ""AL"", ""year"": 2007, ""count_player_id"": 22 },
+  { ""League"": ""AL"", ""year"": 2008, ""count_player_id"": 20 },
+  { ""League"": ""AL"", ""year"": 2009, ""count_player_id"": 17 },
+  { ""League"": ""AL"", ""year"": 2010, ""count_player_id"": 19 },
+  { ""League"": ""AL"", ""year"": 2011, ""count_player_id"": 19 },
+  { ""League"": ""AL"", ""year"": 2012, ""count_player_id"": 22 },
+  { ""League"": ""AL"", ""year"": 2013, ""count_player_id"": 20 },
+  { ""League"": ""AL"", ""year"": 2014, ""count_player_id"": 22 },
+  { ""League"": ""AL"", ""year"": 2015, ""count_player_id"": 19 },
+  { ""League"": ""ML"", ""year"": 2000, ""count_player_id"": 5 },
+  { ""League"": ""ML"", ""year"": 2001, ""count_player_id"": 5 },
+  { ""League"": ""ML"", ""year"": 2002, ""count_player_id"": 6 },
+  { ""League"": ""ML"", ""year"": 2003, ""count_player_id"": 5 },
+  { ""League"": ""ML"", ""year"": 2004, ""count_player_id"": 7 },
+  { ""League"": ""ML"", ""year"": 2005, ""count_player_id"": 6 },
+  { ""League"": ""ML"", ""year"": 2006, ""count_player_id"": 7 },
+  { ""League"": ""ML"", ""year"": 2007, ""count_player_id"": 7 },
+  { ""League"": ""ML"", ""year"": 2008, ""count_player_id"": 6 },
+  { ""League"": ""ML"", ""year"": 2009, ""count_player_id"": 6 },
+  { ""League"": ""ML"", ""year"": 2010, ""count_player_id"": 6 },
+  { ""League"": ""ML"", ""year"": 2011, ""count_player_id"": 6 },
+  { ""League"": ""ML"", ""year"": 2012, ""count_player_id"": 5 },
+  { ""League"": ""ML"", ""year"": 2013, ""count_player_id"": 4 },
+  { ""League"": ""ML"", ""year"": 2014, ""count_player_id"": 3 },
+  { ""League"": ""ML"", ""year"": 2015, ""count_player_id"": 4 }
+]
+  },
+  ""mark"": ""line"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""year"",
+      ""type"": ""quantitative"",
+      ""sort"": null
+    },
+    ""y"": {
+      ""field"": ""count_player_id"",
+      ""type"": ""quantitative""
+    },
+    ""color"": {
+      ""field"": ""League"",
+      ""type"": ""nominal""
+    }
+  }
+}
+
+
+",Chart illustrating the changes in the number of award-winning players in different leagues from the year 2000 onwards.,,,,,,,,,,
+"647
+",,college_2,"SELECT year , count(*) ,semester FROM SECTION GROUP BY semester ,  year","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""Line chart for semester counts by year"",
+  ""data"": {
+    ""values"": [
+      {
+        ""year"": ""2001-01-01"",
+        ""count(*)"": 2,
+        ""semester"": ""Fall""
+      },
+      {
+        ""year"": ""2002-01-01"",
+        ""count(*)"": 9,
+        ""semester"": ""Fall""
+      },
+      {
+        ""year"": ""2003-01-01"",
+        ""count(*)"": 6,
+        ""semester"": ""Fall""
+      },
+      {
+        ""year"": ""2004-01-01"",
+        ""count(*)"": 3,
+        ""semester"": ""Fall""
+      },
+      {
+        ""year"": ""2005-01-01"",
+        ""count(*)"": 4,
+        ""semester"": ""Fall""
+      },
+      {
+        ""year"": ""2006-01-01"",
+        ""count(*)"": 8,
+        ""semester"": ""Fall""
+      },
+      {
+        ""year"": ""2007-01-01"",
+        ""count(*)"": 6,
+        ""semester"": ""Fall""
+      },
+      {
+        ""year"": ""2008-01-01"",
+        ""count(*)"": 1,
+        ""semester"": ""Fall""
+      },
+      {
+        ""year"": ""2009-01-01"",
+        ""count(*)"": 7,
+        ""semester"": ""Fall""
+      },
+      {
+        ""year"": ""2010-01-01"",
+        ""count(*)"": 5,
+        ""semester"": ""Fall""
+      },
+      {
+        ""year"": ""2001-01-01"",
+        ""count(*)"": 3,
+        ""semester"": ""Spring""
+      },
+      {
+        ""year"": ""2002-01-01"",
+        ""count(*)"": 4,
+        ""semester"": ""Spring""
+      },
+      {
+        ""year"": ""2003-01-01"",
+        ""count(*)"": 6,
+        ""semester"": ""Spring""
+      },
+      {
+        ""year"": ""2004-01-01"",
+        ""count(*)"": 4,
+        ""semester"": ""Spring""
+      },
+      {
+        ""year"": ""2005-01-01"",
+        ""count(*)"": 4,
+        ""semester"": ""Spring""
+      },
+      {
+        ""year"": ""2006-01-01"",
+        ""count(*)"": 5,
+        ""semester"": ""Spring""
+      },
+      {
+        ""year"": ""2007-01-01"",
+        ""count(*)"": 6,
+        ""semester"": ""Spring""
+      },
+      {
+        ""year"": ""2008-01-01"",
+        ""count(*)"": 9,
+        ""semester"": ""Spring""
+      },
+      {
+        ""year"": ""2009-01-01"",
+        ""count(*)"": 2,
+        ""semester"": ""Spring""
+      },
+      {
+        ""year"": ""2010-01-01"",
+        ""count(*)"": 6,
+        ""semester"": ""Spring""
+      }
+    ]
+  },
+  ""mark"": ""line"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""year"",
+      ""type"": ""temporal"", 
+      ""axis"": { ""title"": null }
+    },
+    ""y"": {
+      ""field"": ""count(*)"",
+      ""type"": ""quantitative""
+    },
+    ""color"": {
+      ""field"": ""semester"",
+      ""type"": ""nominal""
+    }
+  }
+}
+
+
+",I want to see trend the total number over year by semester,,,,,,,,,,
+1489,,game_injury,"SELECT
+    Season,
+    Home_team,
+    COUNT(Season)
+FROM game
+GROUP BY
+    Season,
+    Home_team
+ORDER BY
+    Season ASC;
+
+
+","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""Line chart grouped by Home_team, with Season (year) binned by YEAR"",
+  ""data"": {
+    ""values"": [
+      {
+        ""Season"": ""2007"",
+        ""COUNT(Season)"": 3,
+        ""Home_team"": ""Bunyodkor""
+      },
+      {
+        ""Season"": ""2008"",
+        ""COUNT(Season)"": 5,
+        ""Home_team"": ""Bunyodkor""
+      },
+      {
+        ""Season"": ""2009"",
+        ""COUNT(Season)"": 4,
+        ""Home_team"": ""Bunyodkor""
+      },
+      {
+        ""Season"": ""2010"",
+        ""COUNT(Season)"": 3,
+        ""Home_team"": ""Bunyodkor""
+      },
+      {
+        ""Season"": ""2011"",
+        ""COUNT(Season)"": 3,
+        ""Home_team"": ""Bunyodkor""
+      },
+      {
+        ""Season"": ""2012"",
+        ""COUNT(Season)"": 8,
+        ""Home_team"": ""Bunyodkor""
+      },
+      {
+        ""Season"": ""2013"",
+        ""COUNT(Season)"": 3,
+        ""Home_team"": ""Bunyodkor""
+      },
+
+
+      {
+        ""Season"": ""2007"",
+        ""COUNT(Season)"": 5,
+        ""Home_team"": ""Pakhtakor""
+      },
+      {
+        ""Season"": ""2008"",
+        ""COUNT(Season)"": 6,
+        ""Home_team"": ""Pakhtakor""
+      },
+      {
+        ""Season"": ""2009"",
+        ""COUNT(Season)"": 6,
+        ""Home_team"": ""Pakhtakor""
+      },
+      {
+        ""Season"": ""2010"",
+        ""COUNT(Season)"": 4,
+        ""Home_team"": ""Pakhtakor""
+      },
+      {
+        ""Season"": ""2011"",
+        ""COUNT(Season)"": 4,
+        ""Home_team"": ""Pakhtakor""
+      },
+      {
+        ""Season"": ""2012"",
+        ""COUNT(Season)"": 10,
+        ""Home_team"": ""Pakhtakor""
+      },
+      {
+        ""Season"": ""2013"",
+        ""COUNT(Season)"": 4,
+        ""Home_team"": ""Pakhtakor""
+      },
+
+
+      {
+        ""Season"": ""2007"",
+        ""COUNT(Season)"": 6,
+        ""Home_team"": ""Quruvchi""
+      },
+      {
+        ""Season"": ""2008"",
+        ""COUNT(Season)"": 6,
+        ""Home_team"": ""Quruvchi""
+      },
+      {
+        ""Season"": ""2009"",
+        ""COUNT(Season)"": 6,
+        ""Home_team"": ""Quruvchi""
+      },
+      {
+        ""Season"": ""2010"",
+        ""COUNT(Season)"": 4,
+        ""Home_team"": ""Quruvchi""
+      },
+      {
+        ""Season"": ""2011"",
+        ""COUNT(Season)"": 4,
+        ""Home_team"": ""Quruvchi""
+      },
+      {
+        ""Season"": ""2012"",
+        ""COUNT(Season)"": 10,
+        ""Home_team"": ""Quruvchi""
+      },
+      {
+        ""Season"": ""2013"",
+        ""COUNT(Season)"": 4,
+        ""Home_team"": ""Quruvchi""
+      }
+    ]
+  },
+  ""mark"": ""line"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Season"",
+      ""type"": ""ordinal"",
+      ""title"": ""Season""
+    },
+    ""y"": {
+      ""field"": ""COUNT(Season)"",
+      ""type"": ""quantitative"",
+      ""title"": ""COUNT(Season)""
+    },
+    ""color"": {
+      ""field"": ""Home_team"",
+      ""type"": ""nominal""
+    }
+  }
+}",The trend about the the number of season of different Home_team over the season,,,,,,,,,,
+1484@x_name@ASC,,game_injury,"SELECT 
+    s.Season, 
+    t.Away_team, 
+    COALESCE(g.Game_Count, 0) AS Game_Count
+FROM 
+    (SELECT DISTINCT Season FROM game) s
+CROSS JOIN 
+    (SELECT DISTINCT Away_team FROM game) t
+LEFT JOIN 
+    (SELECT Season, Away_team, COUNT(*) AS Game_Count FROM game GROUP BY Season, Away_team) g
+ON 
+    s.Season = g.Season AND t.Away_team = g.Away_team
+ORDER BY 
+    s.Season ASC, t.Away_team ASC;
+
+
+","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""Line chart grouped by Away_team, grouped by Season"",
+  ""data"": {
+    ""values"": [
+      {
+        ""Season"": ""2007"",
+        ""Game_Count"": 0,
+        ""Away_Team"": ""Bunyodkor""
+      },
+      {
+        ""Season"": ""2008"",
+        ""Game_Count"": 0,
+        ""Away_Team"": ""Bunyodkor""
+      },
+      {
+        ""Season"": ""2009"",
+        ""Game_Count"": 2,
+        ""Away_Team"": ""Bunyodkor""
+      },
+      {
+        ""Season"": ""2010"",
+        ""Game_Count"": 1,
+        ""Away_Team"": ""Bunyodkor""
+      },
+      {
+        ""Season"": ""2011"",
+        ""Game_Count"": 1,
+        ""Away_Team"": ""Bunyodkor""
+      },
+      {
+        ""Season"": ""2012"",
+        ""Game_Count"": 2,
+        ""Away_Team"": ""Bunyodkor""
+      },
+      {
+        ""Season"": ""2013"",
+        ""Game_Count"": 1,
+        ""Away_Team"": ""Bunyodkor""
+      },
+
+
+      {
+        ""Season"": ""2007"",
+        ""Game_Count"": 1,
+        ""Away_Team"": ""Pakhtakor""
+      },
+      {
+        ""Season"": ""2008"",
+        ""Game_Count"": 2,
+        ""Away_Team"": ""Pakhtakor""
+      },
+      {
+        ""Season"": ""2009"",
+        ""Game_Count"": 1,
+        ""Away_Team"": ""Pakhtakor""
+      },
+      {
+        ""Season"": ""2010"",
+        ""Game_Count"": 1,
+        ""Away_Team"": ""Pakhtakor""
+      },
+      {
+        ""Season"": ""2011"",
+        ""Game_Count"": 1,
+        ""Away_Team"": ""Pakhtakor""
+      },
+      {
+        ""Season"": ""2012"",
+        ""Game_Count"": 3,
+        ""Away_Team"": ""Pakhtakor""
+      },
+      {
+        ""Season"": ""2013"",
+        ""Game_Count"": 1,
+        ""Away_Team"": ""Pakhtakor""
+      },
+
+
+      {
+        ""Season"": ""2007"",
+        ""Game_Count"": 2,
+        ""Away_Team"": ""Quruvchi""
+      },
+      {
+        ""Season"": ""2008"",
+        ""Game_Count"": 1,
+        ""Away_Team"": ""Quruvchi""
+      },
+      {
+        ""Season"": ""2009"",
+        ""Game_Count"": 0,
+        ""Away_Team"": ""Quruvchi""
+      },
+      {
+        ""Season"": ""2010"",
+        ""Game_Count"": 0,
+        ""Away_Team"": ""Quruvchi""
+      },
+      {
+        ""Season"": ""2011"",
+        ""Game_Count"": 0,
+        ""Away_Team"": ""Quruvchi""
+      },
+      {
+        ""Season"": ""2012"",
+        ""Game_Count"": 0,
+        ""Away_Team"": ""Quruvchi""
+      },
+      {
+        ""Season"": ""2013"",
+        ""Game_Count"": 0,
+        ""Away_Team"": ""Quruvchi""
+      }
+    ]
+  },
+  ""mark"": ""line"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Season"",
+      ""type"": ""ordinal"",
+      ""title"": ""Season"",
+      ""sort"": ""ascending""
+    },
+    ""y"": {
+      ""field"": ""Game_Count"",
+      ""type"": ""quantitative"",
+      ""title"": ""Game_Count""
+    },
+    ""color"": {
+      ""field"": ""Away_Team"",
+      ""type"": ""nominal""
+    }
+  }
+}","Give me line charts of worldwide gross the number of season over year season by major genres Away_team, show in ascending by the Season.",,,,,,,,,,
+4008,,car_1,"SELECT Year, avg(Horsepower), Cylinders FROM cars_data where Cylinders in (4,6) and year > 1974 and year < 1980 GROUP BY Year, Cylinders","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""Line chart of avg(Horsepower) by Year for different cylinder classes"",
+  ""data"": {
+    ""values"": [
+      {
+        ""Year"": 1975,
+        ""avg(Horsepower)"": 84.91666666666667,
+        ""Cylinders"": ""4""
+      },
+      {
+        ""Year"": 1976,
+        ""avg(Horsepower)"": 75.6,
+        ""Cylinders"": ""4""
+      },
+      {
+        ""Year"": 1977,
+        ""avg(Horsepower)"": 78.78571428571429,
+        ""Cylinders"": ""4""
+      },
+      {
+        ""Year"": 1978,
+        ""avg(Horsepower)"": 79.70588235294117,
+        ""Cylinders"": ""4""
+      },
+      {
+        ""Year"": 1979,
+        ""avg(Horsepower)"": 75.75,
+        ""Cylinders"": ""4""
+      },
+
+
+      {
+        ""Year"": 1975,
+        ""avg(Horsepower)"": 96.75,
+        ""Cylinders"": ""6""
+      },
+      {
+        ""Year"": 1976,
+        ""avg(Horsepower)"": 98.7,
+        ""Cylinders"": ""6""
+      },
+      {
+        ""Year"": 1977,
+        ""avg(Horsepower)"": 102.0,
+        ""Cylinders"": ""6""
+      },
+      {
+        ""Year"": 1978,
+        ""avg(Horsepower)"": 109.83333333333333,
+        ""Cylinders"": ""6""
+      },
+      {
+        ""Year"": 1979,
+        ""avg(Horsepower)"": 105.0,
+        ""Cylinders"": ""6""
+      }
+    ]
+  },
+  ""mark"": ""line"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Year"",
+      ""type"": ""quantitative"",
+      ""title"": ""Year""
+    },
+    ""y"": {
+      ""field"": ""avg(Horsepower)"",
+      ""type"": ""quantitative"",
+      ""title"": ""avg(Horsepower)""
+    },
+    ""color"": {
+      ""field"": ""Cylinders"",
+      ""type"": ""nominal""
+    }
+  }
+}
+
+
+","What was the average horsepower of cars with 4 or 6 cylinders for each year between 1975 and 1979, grouped by the number of cylinders?",,,,,,,,,,
+4034,,baseball_1,"SELECT year, max(salary), team_id FROM salary WHERE team_id in ('ATL', 'ARI', 'CHA') and year >= 2000 GROUP BY year, team_id","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""Line chart of max(salary) by year for different teams"",
+  ""data"": {
+    ""values"": [
+      {
+        ""year"": 2000,
+        ""max(salary)"": 13350000,
+        ""team_id"": ""ARI""
+      },
+      {
+        ""year"": 2001,
+        ""max(salary)"": 13350000,
+        ""team_id"": ""ARI""
+      },
+      {
+        ""year"": 2002,
+        ""max(salary)"": 13350000,
+        ""team_id"": ""ARI""
+      },
+      {
+        ""year"": 2003,
+        ""max(salary)"": 15000000,
+        ""team_id"": ""ARI""
+      },
+      {
+        ""year"": 2004,
+        ""max(salary)"": 16000000,
+        ""team_id"": ""ARI""
+      },
+      {
+        ""year"": 2005,
+        ""max(salary)"": 11000000,
+        ""team_id"": ""ARI""
+      },
+      {
+        ""year"": 2006,
+        ""max(salary)"": 10673328,
+        ""team_id"": ""ARI""
+      },
+      {
+        ""year"": 2007,
+        ""max(salary)"": 9100546,
+        ""team_id"": ""ARI""
+      },
+      {
+        ""year"": 2008,
+        ""max(salary)"": 15100546,
+        ""team_id"": ""ARI""
+      },
+      {
+        ""year"": 2009,
+        ""max(salary)"": 11666666,
+        ""team_id"": ""ARI""
+      },
+      {
+        ""year"": 2010,
+        ""max(salary)"": 8500000,
+        ""team_id"": ""ARI""
+      },
+      {
+        ""year"": 2011,
+        ""max(salary)"": 5850000,
+        ""team_id"": ""ARI""
+      },
+      {
+        ""year"": 2012,
+        ""max(salary)"": 7750000,
+        ""team_id"": ""ARI""
+      },
+      {
+        ""year"": 2013,
+        ""max(salary)"": 10000000,
+        ""team_id"": ""ARI""
+      },
+      {
+        ""year"": 2014,
+        ""max(salary)"": 11000000,
+        ""team_id"": ""ARI""
+      },
+      {
+        ""year"": 2015,
+        ""max(salary)"": 12000000,
+        ""team_id"": ""ARI""
+      },
+
+
+      {
+        ""year"": 2000,
+        ""max(salary)"": 11100000,
+        ""team_id"": ""ATL""
+      },
+      {
+        ""year"": 2001,
+        ""max(salary)"": 12500000,
+        ""team_id"": ""ATL""
+      },
+      {
+        ""year"": 2002,
+        ""max(salary)"": 13100000,
+        ""team_id"": ""ATL""
+      },
+      {
+        ""year"": 2003,
+        ""max(salary)"": 14750000,
+        ""team_id"": ""ATL""
+      },
+      {
+        ""year"": 2004,
+        ""max(salary)"": 15333333,
+        ""team_id"": ""ATL""
+      },
+      {
+        ""year"": 2005,
+        ""max(salary)"": 16061802,
+        ""team_id"": ""ATL""
+      },
+      {
+        ""year"": 2006,
+        ""max(salary)"": 14503543,
+        ""team_id"": ""ATL""
+      },
+      {
+        ""year"": 2007,
+        ""max(salary)"": 14500000,
+        ""team_id"": ""ATL""
+      },
+      {
+        ""year"": 2008,
+        ""max(salary)"": 15975184,
+        ""team_id"": ""ATL""
+      },
+      {
+        ""year"": 2009,
+        ""max(salary)"": 15500000,
+        ""team_id"": ""ATL""
+      },
+      {
+        ""year"": 2010,
+        ""max(salary)"": 15000000,
+        ""team_id"": ""ATL""
+      },
+      {
+        ""year"": 2011,
+        ""max(salary)"": 15000000,
+        ""team_id"": ""ATL""
+      },
+      {
+        ""year"": 2012,
+        ""max(salary)"": 14000000,
+        ""team_id"": ""ATL""
+      },
+      {
+        ""year"": 2013,
+        ""max(salary)"": 13146942,
+        ""team_id"": ""ATL""
+      },
+      {
+        ""year"": 2014,
+        ""max(salary)"": 14250000,
+        ""team_id"": ""ATL""
+      },
+      {
+        ""year"": 2015,
+        ""max(salary)"": 12000000,
+        ""team_id"": ""ATL""
+      },
+
+
+      {
+        ""year"": 2000,
+        ""max(salary)"": 7100000,
+        ""team_id"": ""CHA""
+      },
+      {
+        ""year"": 2001,
+        ""max(salary)"": 9927000,
+        ""team_id"": ""CHA""
+      },
+      {
+        ""year"": 2002,
+        ""max(salary)"": 9927000,
+        ""team_id"": ""CHA""
+      },
+      {
+        ""year"": 2003,
+        ""max(salary)"": 9000000,
+        ""team_id"": ""CHA""
+      },
+      {
+        ""year"": 2004,
+        ""max(salary)"": 14000000,
+        ""team_id"": ""CHA""
+      },
+      {
+        ""year"": 2005,
+        ""max(salary)"": 8750000,
+        ""team_id"": ""CHA""
+      },
+      {
+        ""year"": 2006,
+        ""max(salary)"": 14166667,
+        ""team_id"": ""CHA""
+      },
+      {
+        ""year"": 2007,
+        ""max(salary)"": 14833333,
+        ""team_id"": ""CHA""
+      },
+      {
+        ""year"": 2008,
+        ""max(salary)"": 15666666,
+        ""team_id"": ""CHA""
+      },
+      {
+        ""year"": 2009,
+        ""max(salary)"": 14000000,
+        ""team_id"": ""CHA""
+      },
+      {
+        ""year"": 2010,
+        ""max(salary)"": 15000000,
+        ""team_id"": ""CHA""
+      },
+      {
+        ""year"": 2011,
+        ""max(salary)"": 16000000,
+        ""team_id"": ""CHA""
+      },
+      {
+        ""year"": 2012,
+        ""max(salary)"": 17000000,
+        ""team_id"": ""CHA""
+      },
+      {
+        ""year"": 2013,
+        ""max(salary)"": 16157271,
+        ""team_id"": ""CHA""
+      },
+      {
+        ""year"": 2014,
+        ""max(salary)"": 15000000,
+        ""team_id"": ""CHA""
+      },
+      {
+        ""year"": 2015,
+        ""max(salary)"": 15750000,
+        ""team_id"": ""CHA""
+      }
+    ]
+  },
+  ""mark"": ""line"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""year"",
+      ""type"": ""quantitative"",
+      ""title"": ""year""
+    },
+    ""y"": {
+      ""field"": ""max(salary)"",
+      ""type"": ""quantitative"",
+      ""title"": ""max(salary)""
+    },
+    ""color"": {
+      ""field"": ""team_id"",
+      ""type"": ""nominal"",
+      ""title"": ""team_id""
+    }
+  }
+}
+
+
+
+","The maximum salary of players in teams ARI, ATL, and CHA in each year start from 2000",,,,,,,,,,
+4005,,baseball_1,"SELECT year, avg(salary), league_id FROM salary GROUP BY year, league_id","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""Line chart of avg(salary) by year for NL and AL"",
+  ""data"": {
+    ""values"": [
+      {
+        ""year"": 1985,
+        ""avg(salary)"": 500249.3176470588,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 1986,
+        ""avg(salary)"": 433925.0693641619,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 1987,
+        ""avg(salary)"": 427857.76802507835,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 1988,
+        ""avg(salary)"": 452374.17034700315,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 1989,
+        ""avg(salary)"": 511116.4865671642,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 1990,
+        ""avg(salary)"": 525913.727735369,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 1991,
+        ""avg(salary)"": 879587.5474683545,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 1992,
+        ""avg(salary)"": 1085608.5562130178,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 1993,
+        ""avg(salary)"": 923882.9912087912,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 1994,
+        ""avg(salary)"": 971003.2204899777,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 1995,
+        ""avg(salary)"": 890698.7373737374,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 1996,
+        ""avg(salary)"": 1000406.7262931034,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 1997,
+        ""avg(salary)"": 1169651.3779697623,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 1998,
+        ""avg(salary)"": 1207658.0319548873,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 1999,
+        ""avg(salary)"": 1468880.6242990654,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 2000,
+        ""avg(salary)"": 1983096.549107143,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 2001,
+        ""avg(salary)"": 2232801.3391684904,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 2002,
+        ""avg(salary)"": 2342579.4053452117,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 2003,
+        ""avg(salary)"": 2614933.0605381164,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 2004,
+        ""avg(salary)"": 2469002.5239179954,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 2005,
+        ""avg(salary)"": 2590986.616438356,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 2006,
+        ""avg(salary)"": 2616445.6961451247,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 2007,
+        ""avg(salary)"": 2623749.153674833,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 2008,
+        ""avg(salary)"": 2870790.4449244062,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 2009,
+        ""avg(salary)"": 3184368.693208431,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 2010,
+        ""avg(salary)"": 3142161.1689497717,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 2011,
+        ""avg(salary)"": 3156654.9042316256,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 2012,
+        ""avg(salary)"": 3277278.0,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 2013,
+        ""avg(salary)"": 3688940.2014742014,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 2014,
+        ""avg(salary)"": 3935543.744680851,
+        ""league_id"": ""NL""
+      },
+      {
+        ""year"": 2015,
+        ""avg(salary)"": 4212445.024875622,
+        ""league_id"": ""NL""
+      },
+
+
+
+      {
+        ""year"": 1985,
+        ""avg(salary)"": 455597.0169491525,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 1986,
+        ""avg(salary)"": 402337.86734693876,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 1987,
+        ""avg(salary)"": 441846.58116883115,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 1988,
+        ""avg(salary)"": 453901.1907514451,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 1989,
+        ""avg(salary)"": 502052.3617021277,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 1990,
+        ""avg(salary)"": 500415.81856540084,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 1991,
+        ""avg(salary)"": 908126.7018970189,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 1992,
+        ""avg(salary)"": 1017651.1160092808,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 1993,
+        ""avg(salary)"": 1028575.5833333334,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 1994,
+        ""avg(salary)"": 1130703.0827586206,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 1995,
+        ""avg(salary)"": 1039864.5458248473,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 1996,
+        ""avg(salary)"": 1055235.1798715203,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 1997,
+        ""avg(salary)"": 1267829.6471861473,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 1998,
+        ""avg(salary)"": 1364396.5622317595,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 1999,
+        ""avg(salary)"": 1503986.4458598725,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 2000,
+        ""avg(salary)"": 2004401.6701030927,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 2001,
+        ""avg(salary)"": 2333183.8734491314,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 2002,
+        ""avg(salary)"": 2449016.0428211587,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 2003,
+        ""avg(salary)"": 2524939.5879265093,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 2004,
+        ""avg(salary)"": 2517280.1913265307,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 2005,
+        ""avg(salary)"": 2681580.8142493637,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 2006,
+        ""avg(salary)"": 3088941.970899471,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 2007,
+        ""avg(salary)"": 3304390.882951654,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 2008,
+        ""avg(salary)"": 3449574.2849872774,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 2009,
+        ""avg(salary)"": 3380833.0621761656,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 2010,
+        ""avg(salary)"": 3431360.3903061226,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 2011,
+        ""avg(salary)"": 3505557.023076923,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 2012,
+        ""avg(salary)"": 3662264.0852130326,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 2013,
+        ""avg(salary)"": 3757664.181372549,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 2014,
+        ""avg(salary)"": 4030561.0,
+        ""league_id"": ""AL""
+      },
+      {
+        ""year"": 2015,
+        ""avg(salary)"": 4387324.503614458,
+        ""league_id"": ""AL""
+      }
+    ]
+  },
+  ""mark"": ""line"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""year"",
+      ""type"": ""quantitative"",
+      ""title"": ""year""
+    },
+    ""y"": {
+      ""field"": ""avg(salary)"",
+      ""type"": ""quantitative"",
+      ""title"": ""avg(salary)""
+    },
+    ""color"": {
+      ""field"": ""league_id"",
+      ""type"": ""nominal"",
+      ""title"": ""league_id""
+    }
+  }
+}
+
+
+",Create a line chart depicting the yearly trends in average salaries for basketball players across various leagues.,,,,,,,,,,
+2005,,insurance_policies,"SELECT Date_Payment_Made , Amount_Payment , Payment_Method_Code FROM Payments GROUP BY Payment_Method_Code ,  Date_Payment_Made ORDER BY Date_Payment_Made ASC","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""Line chart of Amount_Payment (non-zero only) by Date_Payment_Made for different Payment Methods"",
+  ""data"": {
+    ""values"": [
+      {
+        ""Date_Payment_Made"": ""2017-05-03"",
+        ""Amount_Payment"": 172309,
+        ""Payment_Method_Code"": ""Visa""
+      },
+      {
+        ""Date_Payment_Made"": ""2017-05-04"",
+        ""Amount_Payment"": 123255,
+        ""Payment_Method_Code"": ""Discover Card""
+      },
+      {
+        ""Date_Payment_Made"": ""2017-05-28"",
+        ""Amount_Payment"": 448613,
+        ""Payment_Method_Code"": ""MasterCard""
+      },
+      {
+        ""Date_Payment_Made"": ""2017-05-28"",
+        ""Amount_Payment"": 155654,
+        ""Payment_Method_Code"": ""Visa""
+      },
+      {
+        ""Date_Payment_Made"": ""2017-06-24"",
+        ""Amount_Payment"": 456098,
+        ""Payment_Method_Code"": ""MasterCard""
+      },
+      {
+        ""Date_Payment_Made"": ""2017-07-31"",
+        ""Amount_Payment"": 423154,
+        ""Payment_Method_Code"": ""MasterCard""
+      },
+      {
+        ""Date_Payment_Made"": ""2017-08-06"",
+        ""Amount_Payment"": 38324,
+        ""Payment_Method_Code"": ""Discover Card""
+      },
+      {
+        ""Date_Payment_Made"": ""2017-10-07"",
+        ""Amount_Payment"": 71246,
+        ""Payment_Method_Code"": ""Discover Card""
+      },
+      {
+        ""Date_Payment_Made"": ""2017-12-16"",
+        ""Amount_Payment"": 459407,
+        ""Payment_Method_Code"": ""Visa""
+      },
+      {
+        ""Date_Payment_Made"": ""2018-01-10"",
+        ""Amount_Payment"": 407235,
+        ""Payment_Method_Code"": ""MasterCard""
+      },
+      {
+        ""Date_Payment_Made"": ""2018-01-19"",
+        ""Amount_Payment"": 177130,
+        ""Payment_Method_Code"": ""American Express""
+      },
+      {
+        ""Date_Payment_Made"": ""2018-01-28"",
+        ""Amount_Payment"": 319142,
+        ""Payment_Method_Code"": ""MasterCard""
+      },
+      {
+        ""Date_Payment_Made"": ""2018-02-16"",
+        ""Amount_Payment"": 241730,
+        ""Payment_Method_Code"": ""MasterCard""
+      },
+      {
+        ""Date_Payment_Made"": ""2018-02-18"",
+        ""Amount_Payment"": 235893,
+        ""Payment_Method_Code"": ""MasterCard""
+      },
+      {
+        ""Date_Payment_Made"": ""2018-02-24"",
+        ""Amount_Payment"": 7343,
+        ""Payment_Method_Code"": ""Visa""
+      }
+    ]
+  },
+  ""mark"": ""line"",
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""Date_Payment_Made"",
+      ""type"": ""temporal"",
+      ""title"": ""Date_Payment_Made"",
+      ""sort"": ""ascending""
+    },
+    ""y"": {
+      ""field"": ""Amount_Payment"",
+      ""type"": ""quantitative"",
+      ""title"": ""Amount_Payment""
+    },
+    ""color"": {
+      ""field"": ""Payment_Method_Code"",
+      ""type"": ""nominal"",
+      ""title"": ""Payment Method""
+    }
+  }
+}
+
+
+","Give me a line chart to show the trend of the amount of each payment of different payment methods, ordered by the payment date in ascending order.""",,,,,,,,,,
+778,,bike_1,"SELECT date , COUNT(date), zip_code FROM weather WHERE max_humidity > 80 GROUP BY date,zip_code","{
+  ""$schema"": ""https://vega.github.io/schema/vega-lite/v5.json"",
+  ""description"": ""Interactive line chart of COUNT(date) by year for different zip codes"",
+  ""data"": {
+    ""values"": [
+      {""date"": 2013, ""COUNT(date)"": 65, ""zip_code"": ""94041""},
+      {""date"": 2014, ""COUNT(date)"": 259, ""zip_code"": ""94041""},
+      {""date"": 2015, ""COUNT(date)"": 182, ""zip_code"": ""94041""},
+      {""date"": 2013, ""COUNT(date)"": 102, ""zip_code"": ""94063""},
+      {""date"": 2014, ""COUNT(date)"": 310, ""zip_code"": ""94063""},
+      {""date"": 2015, ""COUNT(date)"": 207, ""zip_code"": ""94063""},
+      {""date"": 2013, ""COUNT(date)"": 76, ""zip_code"": ""94107""},
+      {""date"": 2014, ""COUNT(date)"": 285, ""zip_code"": ""94107""},
+      {""date"": 2015, ""COUNT(date)"": 216, ""zip_code"": ""94107""},
+      {""date"": 2013, ""COUNT(date)"": 86, ""zip_code"": ""94301""},
+      {""date"": 2014, ""COUNT(date)"": 243, ""zip_code"": ""94301""},
+      {""date"": 2015, ""COUNT(date)"": 209, ""zip_code"": ""94301""},
+      {""date"": 2013, ""COUNT(date)"": 91, ""zip_code"": ""95113""},
+      {""date"": 2014, ""COUNT(date)"": 289, ""zip_code"": ""95113""},
+      {""date"": 2015, ""COUNT(date)"": 175, ""zip_code"": ""95113""}
+    ]
+  },
+  ""mark"": {
+    ""type"": ""line"",
+    ""point"": true
+  },
+  ""encoding"": {
+    ""x"": {
+      ""field"": ""date"",
+      ""type"": ""quantitative"",
+      ""title"": ""date""
+    },
+    ""y"": {
+      ""field"": ""COUNT(date)"",
+      ""type"": ""quantitative"",
+      ""title"": ""COUNT(date)""
+    },
+    ""color"": {
+      ""field"": ""zip_code"",
+      ""type"": ""nominal"",
+      ""title"": ""zip_code""
+    },
+    ""tooltip"": [
+      {""field"": ""zip_code"", ""type"": ""nominal"", ""title"": ""Zip Code""},
+      {""field"": ""date"", ""type"": ""quantitative"", ""title"": ""Date""},
+      {""field"": ""COUNT(date)"", ""type"": ""quantitative"", ""title"": ""Count""}
+    ]
+  }
+}",Give me a chart showing the number of days with max humidity higher than 80 in different area each year.,,,,,,,,,,
