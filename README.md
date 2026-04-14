@@ -1,73 +1,77 @@
-# QtoINS
+## Appendices
 
-QtoINS is a data exploration project that lets users interact with CSV files through natural language.
+## System Evaluation
 
-This repository includes:
+All files related to Section 6 System Evaluation are stored in the `systemevaluate` folder:
 
-- a React frontend in `data_prompt`
-- a Flask backend in `server4`
+- **evaluate1**: Contains CSV files of experimental dataset and results (evaluate1_result.csv) for "Human Query to Target Data" component.
+- **evaluate2**: Contains a CSV file of results (evaluation2_result.csv) for "Human Query and Target Data to Charts" component. Used NLV dataset (https://nlvcorpus.github.io.). Contains a CSV file of results (result.csv) for Ablation Test.
+- **evaluate3**: Contains CSV files of results (ratings_summary.csv) for "Charts to Insights" component. The chartID in ratings_summary.csv corresponds to the charts located in the `charts` folder under the same directory, and index.html together with server.py contains the code we used to conduct Prolific online study.
 
-## Overview
+## Fine-tuning Dataset
 
-With QtoINS, you can:
+- **Fine-tuning_Dataset**: Specifically used for the "Human Query and Target Data to Charts" component and includes the file `keys.csv`. `keys.csv` contains five columns: (1) key (original key from VisEval), (2) database name, (3) our merged runnable SQL statements based on VisEval's fragments of SQL, (4) our generated runnable Vega-Lite JSON file, (5) our labeled natural language queries.
 
-1. Upload a CSV file.
-2. Ask questions about the data in plain English.
-3. Review ambiguity suggestions when the system needs clarification.
-4. Generate charts and insights.
-5. Refine the chart or insight if needed.
+We did not include VisEval's (DOI: 10.1109/TVCG.2024.3456320) original database data, as the target data was directly retrieved using SQL queries.
 
-## Project Structure
+---
 
-```text
-QtoINS/
-├── README.md
-├── data_prompt/   # frontend
-└── server4/       # backend
-```
+## Setup Guide
+All code is included in the `Code` Folder.
 
-## Getting Started
+### Environment Setup
 
-### 1. Start the backend
+#### Replace API Keys
 
-```bash
-cd server4
-python3 -m venv .venv
-source .venv/bin/activate
-pip install --upgrade pip
-pip install flask pandas numpy duckdb sqlglot sql-metadata sqlparse scipy python-dateutil editdistance altair vl-convert-python regex torch sentence-transformers openai
-python app.py
-```
+1. Navigate to the `function` directory and `app.py` fileand replace the existing **OpenAI API key** with your personal key.
 
-The backend runs at `http://127.0.0.1:5000`.
+> **Important Note:** Our function for converting human queries and target data into charts leverage OpenAI's GPT-4o fine-tuned model. Thus, using our provided fine-tuned model yields better results than the standard GPT-4o model. However, if necessary, you may update the model reference to standard GPT-4o in `visualrecommendation.py`.
 
-### 2. Start the frontend
+---
 
-Open a new terminal and run:
+### Starting the Backend Service
 
-```bash
-cd data_prompt
-npm install
-npm start
-```
+1. Open your terminal and navigate to the backend server directory:
+  
+   cd server
+  
 
-The frontend runs at `http://localhost:3000`.
+2. Verify your Python environment is version **3.12.4**.
 
-## Usage
+3. Install required Python packages:
+  
+   pip install -r requirements.txt
+ 
 
-1. Open the frontend in your browser.
-2. Click **Upload** and select a CSV file.
-3. Wait for the file summary to appear in the chat area.
-4. Enter a question about your data, for example:
-
-```text
-Show sales by region
-Compare revenue by year
-Compare the rating for comedy movies in recent years?
-```
-
-5. If the system detects ambiguous terms, choose the recommended options.
-6. Click **Run Next Two Steps** to generate charts and insights.
-7. Use the chart or insight editing actions to refine the result if needed.
+4. Ensure Flask framework is installed (update if already present):
+  
+   pip install -U Flask
 
 
+5. Launch the Flask backend service:
+  
+   python app.py
+
+
+---
+
+### Starting the Frontend Service
+
+1. In your terminal, navigate to the frontend directory:
+   
+   cd data_prompt
+
+
+2. Install necessary frontend dependencies:
+  
+   npm install
+
+
+3. Run the frontend application:
+
+   npm start
+
+
+4. Access the application via your web browser at:
+
+   http://127.0.0.1:3000

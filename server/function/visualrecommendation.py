@@ -198,7 +198,8 @@ class VisualRecommend:
         api_key=""
         client = OpenAI(api_key=api_key)
         response = client.chat.completions.create(
-        model="ft:gpt-4o-2024-08-06:personal:vr:AsLlaX24",
+         model="gpt-4o",
+        #model="ft:gpt-4o-2024-08-06:personal:vr:AsLlaX24",
         messages=[
             {
             "role": "system",
