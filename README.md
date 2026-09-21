@@ -17,7 +17,7 @@ We did not include VisEval's (DOI: 10.1109/TVCG.2024.3456320) original database 
 ---
 
 ## Setup Guide
-All code is included in the `Code` Folder and  `server` Folder.
+All code is included in the `Code` Folder.
 
 ### Environment Setup
 
@@ -33,7 +33,7 @@ All code is included in the `Code` Folder and  `server` Folder.
 
 1. Open your terminal and navigate to the backend server directory:
   
-   cd server
+   cd  Code/server
   
 
 2. Verify your Python environment is version **3.12.4**.
