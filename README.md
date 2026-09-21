@@ -59,7 +59,7 @@ All code is included in the `Code` Folder and  `server` Folder.
 
 1. In your terminal, navigate to the frontend directory:
    
-   cd data_prompt
+   cd Code/data_prompt
 
 
 2. Install necessary frontend dependencies:
