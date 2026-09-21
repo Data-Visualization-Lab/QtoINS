@@ -17,7 +17,7 @@ We did not include VisEval's (DOI: 10.1109/TVCG.2024.3456320) original database 
 ---
 
 ## Setup Guide
-All code is included in the `Code` Folder.
+All code is included in the `Code` Folder and  `server` Folder.
 
 ### Environment Setup
 
