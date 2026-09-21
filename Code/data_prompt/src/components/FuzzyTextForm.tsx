@@ -7,6 +7,7 @@ import {
   Button,
   FormControlLabel,
   Checkbox,
+  Radio,
   CircularProgress,
   Slider,
 } from "@mui/material";
@@ -35,6 +36,7 @@ const FuzzyTextForm: React.FC<FuzzyTextFormProps> = ({
     fuzzyResult,
     userSelectedIndices,
     summary,
+    single_select,
   } = message;
 
 
@@ -58,6 +60,7 @@ const FuzzyTextForm: React.FC<FuzzyTextFormProps> = ({
 
 
   const isLoading = submitted && !fuzzyResult;
+  const ChoiceControl = single_select ? Radio : Checkbox;
 
 
   const [sliderValue, setSliderValue] = React.useState<number[]>(() => {
@@ -130,8 +133,9 @@ const FuzzyTextForm: React.FC<FuzzyTextFormProps> = ({
               <FormControlLabel
                 key={i}
                 control={
-                  <Checkbox
+                  <ChoiceControl
                     checked={checked}
+                    name={`column-choice-${message.id}`}
                     onChange={() => handleFuzzyTextToggle(message.id, i)}
                     disabled={submitted}
                     sx={{
@@ -303,7 +307,7 @@ const FuzzyTextForm: React.FC<FuzzyTextFormProps> = ({
             onClick={() => {
               handleFuzzyTextSubmit(message.id);
             }}
-            disabled={submitted}
+            disabled={submitted || (single_select && !userSelectedIndices?.length && !userInput?.trim())}
             sx={{
               ml: 2,
               ...(submitted && {

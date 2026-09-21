@@ -131,7 +131,10 @@ export function useChatLogic(initialDescription?: string) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ text: trimText }),
         });
-        const data = await response.json();
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(data.error || data.message || "Failed to process the query.");
+        }
 
 
         if (data.textfuzzy === false && data.stringfuzzy === false) {
@@ -165,9 +168,10 @@ export function useChatLogic(initialDescription?: string) {
           });
 
           const fuzzyMsgs = Object.entries(textrecommend).map(([keyName, rec]) => {
-            const { category, solution } = rec as {
+            const { category, solution, single_select } = rec as {
               category: "no_scientific_basis" | "multiple_column" ;
               solution: any;
+              single_select?: boolean;
             };
 
             let messageText = "";
@@ -190,6 +194,7 @@ export function useChatLogic(initialDescription?: string) {
               keyName,
               category,
               solution,
+              single_select,
               summary: solution.Summary,
               userInput: defaultUserInput,
               submitted: false,
@@ -240,7 +245,7 @@ export function useChatLogic(initialDescription?: string) {
         appendMessage({
           id: Date.now() + 4,
           role: "system",
-          text: "Error: Failed to get response from server.",
+          text: err instanceof Error ? err.message : "Error: Failed to get response from server.",
         });
         setIsLoading(false);
       }
@@ -290,7 +295,7 @@ export function useChatLogic(initialDescription?: string) {
             : []
         ),
       });
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
       if (response.ok && data.vis !== null && data.vis !== undefined) {
         setVisData((prevData: any) => [...prevData, data.vis]);
@@ -310,7 +315,7 @@ export function useChatLogic(initialDescription?: string) {
         appendMessage({
           id: Date.now() + Math.random(),
           role: "system",
-          text: data.message || "Failed to run the next two steps.",
+          text: data.error || data.message || "Failed to run the next two steps.",
         });
         setMessages((prev) =>
           prev.map((m) =>

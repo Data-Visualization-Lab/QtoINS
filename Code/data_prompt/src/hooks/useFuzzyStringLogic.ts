@@ -101,7 +101,10 @@ export function useFuzzyStringLogic(params: UseFuzzyStringLogicParams) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
-        const result = await resp.json();
+        const result = await resp.json().catch(() => ({}));
+        if (!resp.ok) {
+          throw new Error(result.error || result.message || "Submission of fuzzy string failed. Please try again.");
+        }
 
         if (result.awaitingFollowup === true && result.finalquestion) {
           onTranslationReady(
@@ -138,8 +141,9 @@ export function useFuzzyStringLogic(params: UseFuzzyStringLogicParams) {
         appendMessage({
           id: Date.now() + Math.random(),
           role: "system",
-          text: "Submission of fuzzy string failed. Please try again.",
+          text: err instanceof Error ? err.message : "Submission of fuzzy string failed. Please try again.",
         });
+        setIsLoading(false);
       }
     },
     [messages, setMessages, appendMessage, setVisData, setIsLoading, onTranslationReady]

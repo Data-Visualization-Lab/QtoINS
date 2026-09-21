@@ -82,12 +82,14 @@ ALLOWED_NODE_TYPES = {
     exp.Sub,
     exp.Mul,
     exp.Div,
+    exp.Paren,
+    exp.Neg,
 
     
     exp.Alias,          # COUNT(*) AS AthleteCount
     exp.Star,           # COUNT(*)
     exp.And,            # Year > 2016 AND Age > {older}
-    exp.Limit,          # LIMIT 3 / LIMIT {n}
+    exp.Limit,          # LIMIT 3
     exp.GT,             # >
     exp.GTE,            # >=
     exp.LT,             # <
@@ -142,12 +144,67 @@ def _check_node(node: exp.Expression):
             _check_node(arg)
 
 
+def _check_where_predicates(tree: exp.Expression, column_names=None):
+    known_columns = None if column_names is None else {str(name).casefold(): str(name) for name in column_names}
+    comparison_types = (exp.EQ, exp.GT, exp.GTE, exp.LT, exp.LTE, exp.Like, exp.ILike)
+    range_types = (exp.GT, exp.GTE, exp.LT, exp.LTE)
+
+    def _check_column(node):
+        if not isinstance(node, exp.Column):
+            raise DisallowedNodeError("The left operand of a WHERE predicate must be a column")
+        if known_columns is not None:
+            column_name = known_columns.get(node.name.casefold())
+            if column_name is None:
+                raise DisallowedNodeError(f"Unknown column in WHERE: {node.name}")
+            node.this.set("this", column_name)
+
+    def _is_value(node, allow_placeholder=False):
+        if isinstance(node, exp.Paren):
+            return _is_value(node.this, allow_placeholder)
+        if isinstance(node, exp.Literal):
+            return True
+        if isinstance(node, exp.Neg):
+            return isinstance(node.this, exp.Literal) and not node.this.is_string
+        return allow_placeholder and isinstance(node, Brace)
+
+    def _check_value(node, allow_placeholder=False):
+        if not _is_value(node, allow_placeholder):
+            raise DisallowedNodeError("The right operand of a WHERE predicate must be a literal value")
+
+    def _walk(node):
+        if isinstance(node, exp.Paren):
+            _walk(node.this)
+        elif isinstance(node, (exp.And, exp.Or)):
+            _walk(node.this)
+            _walk(node.expression)
+        elif isinstance(node, comparison_types):
+            _check_column(node.this)
+            _check_value(node.expression, isinstance(node, range_types))
+        elif isinstance(node, exp.In):
+            _check_column(node.this)
+            if not node.expressions:
+                raise DisallowedNodeError("IN must contain at least one literal value")
+            for value in node.expressions:
+                _check_value(value)
+        elif isinstance(node, exp.Between):
+            _check_column(node.this)
+            _check_value(node.args.get("low"))
+            _check_value(node.args.get("high"))
+        else:
+            raise DisallowedNodeError("WHERE conditions must compare a column with a value")
+
+    for where in tree.find_all(exp.Where):
+        _walk(where.this)
+
+
 def _check_placeholder_positions(tree: exp.Expression):
     
     infos: List[Dict[str, Any]] = []
     allowed_cmp_types = (exp.GT, exp.GTE, exp.LT, exp.LTE)
+    column_placeholders = {}
 
     for node in tree.find_all(Brace):
+        _ensure_uuid(node)
         
         select_ancestor = node.find_ancestor(exp.Select)
         inner_sql = node.this.sql(dialect=CustomDialect) if node.this is not None else None
@@ -157,20 +214,7 @@ def _check_placeholder_positions(tree: exp.Expression):
         
         limit_ancestor = node.find_ancestor(exp.Limit)
         if limit_ancestor is not None:
-            if node.parent is not limit_ancestor:
-                raise DisallowedNodeError(
-                    "A placeholder in LIMIT must be the direct parameter of LIMIT, e.g. LIMIT {n}"
-                )
-            parent = node.parent
-            infos.append(
-                {
-                    "uuid": node.id,
-                    "allowed_context": "Limit",
-                    "inner_sql": inner_sql,    
-                    "direct_parent": type(parent).__name__ if parent is not None else None,
-                }
-            )
-            continue
+            raise DisallowedNodeError("Placeholders in LIMIT are not supported; use a numeric limit")
 
         
         
@@ -223,6 +267,7 @@ def _check_placeholder_positions(tree: exp.Expression):
                     "placeholder_sql": node.sql(dialect=CustomDialect),  # "{year_min}"
                     "where_left_sql": left_sql,                   
                     "where_left_col": left_col_name,              
+                    "single_select": False,
                 }
             )
             continue
@@ -250,8 +295,10 @@ def _check_placeholder_positions(tree: exp.Expression):
                     "inner_sql": inner_sql,    
                     "allowed_context": "GroupBy",
                     "direct_parent": type(parent).__name__ if parent is not None else None,
+                    "single_select": True,
                 }
             )
+            column_placeholders.setdefault((id(select_ancestor), inner_sql), []).append((node, infos[-1]))
             continue
 
         
@@ -263,7 +310,7 @@ def _check_placeholder_positions(tree: exp.Expression):
         if cur not in projections:
             raise DisallowedNodeError(
                 "Placeholders are only allowed in SELECT projection list, GROUP BY keys, "
-                "LIMIT, or on the right-hand side of WHERE comparisons like B > {C}; "
+                "or on the right-hand side of WHERE comparisons like B > {C}; "
                 "they are not allowed in other locations (such as ORDER BY)."
             )
 
@@ -274,19 +321,33 @@ def _check_placeholder_positions(tree: exp.Expression):
                 "inner_sql": inner_sql,    
                 "allowed_context": "Select",
                 "direct_parent": type(parent).__name__ if parent is not None else None,
+                "single_select": node.find_ancestor(exp.AggFunc) is not None,
             }
         )
+        column_placeholders.setdefault((id(select_ancestor), inner_sql), []).append((node, infos[-1]))
+
+    for occurrences in column_placeholders.values():
+        shared_uuid = occurrences[0][0].id
+        single_select = any(info["single_select"] for _, info in occurrences)
+        for node, info in occurrences:
+            node.set("uuid", shared_uuid)
+            info["uuid"] = shared_uuid
+            info["single_select"] = single_select
 
     return infos
 
 
-def validate_sql_strict(sql: str) -> Tuple[exp.Expression, List[Dict[str, Any]]]:
-    
-    tree = parse_one(sql, read=CustomDialect)
+def validate_tree_strict(tree: exp.Expression, column_names=None) -> Tuple[exp.Expression, List[Dict[str, Any]]]:
     _check_node(tree)
+    _check_where_predicates(tree, column_names)
     placeholder_infos = _check_placeholder_positions(tree)
     _seed_initial_uuids(tree)
     return tree, placeholder_infos
+
+
+def validate_sql_strict(sql: str, column_names=None) -> Tuple[exp.Expression, List[Dict[str, Any]]]:
+    tree = parse_one(sql, read=CustomDialect)
+    return validate_tree_strict(tree, column_names)
 
 
 # --------------------------------------------------------------------------- #
@@ -350,55 +411,58 @@ class BraceSQLToolkit:
         replacements: dict[str, str | list[str]],
     ) -> str:
         
-        select: exp.Select = tree.find(exp.Select)
-        new_projs: list[exp.Expression] = []
+        infos = _check_placeholder_positions(tree)
+        column_infos = [info for info in infos if info["allowed_context"] in ("Select", "GroupBy")]
+        column_uuids = {info["uuid"] for info in column_infos}
+        for info in column_infos:
+            replacement = replacements.get(info["uuid"])
+            if info["single_select"] and isinstance(replacement, list) and len(replacement) != 1:
+                raise DisallowedNodeError("An aggregate argument or GROUP BY placeholder requires exactly one column")
 
         def _expr_with_uid(x, uid: str):
-            node = x if isinstance(x, exp.Expression) else parse_one(x, read=self._BraceSQL)
+            node = x.copy() if isinstance(x, exp.Expression) else parse_one(x, read=self._BraceSQL)
             node.set("uuid", uid)
             return node
 
-        for proj in select.expressions:
-            
-            braces = ([proj] if isinstance(proj, self.Brace) else []) + list(proj.find_all(self.Brace))
-            seen_uid = set()
-            braces = [b for b in braces if not (b.id in seen_uid or seen_uid.add(b.id))]
+        def _replace_expression(expression):
+            choices = {}
+            for node in expression.find_all(self.Brace):
+                if node.id not in column_uuids or node.id in choices:
+                    continue
+                replacement = replacements.get(node.id)
+                if replacement is None:
+                    continue
+                values = replacement if isinstance(replacement, list) else [replacement]
+                choices[node.id] = [_expr_with_uid(value, node.id) for value in values]
+            if not choices:
+                return [expression]
 
-            
-            for b in braces:
-                uid, repl = b.id, replacements.get(b.id)
-                if repl is not None and not isinstance(repl, list):
-                    replacement_ast = _expr_with_uid(repl, uid)
-                    if b is proj:
-                        proj = replacement_ast
-                    b.replace(replacement_ast)
-
-            
-            multi = [
-                (b.id, [_expr_with_uid(v, b.id) for v in replacements[b.id]])
-                for b in braces
-                if b.id in replacements and isinstance(replacements[b.id], list)
-            ]
-            if not multi:
-                new_projs.append(proj)
-                continue
-
-            keys, vals_list = zip(*multi)
+            expressions = []
+            keys, vals_list = zip(*choices.items())
             for combo in product(*vals_list):
-                clone = proj.copy()
-
-                
+                clone = expression.copy()
                 for uid, val in zip(keys, combo):
-                    
                     if isinstance(clone, self.Brace) and clone.id == uid:
                         clone = val.copy()
                         continue
-                    for b in clone.find_all(self.Brace):
-                        if b.id == uid:
-                            b.replace(val)
-                new_projs.append(clone)
+                    for node in list(clone.find_all(self.Brace)):
+                        if node.id == uid:
+                            node.replace(val.copy())
+                expressions.append(clone)
+            return expressions
 
-        select.set("expressions", new_projs)
+        for select in tree.find_all(exp.Select):
+            new_projs = []
+            for projection in select.expressions:
+                new_projs.extend(_replace_expression(projection))
+            select.set("expressions", new_projs)
+
+            group = select.args.get("group")
+            if group is not None:
+                new_keys = []
+                for key in group.expressions:
+                    new_keys.extend(_replace_expression(key))
+                group.set("expressions", new_keys)
         return tree.sql(dialect=self._BraceSQL)
 
     def substitute_where_range_placeholders_on_tree(

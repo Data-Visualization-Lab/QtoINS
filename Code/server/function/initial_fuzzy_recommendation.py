@@ -82,6 +82,8 @@ def build_initial_fuzzy_recommendations(
         else:
             solution_value = detail
         solution_value = _normalize_text_solution(solution_value)
+        if isinstance(detail, dict) and detail.get("single_select"):
+            solution_value = {"options": solution_value, "single_select": True}
         _append_uuid_solution(uuid_solution_map, uuid_value, solution_value)
 
     for backend_key, columns in string_recommend.items():

@@ -23,7 +23,7 @@ interface FollowupActionFormProps {
 }
 
 type RecommendationSpec =
-  | { kind: "options"; options: string[] }
+  | { kind: "options"; options: string[]; single_select?: boolean }
   | { kind: "range"; min: string; max: string }
   | { kind: "text"; suggestion: string }
   | { kind: "none" };
@@ -78,6 +78,16 @@ const flattenUnknownToStrings = (value: unknown): string[] => {
 };
 
 const buildRecommendationSpec = (value: unknown): RecommendationSpec => {
+  if (value && typeof value === "object" && !Array.isArray(value)) {
+    const detail = value as { options?: unknown; single_select?: boolean };
+    if (Array.isArray(detail.options)) {
+      const options = Array.from(new Set(flattenUnknownToStrings(detail.options)));
+      return options.length > 0
+        ? { kind: "options", options, single_select: detail.single_select === true }
+        : { kind: "none" };
+    }
+  }
+
   if (typeof value === "string") {
     const range = parseRangeString(value);
     if (range) {
@@ -173,7 +183,7 @@ const escapeRegExp = (value: string): string =>
 const matchWithRecommendation = (
   core: string,
   recommendation: RecommendationSpec
-): { prefix: string; anchor: string } | null => {
+): { prefix: string; anchor: string; suffix?: string } | null => {
   if (recommendation.kind === "options") {
     const options = buildDisplayOptions(recommendation);
     const optionStartPositions = Array.from(
@@ -195,6 +205,20 @@ const matchWithRecommendation = (
         })
       )
     ).sort((a, b) => a - b);
+
+    if (recommendation.single_select && optionStartPositions.length === 1) {
+      const start = optionStartPositions[0];
+      const candidate = [...options].sort((a, b) => b.length - a.length).find(
+        (option) => core.slice(start).toLowerCase().startsWith(option.toLowerCase())
+      );
+      if (candidate) {
+        return {
+          prefix: core.slice(0, start),
+          anchor: candidate,
+          suffix: core.slice(start + candidate.length),
+        };
+      }
+    }
 
     if (optionStartPositions.length >= 2) {
       const start = optionStartPositions[0];
@@ -267,7 +291,7 @@ const splitEditableChunk = (
     return {
       prefix: recMatch.prefix,
       anchor: recMatch.anchor,
-      suffix: trailingSpaces,
+      suffix: (recMatch.suffix ?? "") + trailingSpaces,
     };
   }
 
@@ -345,7 +369,6 @@ const buildQuestionParts = (
   const initialSelectedByUuid: Record<string, string[]> = {};
   const uuidCount: Record<string, number> = {};
   const mergedOptionDefaultsByUuid: Record<string, string[]> = {};
-  const mergedOptionUuids = new Set<string>();
   let cursor = 0;
   let match: RegExpExecArray | null;
 
@@ -379,9 +402,11 @@ const buildQuestionParts = (
       !!previousToken &&
       previousToken.uuid === uuid &&
       previousToken.recommendation.kind === "options" &&
-      recommendation.kind === "options";
+      recommendation.kind === "options" &&
+      !recommendation.single_select &&
+      /^[\s,;]*(?:(?:and|or)[\s,;]*)?$/i.test(prefix) &&
+      parseOptionSelectionFromValue(anchor, buildDisplayOptions(recommendation)).length > 0;
     if (shouldMergeConsecutiveOptionsToken) {
-      mergedOptionUuids.add(uuid);
       cursor = match.index + match[0].length;
       continue;
     }
@@ -433,12 +458,18 @@ const buildQuestionParts = (
     parts.push({ type: "text", text: tail });
   }
 
-  mergedOptionUuids.forEach((uuid) => {
-    const mergedDefaults = mergedOptionDefaultsByUuid[uuid];
+  parts.forEach((part) => {
+    if (part.type !== "token" || part.recommendation.kind !== "options") {
+      return;
+    }
+    const mergedDefaults = mergedOptionDefaultsByUuid[part.uuid];
     if (!mergedDefaults || mergedDefaults.length === 0) {
       return;
     }
-    initialSelectedByUuid[uuid] = [mergedDefaults.join(", ")];
+    const selections = part.recommendation.single_select
+      ? mergedDefaults.slice(0, 1)
+      : mergedDefaults;
+    initialSelectedByUuid[part.uuid][part.occurrence] = selections.join(", ");
   });
 
   return { parts, initialSelectedByUuid };
@@ -605,8 +636,24 @@ const FollowupActionForm: React.FC<FollowupActionFormProps> = ({
         ? selectedByUuidFromMessage
         : initialSelectedByUuid;
 
-    setSelectedByUuid(baseSelected);
-    setSelectedOptionsByToken(rebuildOptionSelections(parts, baseSelected));
+    const synchronized = { ...baseSelected };
+    parts.forEach((part) => {
+      if (part.type !== "token" || part.recommendation.kind !== "options") {
+        return;
+      }
+      const options = buildDisplayOptions(part.recommendation);
+      const selections = Array.from(new Set(
+        (baseSelected[part.uuid] ?? []).flatMap((value) =>
+          parseOptionSelectionFromValue(value, options)
+        )
+      ));
+      const values = part.recommendation.single_select ? selections.slice(0, 1) : selections;
+      const nextValues = part.occurrence === 0 ? [] : [...synchronized[part.uuid]];
+      nextValues[part.occurrence] = (values.length > 0 ? values : options.slice(0, 1)).join(", ");
+      synchronized[part.uuid] = nextValues;
+    });
+    setSelectedByUuid(synchronized);
+    setSelectedOptionsByToken(rebuildOptionSelections(parts, synchronized));
   }, [initialSelectedByUuid, message.id, parts, selectedByUuidFromMessage]);
 
   const hasUuid = useMemo(
@@ -642,14 +689,29 @@ const FollowupActionForm: React.FC<FollowupActionFormProps> = ({
     part: Extract<QuestionPart, { type: "token" }>,
     rawValue: string[]
   ) => {
-    const key = tokenStateKey(part.uuid, part.occurrence);
-    const nextSelection = Array.from(new Set(rawValue.filter((v) => v.trim().length > 0)));
+    const selections = Array.from(new Set(rawValue.filter((v) => v.trim().length > 0)));
+    const nextSelection = part.recommendation.kind === "options" && part.recommendation.single_select
+      ? selections.slice(0, 1)
+      : selections;
+    const linkedParts = parts.filter(
+      (item): item is Extract<QuestionPart, { type: "token" }> =>
+        item.type === "token" && item.uuid === part.uuid && item.recommendation.kind === "options"
+    );
 
-    setSelectedOptionsByToken((prev) => ({
-      ...prev,
-      [key]: nextSelection,
-    }));
-    handleTokenValueChange(part.uuid, part.occurrence, nextSelection.join(", "));
+    setSelectedOptionsByToken((prev) => {
+      const next = { ...prev };
+      linkedParts.forEach((item) => {
+        next[tokenStateKey(item.uuid, item.occurrence)] = nextSelection;
+      });
+      return next;
+    });
+    setSelectedByUuid((prev) => {
+      const nextValues = prev[part.uuid] ? [...prev[part.uuid]] : [];
+      linkedParts.forEach((item) => {
+        nextValues[item.occurrence] = nextSelection.join(", ");
+      });
+      return { ...prev, [part.uuid]: nextValues };
+    });
   };
 
   const tokenErrors = useMemo(() => {
@@ -673,6 +735,8 @@ const FollowupActionForm: React.FC<FollowupActionFormProps> = ({
           parseOptionSelectionFromValue(value, displayOptions);
         if (selected.length === 0) {
           errorMap[key] = "Please select at least one option.";
+        } else if (part.recommendation.single_select && selected.length !== 1) {
+          errorMap[key] = "Please select exactly one column.";
         }
         return;
       }
@@ -742,6 +806,7 @@ const FollowupActionForm: React.FC<FollowupActionFormProps> = ({
     };
 
     if (part.recommendation.kind === "options") {
+      const singleSelect = part.recommendation.single_select;
       const displayOptions = buildDisplayOptions(part.recommendation);
       const selectedOptions =
         selectedOptionsByToken[tokenKey] ??
@@ -752,13 +817,13 @@ const FollowupActionForm: React.FC<FollowupActionFormProps> = ({
         <Tooltip key={key} title="Select from recommended values">
           <Box sx={{ ...commonSx, minWidth: 260, maxWidth: 460 }}>
             <Autocomplete
-              multiple
-              disableCloseOnSelect
+              multiple={!singleSelect}
+              disableCloseOnSelect={!singleSelect}
               options={allOptions}
-              value={selectedOptions}
+              value={singleSelect ? selectedOptions[0] ?? null : selectedOptions}
               disabled={disabled}
               onChange={(_, nextValues) =>
-                handleOptionsTokenChange(part, nextValues as string[])
+                handleOptionsTokenChange(part, typeof nextValues === "string" ? [nextValues] : nextValues ?? [])
               }
               renderTags={(tagValue, getTagProps) =>
                 tagValue.map((option, index) => (
@@ -775,7 +840,7 @@ const FollowupActionForm: React.FC<FollowupActionFormProps> = ({
                   {...params}
                   size="small"
                   error={!!errorText}
-                  helperText={errorText ?? "Select one or more values."}
+                  helperText={errorText ?? (singleSelect ? "Select one column." : "Select one or more values.")}
                   placeholder={selectedOptions.length === 0 ? "Select values" : ""}
                 />
               )}

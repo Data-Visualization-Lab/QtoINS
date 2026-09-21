@@ -13,6 +13,7 @@ export interface FuzzyTextMessage {
   keyName: string;
   category: "no_scientific_basis" | "multiple_column";
   solution: string | string[] | { Summary: string; Recommend: string };
+  single_select?: boolean;
   summary?: string;
   userInput?: string;
   submitted?: boolean;

@@ -5,7 +5,7 @@ from typing import Any
 
 from sqlglot import exp, parse_one
 
-from function.brace_toolkit import BraceSQLToolkit
+from function.brace_toolkit import BraceSQLToolkit, DisallowedNodeError
 
 
 _UUID_REGEX = re.compile(
@@ -363,6 +363,22 @@ def _replace_select_by_uuid_fallback(
     return replaced
 
 
+def _replace_single_column_by_uuid(
+    tree: Any,
+    target_uuid: str,
+    select_value: str,
+    toolkit: BraceSQLToolkit,
+) -> bool:
+    replaced = False
+    for node in list(tree.find_all(exp.Column)):
+        if node.args.get("uuid") == target_uuid:
+            replacement = _parse_select_expression(select_value, toolkit)
+            replacement.set("uuid", target_uuid)
+            node.replace(replacement)
+            replaced = True
+    return replaced
+
+
 def _replace_select_by_solution_fallback(
     tree: Any,
     target_uuid: str,
@@ -480,13 +496,15 @@ def apply_final_uuid_result(
     textrecommend: dict[str, Any],
     string_recommend: dict[str, Any],
     string_recommend_type: dict[str, str] | None = None,
-) -> None:
+    column_names=None,
+) -> exp.Expression | None:
     """
     Persist user-provided final uuid results into current backend context.
-    This function mutates inputs in place and returns nothing.
+    This function mutates the tree in place and returns it.
     """
     print("final_uuid_result", final_uuid_result)
-    print("tree before applying final uuid result", tree)
+    toolkit = BraceSQLToolkit()
+    print("tree before applying final uuid result", _safe_tree_sql(tree, toolkit))
     print("textrecommend before applying final uuid result", textrecommend)
     print("string_recommend before applying final uuid result", string_recommend)
     print("string_recommend_type", string_recommend_type or {})
@@ -495,18 +513,22 @@ def apply_final_uuid_result(
         print("tree after applying final uuid result", tree)
         return
 
-    toolkit = BraceSQLToolkit()
     uuid_type_map = _build_uuid_type_map(
         textrecommend=textrecommend,
         string_recommend_type=string_recommend_type,
     )
     select_reference_map = _build_select_reference_map(textrecommend)
+    single_select_uuids = {
+        _extract_uuid(key)
+        for key, detail in (textrecommend or {}).items()
+        if isinstance(detail, dict) and detail.get("single_select")
+    }
     print("uuid_type_map", uuid_type_map)
 
     uuid_value_pairs = _iter_uuid_value_pairs(final_uuid_result)
     if not uuid_value_pairs:
-        print("tree after applying final uuid result", tree)
-        return
+        print("tree after applying final uuid result", _safe_tree_sql(tree, toolkit))
+        return tree
 
     latest_uuid_values: dict[str, Any] = {}
     for uuid_value, raw_value in uuid_value_pairs:
@@ -524,12 +546,33 @@ def apply_final_uuid_result(
         if replace_kind == _REPLACE_SELECT:
             select_refs = select_reference_map.get(uuid_value, [])
             select_values = _normalize_select_values(raw_value, references=select_refs)
+            if column_names is not None:
+                select_values = [
+                    exp.column(value).sql(dialect=toolkit._BraceSQL) if value in column_names else value
+                    for value in select_values
+                ]
+            if uuid_value in single_select_uuids:
+                if len(select_values) != 1:
+                    raise DisallowedNodeError("Please select exactly one column.")
+                selected_column = _parse_select_expression(select_values[0], toolkit)
+                if not isinstance(selected_column, exp.Column):
+                    raise DisallowedNodeError("Please select a column from the table.")
+                if column_names is not None and selected_column.name not in column_names:
+                    raise DisallowedNodeError("Please select a column from the table.")
             if not select_values:
                 print(f"skip uuid {uuid_value}: empty select values")
                 continue
             toolkit.substitute_select_placeholders_on_tree(tree, {uuid_value: select_values})
             after_sql = _safe_tree_sql(tree, toolkit)
             changed = after_sql != before_sql
+            if uuid_value in single_select_uuids:
+                _replace_single_column_by_uuid(
+                    tree=tree,
+                    target_uuid=uuid_value,
+                    select_value=select_values[0],
+                    toolkit=toolkit,
+                )
+                continue
             if not changed:
                 changed = _replace_select_by_uuid_fallback(
                     tree=tree,
@@ -580,6 +623,6 @@ def apply_final_uuid_result(
                 continue
             toolkit.substitute_where_like_to_or_on_tree(tree, {uuid_value: fuzzy_values})
 
-    print("tree after applying final uuid result", tree)
+    print("tree after applying final uuid result", _safe_tree_sql(tree, toolkit))
     print("tree sql after applying final uuid result", _safe_tree_sql(tree, toolkit))
     return tree

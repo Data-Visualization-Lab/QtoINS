@@ -55,7 +55,9 @@ export function useFuzzyTextLogic(params: UseFuzzyTextLogicParams) {
             if (fm.submitted) return m;
             const currentIndices = fm.userSelectedIndices || [];
             let newIndices = [...currentIndices];
-            if (newIndices.includes(index)) {
+            if (fm.single_select) {
+              newIndices = [index];
+            } else if (newIndices.includes(index)) {
               newIndices = newIndices.filter((i) => i !== index);
             } else {
               newIndices.push(index);
@@ -80,6 +82,18 @@ export function useFuzzyTextLogic(params: UseFuzzyTextLogicParams) {
         (m) => m.id === msgId && m.role === "fuzzy_text"
       ) as FuzzyTextMessage | undefined;
       if (!fuzzyMsg || fuzzyMsg.submitted) return;
+
+      if (fuzzyMsg.single_select && (
+        (fuzzyMsg.userSelectedIndices?.length || 0) > 1 ||
+        (!fuzzyMsg.userSelectedIndices?.length && !fuzzyMsg.userInput?.trim())
+      )) {
+        appendMessage({
+          id: Date.now() + Math.random(),
+          role: "system",
+          text: "Please select exactly one column.",
+        });
+        return;
+      }
 
       let finalUserInput = fuzzyMsg.userInput || "";
       if (fuzzyMsg.category === "multiple_column") {
@@ -120,7 +134,10 @@ export function useFuzzyTextLogic(params: UseFuzzyTextLogicParams) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
-        const result = await resp.json();
+        const result = await resp.json().catch(() => ({}));
+        if (!resp.ok) {
+          throw new Error(result.error || result.message || "Submission of fuzzy text failed. Please try again.");
+        }
 
         if (result.awaitingFollowup === true && result.finalquestion) {
           onTranslationReady(
@@ -193,6 +210,7 @@ export function useFuzzyTextLogic(params: UseFuzzyTextLogicParams) {
             role: "system",
             text: "Error: No fuzzy result returned from server.",
           });
+          setIsLoading(false);
           return;
         }
         if (fuzzyResult.level === "fully_resolvable") {
@@ -224,8 +242,9 @@ export function useFuzzyTextLogic(params: UseFuzzyTextLogicParams) {
         appendMessage({
           id: Date.now() + Math.random(),
           role: "system",
-          text: "Submission of fuzzy text failed. Please try again.",
+          text: err instanceof Error ? err.message : "Submission of fuzzy text failed. Please try again.",
         });
+        setIsLoading(false);
       }
     },
     [messages, setMessages, appendMessage, setVisData, setIsLoading, onTranslationReady]

@@ -3,10 +3,14 @@ prompt = """
 Your task is to generate an 'SQL' statement strictly adhering to DuckDB syntax based on the user’s question. 
 Whenever a concept in the user’s request is ambiguous, you must encapsulate all ambiguous concept strictly and directly within curly braces {} without attempting to infer or clarify the user’s intent.
 STRICT POSITION RULES FOR {}
-- The {} placeholder is ONLY allowed in the following three cases but could appear multiple times:
-  1. In the SELECT clause, replacing the name of a non-aggregated column or  inside aggregate function (e.g., SUM, MAX, MIN, COUNT,AVG) arguments (e.g., SUM({value}) is correct).
-  2. A placeholder in the WHERE clause may be used only when replacing a literal value that is explicitly paired with a specific numeric column. It must appear on the right-hand side of the comparison, and the comparison operator must be one of {>, >=, <, <=}; the ‘=’ operator is not allowed.
-  3.A placeholder in the limit clause and in the GROUP BY clause.
+- The {} placeholder is ONLY allowed in the following cases but could appear multiple times:
+  1. In the SELECT clause, replacing a non-aggregated column name (e.g., SELECT {medal}). The user may select multiple columns for this placeholder.
+  2. As the argument of MIN, MAX, AVG, SUM, or COUNT in the SELECT clause (e.g., MAX({medal})). Each placeholder must resolve to exactly one column.
+  3. In the GROUP BY clause, replacing a column name (e.g., GROUP BY {region}). Each placeholder must resolve to exactly one column. If the same concept appears in SELECT and GROUP BY, use exactly the same placeholder text so both positions resolve to the same single column.
+  4. In the WHERE clause, replacing a literal value explicitly paired with a specific numeric column. It must appear on the right-hand side of >, >=, <, or <=; the '=' operator is not allowed for placeholders.
+- Do not put placeholders in LIMIT, ORDER BY, HAVING, JOIN conditions, IN lists, or LIKE patterns. Ordinary LIMIT values, ORDER BY aliases, IN lists, and LIKE patterns remain allowed.
+- For WHERE comparisons, put an actual column on the left and a literal value on the right. For example, Genre = 'Comedy' is valid; 'Comedy' = Genre and Age > Year are not. AND and OR may combine conditions. IN lists and BETWEEN bounds must contain values.
+- Keep valid calculations such as SELECT Price * Quantity AS Revenue FROM sales; and COUNT(*). Do not replace an ambiguous column with a guessed definite column.
 
 - Example
   - Table Name: "olympic_medals"
@@ -30,6 +34,18 @@ STRICT POSITION RULES FOR {}
     LIMIT 3;
     
     -reason:'older' is ambiguous, older can be 30, 40, 50 or other age
+- Example
+  - Table Name: "olympic_medals"
+  - User's question: "What is the maximum medal count?"
+  - Generated SQL:
+    SELECT MAX({medal}) FROM olympic_medals;
+  -reason: The user selects one medal column for MAX.
+- Example
+  - Table Name: "olympic_medals"
+  - User's question: "Count athletes by region."
+  - Generated SQL:
+    SELECT {region}, COUNT(*) AS AthleteCount FROM olympic_medals GROUP BY {region};
+  -reason: The user selects one region column, shared by SELECT and GROUP BY.
 3. Formatting Instructions
 
 - Encapsulate any ambiguous or unclear terms directly within curly braces `{}`.

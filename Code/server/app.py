@@ -14,7 +14,7 @@ from flask import Flask, jsonify, request
 from sqlglot import exp, parse_one
 from sqlglot.errors import ParseError
 
-from function.brace_toolkit import BraceSQLToolkit, DisallowedNodeError, validate_sql_strict
+from function.brace_toolkit import BraceSQLToolkit, DisallowedNodeError, validate_sql_strict, validate_tree_strict
 from function.changechart import Changechart
 from function.changeinsight5 import ChangeInsight5
 from function.colfuzzy import Colfuzzy
@@ -35,6 +35,12 @@ from function.translate import Translate
 from function.visualrecommendation import VisualRecommend
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 app = Flask(__name__)
+
+
+@app.errorhandler(DisallowedNodeError)
+@app.errorhandler(ParseError)
+def handle_sql_error(error):
+    return jsonify({"message": str(error), "vis": None}), 400
 
 
 goal = ""  
@@ -244,9 +250,11 @@ def generate_sql(tree, textsolution):
     for key, value in textsolution.items():
         print(f"{key}: {value}")
         parts = key.split('+')
-        if(parts[1]=='SELECT'):
+        if(parts[1] in ('SELECT', 'GROUP BY')):
             print(parts)
             print(value)
+            if isinstance(value, list):
+                value = [exp.column(item) if isinstance(item, str) and item in df.columns else item for item in value]
 
             toolkit.substitute_select_placeholders_on_tree(
             tree,
@@ -259,6 +267,7 @@ def generate_sql(tree, textsolution):
             replacements = { parts[2]: value,}
 
             toolkit.substitute_where_range_placeholders_on_tree(tree, replacements)
+    validate_tree_strict(tree, column_names=df.columns)
     print("Updated tree:", tree)
     print("Updated type:", type(tree))
     return tree
@@ -289,7 +298,8 @@ def handle_fully_resolvable_text():
     global toolkit ,tree, check_fuzzy_string ,parse_result
 
     print(textsolution)
-    synthesized_tree = generate_sql(tree, textsolution)
+    synthesized_tree = generate_sql(tree.copy(), textsolution)
+    tree = synthesized_tree
     print("synthesized_tree", synthesized_tree)
     synthesized_sql=synthesized_tree.sql()
     print(synthesized_sql)
@@ -740,11 +750,14 @@ def submit():
 
     toolkit = BraceSQLToolkit()
 
-    tree = toolkit.parse(sql)
-
+    attempts = 0
     while True:
         try:
-            tree, placeholder_infos = validate_sql_strict(sql)
+            tree, placeholder_infos = validate_sql_strict(sql, column_names=df.columns)
+            for info in placeholder_infos:
+                if info['allowed_context']=='WhereComparison':
+                    if not pd.api.types.is_numeric_dtype(df[info['where_left_col']]):
+                        raise DisallowedNodeError("A placeholder in WHERE must refer to a numeric column.")
             
             if len(placeholder_infos) == 0:
            
@@ -811,11 +824,17 @@ def submit():
 
 
             else:
+                handled_uuids = set()
                 for info in placeholder_infos:
+                    if info['uuid'] in handled_uuids:
+                        continue
+                    handled_uuids.add(info['uuid'])
                     print(info)
-                    if info['allowed_context']=='Select' and info['direct_parent']=='Select':
+                    if info['allowed_context'] in ('Select', 'GroupBy'):
                         print(info['inner_sql'])
                         s=info['inner_sql']
+                        context = 'GROUP BY' if info['allowed_context']=='GroupBy' else 'SELECT'
+                        key = s+'+'+context+'+'+info['uuid']
                         while True:
                             add_info_instance = Colfuzzy(df, file_name)
                             add_info_result = add_info_instance.Generation(
@@ -823,21 +842,23 @@ def submit():
                             )
                             parsed_result = json.loads(add_info_result)
                             print("Parsed result:", parsed_result)
-                            if all(item in df.columns for item in parsed_result):
+                            if isinstance(parsed_result, list) and parsed_result and all(item in df.columns for item in parsed_result):
+                                parsed_result = list(dict.fromkeys(parsed_result))
                                 break  
                         if len(parsed_result) == 1: 
                             sql = toolkit.substitute_select_placeholders_on_tree(
-                                tree, {info['uuid']: parsed_result}
+                                tree, {info['uuid']: [exp.column(item) for item in parsed_result]}
                             )
                             print(type(info['uuid']))
                             print("Updated SQL:", sql)
                         else:              
-                            textrecommend[s+'+'+'SELECT'+'+'+info['uuid']] = {
+                            textrecommend[key] = {
                                     "category": "multiple_column",
                                     "solution": parsed_result,
+                                    "single_select": info.get('single_select', False),
                                 }
-                            check_fuzzy_text[s+'+'+'SELECT'+'+'+info['uuid']] = False
-                            print(textrecommend[s+'+'+'SELECT'+'+'+info['uuid']])   
+                            check_fuzzy_text[key] = False
+                            print(textrecommend[key])
 
                     elif info['allowed_context']=='WhereComparison':
                         print(info['inner_sql'])
@@ -851,10 +872,12 @@ def submit():
                         check_fuzzy_text[info['inner_sql']+'+'+'where1'+'+'+info['uuid']] = False
             break
         except (ParseError, DisallowedNodeError) as e:
-           
+            attempts += 1
+            if attempts >= 3:
+                raise
             ReGeneratsql_instance = ReGeneratsql(df, file_name)
             sql = ReGeneratsql_instance.Generate(
-                text=goal, syntax_error=e
+                text=goal, syntax_error=e, sql=sql
             )
 
     print(textrecommend)
@@ -942,6 +965,17 @@ def fuzzytext():
     key = data.get("keyName")
     print("Received fuzzytext submission:")
     print("Category:", category, "Key:", key, "Solution:", solution)
+
+    if textrecommend.get(key, {}).get("single_select"):
+        try:
+            selected_columns = json.loads(solution)
+        except (TypeError, ValueError):
+            selected_columns = [solution]
+        if not isinstance(selected_columns, list) or len(selected_columns) != 1:
+            raise DisallowedNodeError("Please select exactly one column.")
+        if not isinstance(selected_columns[0], str) or selected_columns[0] not in df.columns:
+            raise DisallowedNodeError("Please select a column from the table.")
+        solution = json.dumps(selected_columns)
 
     
     if re.match(r"^\[\s*.*\s*\]$", solution) or category=='no_scientific_basis':
@@ -1243,20 +1277,23 @@ def run_followups():
     
     global goal, sql
     final_uuid_result = request.get_json(silent=True) or []
+    if sql is None or not goal or tree is None:
+        return jsonify({"message": "No pending query to continue.", "vis": None}), 400
     final_tree=apply_final_uuid_result(
         final_uuid_result=final_uuid_result,
-        tree=tree,
+        tree=tree.copy(),
         textrecommend=textrecommend,
         string_recommend=stringrecommend,
         string_recommend_type=build_uuid_match_map(parse_result)
         if isinstance(parse_result, dict)
         else {},
+        column_names=df.columns,
     )
     print("Received runfollowups request with data:", final_uuid_result)    
 
-    if sql is None or not goal:
-        return jsonify({"message": "No pending query to continue.", "vis": None}), 400
-
+    _, placeholder_infos = validate_tree_strict(final_tree, column_names=df.columns)
+    if placeholder_infos:
+        raise DisallowedNodeError("Please resolve the remaining ambiguous terms before continuing.")
     vis_result = generate_visual_recommendations(question=goal, sql_query=final_tree.sql())
     reset_globals()
     return jsonify({"message": "Data received", "vis": vis_result}), 200
