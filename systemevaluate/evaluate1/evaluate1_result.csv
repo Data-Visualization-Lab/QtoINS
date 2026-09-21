@@ -1,4 +1,4 @@
-Dataset,Human Query,ours,gpt4.5,NL4dv-LLM
+Dataset,Human Query,ours,gpt5,NL4dv-LLM
 Cars,Show me average Miles Per Gallaon by cylinders,1,1,1
 Cars,Show model count by origin,1,1,1
 Cars,Show the plot between horse power and acceleration,1,1,1
